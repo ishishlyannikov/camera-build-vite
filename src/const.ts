@@ -5,7 +5,11 @@ export enum AppRoute {
 }
 
 export enum NameSpace {
-  Cameras = 'CAMERAS',
+  Camera = 'CAMERA',
+  Order = 'ORDERS',
+  Reviews = 'REVIEWS',
+  Promo = 'PROMO',
+  Coupon = 'COUPON',
 }
 
 export enum APIRoute {
@@ -17,4 +21,11 @@ export enum APIRoute {
   ReviewPost = '/reviews',
   Coupon = '/coupon',
   Order = '/orders',
+}
+
+export enum Status {
+  Idle = 'idle',
+  Loading = 'loading',
+  Success = 'success',
+  Error = 'error'
 }

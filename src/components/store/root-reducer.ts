@@ -4,5 +4,5 @@ import {camerasData} from "./cameras-data/cameras-data-slice.ts";
 
 
 export const rootReducer = combineReducers({
-  [NameSpace.Cameras]: camerasData.reducer,
+  [NameSpace.Camera]: camerasData.reducer,
 });

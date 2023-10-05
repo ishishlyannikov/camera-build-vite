@@ -5,8 +5,25 @@ import CatalogFilter from "../../components/catalog-filter/catalog-filter.tsx";
 import CatalogSort from "../../components/catalog-sort/catalog-sort.tsx";
 import CatalogCards from "../../components/catalog-cards/catalog-cards.tsx";
 import PaginationList from "../../components/pagination/pagination-list.tsx";
+import {useAppDispatch, useAppSelector} from "../../components/hooks/hooks.ts";
+import {fetchCamerasAction} from "../../components/store/cameras-data/cameras-data-thunk.ts";
+import {useEffect} from "react";
+import {isCamerasDataStatusLoading} from "../../components/store/cameras-data/cameras-data-selectors.ts";
+import Spinner from "../../components/spinner/spinner.tsx";
 
 export default function Catalog () {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCamerasAction());
+  }, [dispatch]);
+
+  const isLoading = useAppSelector(isCamerasDataStatusLoading);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <div className="wrapper">
      <Header/>

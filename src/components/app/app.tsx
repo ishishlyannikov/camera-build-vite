@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 export default function App(): JSX.Element {
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -14,7 +15,7 @@ export default function App(): JSX.Element {
           <Route path={AppRoute.Main}
                  element={<Catalog/>}
           />
-          <Route path={AppRoute.Product}
+          <Route   path={`${AppRoute.Product}/:cameraId`}
                  element={<Product/>}
           />
           <Route path={AppRoute.Basket}

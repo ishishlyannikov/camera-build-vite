@@ -1,24 +1,37 @@
-import {NameSpace} from "../../../const.ts";
+import {NameSpace, Status} from "../../../const.ts";
 import {Product} from "../../../types/types.ts";
 import {createSlice} from '@reduxjs/toolkit';
 import { fetchCamerasAction } from './cameras-data-thunk';
 
-type InitialState = {
-  CamerasList: Product[];
+type CatalogSlice = {
+  catalog: Product[];
+  status: Status;
+  isCamerasDataLoading: boolean
 };
 
-const initialState: InitialState = {
-  CamerasList: [],
+const initialState: CatalogSlice = {
+  catalog: [],
+  status: Status.Idle,
+  isCamerasDataLoading: false,
 };
-
-export const camerasData = createSlice ({
-  name: NameSpace.Cameras,
+export const camerasData = createSlice({
+  name: NameSpace.Camera,
   initialState,
   reducers: {},
-  extraReducers (builder) {
+  extraReducers(builder) {
     builder
+      .addCase(fetchCamerasAction.pending, (state) => {
+        state.isCamerasDataLoading = true;
+        state.status = Status.Loading;
+      })
       .addCase(fetchCamerasAction.fulfilled, (state, action) => {
-        state.CamerasList = action.payload;
-      });
+        state.catalog = action.payload;
+        state.isCamerasDataLoading = false;
+        state.status = Status.Success;
+      })
+      .addCase(fetchCamerasAction.rejected, (state) => {
+        state.isCamerasDataLoading = false;
+        state.status = Status.Error;
+      })
   }
 });
