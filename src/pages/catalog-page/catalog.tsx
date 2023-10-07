@@ -1,6 +1,5 @@
 import Header from "../../components/header/header.tsx";
 import Footer from "../../components/footer/footer.tsx";
-import Banner from "../../components/banner/banner.tsx";
 import CatalogFilter from "../../components/catalog-filter/catalog-filter.tsx";
 import CatalogSort from "../../components/catalog-sort/catalog-sort.tsx";
 import CatalogCards from "../../components/catalog-cards/catalog-cards.tsx";
@@ -10,17 +9,22 @@ import {fetchCamerasAction} from "../../components/store/cameras-data/cameras-da
 import {useEffect} from "react";
 import {isCamerasDataStatusLoading} from "../../components/store/cameras-data/cameras-data-selectors.ts";
 import Spinner from "../../components/spinner/spinner.tsx";
+import SwiperForBanner from "../../components/swiper/swiper.tsx";
+import {isPromoLoading} from "../../components/store/promo-data/promo-data-selectors.ts";
+import {fetchPromoAction} from "../../components/store/promo-data/promo-data-thunk.ts";
 
 export default function Catalog () {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchCamerasAction());
+    dispatch(fetchPromoAction());
   }, [dispatch]);
 
   const isLoading = useAppSelector(isCamerasDataStatusLoading);
+  const isPromoDataLoading = useAppSelector(isPromoLoading)
 
-  if (isLoading) {
+  if (isLoading || isPromoDataLoading) {
     return <Spinner />;
   }
 
@@ -28,7 +32,7 @@ export default function Catalog () {
     <div className="wrapper">
      <Header/>
       <main>
-     <Banner/>
+     <SwiperForBanner/>
         <div className="page-content">
           <div className="breadcrumbs">
             <div className="container">

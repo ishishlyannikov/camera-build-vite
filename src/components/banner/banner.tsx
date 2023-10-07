@@ -1,14 +1,26 @@
-export default function Banner() {
+import { Link } from 'react-router-dom';
+import {PromoProduct} from "../../types/types.ts";
+import {AppRoute} from "../../const.ts";
+
+type BannerProps = {
+  promoProduct: PromoProduct;
+}
+
+export default function Banner({promoProduct}: BannerProps) {
+  const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, id} = promoProduct;
+  const sourceSrcSet = `${previewImgWebp}, ${previewImgWebp2x} 2x`;
+  const imgSrcSet = `${previewImg2x} 2x`;
+
   return (
     <div className="banner">
       <picture>
         <source
           type="image/webp"
-          srcSet="img/content/banner-bg.webp, img/content/banner-bg@2x.webp 2x"
+          srcSet={sourceSrcSet}
         />
         <img
-          src="img/content/banner-bg.jpg"
-          srcSet="img/content/banner-bg@2x.jpg 2x"
+          src={previewImg}
+          srcSet={imgSrcSet}
           width={1280}
           height={280}
           alt="баннер"
@@ -17,16 +29,15 @@ export default function Banner() {
       <p className="banner__info">
         <span className="banner__message">Новинка!</span>
         <span className="title title--h1">
-          Cannonball&nbsp;Pro&nbsp;MX&nbsp;8i
+          {name}
         </span>
         <span className="banner__text">
           Профессиональная камера от&nbsp;известного производителя
         </span>
-        <a className="btn" href="#">
+        <Link className="btn" to={`${AppRoute.Product}/${id}`}>
           Подробнее
-        </a>
+        </Link>
       </p>
     </div>
-
   );
 }

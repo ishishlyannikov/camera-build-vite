@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import {Product} from "../../types/types.ts";
 import {AppRoute} from "../../const.ts";
 
-export type ProductCardProps = {
+type ProductCardProps = {
   camera: Product;
 }
 
