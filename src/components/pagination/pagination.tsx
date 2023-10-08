@@ -44,3 +44,4 @@ export default function Pagination({totalPageCount, nextPage,prevPage,setPage,pa
     </ul>
   );
 }
+
