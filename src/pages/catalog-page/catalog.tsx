@@ -1,9 +1,7 @@
 import Header from "../../components/header/header.tsx";
 import Footer from "../../components/footer/footer.tsx";
 import CatalogFilter from "../../components/catalog-filter/catalog-filter.tsx";
-import CatalogSort from "../../components/catalog-sort/catalog-sort.tsx";
-import CatalogCards from "../../components/catalog-cards/catalog-cards.tsx";
-import PaginationList from "../../components/pagination/pagination-list.tsx";
+import CatalogContent from "../../components/catalog-content/catalog-content.tsx";
 import {useAppDispatch, useAppSelector} from "../../components/hooks/hooks.ts";
 import {fetchCamerasAction} from "../../components/store/cameras-data/cameras-data-thunk.ts";
 import {useEffect} from "react";
@@ -60,13 +58,7 @@ export default function Catalog () {
                 <div className="catalog__aside">
                 <CatalogFilter/>
                 </div>
-                <div className="catalog__content">
-                 <CatalogSort/>
-                  <CatalogCards/>
-                  <div className="pagination">
-                   <PaginationList/>
-                  </div>
-                </div>
+                  <CatalogContent/>
               </div>
             </div>
           </section>
@@ -75,5 +67,4 @@ export default function Catalog () {
      <Footer/>
     </div>
   );
-
 }

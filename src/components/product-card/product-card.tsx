@@ -7,7 +7,7 @@ type ProductCardProps = {
 }
 
 export default function ProductCard({camera}: ProductCardProps) {
-  const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id} = camera;
+  const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id, reviewCount} = camera;
   const sourceSrcSet = `${previewImgWebp}, ${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
@@ -38,7 +38,7 @@ export default function ProductCard({camera}: ProductCardProps) {
           </svg>
           <p className="visually-hidden">Рейтинг: {rating}</p>
           <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>{rating}
+            <span className="visually-hidden">Всего оценок:</span>{reviewCount}
           </p>
         </div>
         <p className="product-card__title">{name}</p>

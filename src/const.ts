@@ -29,3 +29,5 @@ export enum Status {
   Success = 'success',
   Error = 'error'
 }
+
+export const CARDS_PER_PAGE = 9
