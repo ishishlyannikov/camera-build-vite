@@ -31,3 +31,5 @@ export enum Status {
 }
 
 export const CARDS_PER_PAGE = 9
+
+export const RATINGS = [1, 2, 3, 4, 5] as const;

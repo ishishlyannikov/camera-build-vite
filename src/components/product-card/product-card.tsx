@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import {Product} from "../../types/types.ts";
 import {AppRoute} from "../../const.ts";
+import RatingItem from "../rating-item/rating-item.tsx";
+import {RATINGS} from "../../const.ts";
 
 type ProductCardProps = {
   camera: Product;
@@ -21,25 +23,9 @@ export default function ProductCard({camera}: ProductCardProps) {
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <p className="visually-hidden">Рейтинг: {rating}</p>
-          <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>{reviewCount}
-          </p>
+          {RATINGS.map((item) => <RatingItem key={item} item={item} rating={rating}/>)}
+          <p className="visually-hidden">{`Рейтинг: ${rating}`}</p>
+          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{reviewCount}</p>
         </div>
         <p className="product-card__title">{name}</p>
         <p className="product-card__price"><span className="visually-hidden">Цена:</span>{price} ₽

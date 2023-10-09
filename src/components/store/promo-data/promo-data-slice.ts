@@ -1,15 +1,9 @@
 import {NameSpace, Status} from "../../../const.ts";
-import {PromoProduct} from "../../../types/types.ts";
 import {createSlice} from '@reduxjs/toolkit';
 import {fetchPromoAction} from "./promo-data-thunk.ts";
+import {PromoData} from "../../../types/state.ts";
 
-type PromoDataSlice = {
-  promo: PromoProduct[];
-  status: Status;
-  isPromoLoading: boolean
-};
-
-const initialState: PromoDataSlice = {
+const initialState: PromoData = {
   promo: [],
   status: Status.Idle,
   isPromoLoading: false,

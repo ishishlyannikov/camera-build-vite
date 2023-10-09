@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import {useMemo} from "react";
 
 type PaginationProps = {
   totalPageCount: number;
@@ -8,9 +9,15 @@ type PaginationProps = {
   page: number;
 }
 export default function Pagination({totalPageCount, nextPage,prevPage,setPage,page}:PaginationProps) {
-  const pagination = [...Array(totalPageCount).keys()];
 
-  return (
+    const currentPageNumbers = useMemo(() => {
+    const pagination = [...Array(totalPageCount).keys()];
+    const previous = page - 1;
+    const next = page + 2;
+    return pagination.slice(previous, next);
+  }, [page]);
+
+   return (
     <ul className="pagination__list">
       <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
         <Link
@@ -22,7 +29,7 @@ export default function Pagination({totalPageCount, nextPage,prevPage,setPage,pa
         </Link>
       </li>
       {
-        pagination.map((pageNumber) => (
+        currentPageNumbers?.map((pageNumber) => (
           <li key={pageNumber + 1} className="pagination__item">
             <Link
               className={`pagination__link${page === pageNumber + 1 ? ' pagination__link--active' : ''}`}

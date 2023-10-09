@@ -1,15 +1,9 @@
 import {NameSpace, Status} from "../../../const.ts";
-import {Product} from "../../../types/types.ts";
 import {createSlice} from '@reduxjs/toolkit';
 import { fetchCamerasAction } from './cameras-data-thunk';
+import {CamerasData} from "../../../types/state.ts";
 
-type CatalogSlice = {
-  catalog: Product[];
-  status: Status;
-  isCamerasDataLoading: boolean
-};
-
-const initialState: CatalogSlice = {
+const initialState: CamerasData = {
   catalog: [],
   status: Status.Idle,
   isCamerasDataLoading: false,
