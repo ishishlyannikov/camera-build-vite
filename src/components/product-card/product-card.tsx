@@ -3,6 +3,8 @@ import {Product} from "../../types/types.ts";
 import {AppRoute} from "../../const.ts";
 import RatingItem from "../rating-item/rating-item.tsx";
 import {RATINGS} from "../../const.ts";
+import PopupAddToBasket from "../popups/popup-add-to-basket/popup-add-to-basket.tsx";
+import {useState} from "react";
 
 type ProductCardProps = {
   camera: Product;
@@ -13,7 +15,13 @@ export default function ProductCard({camera}: ProductCardProps) {
   const sourceSrcSet = `${previewImgWebp}, ${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
-  return (
+ const [openPopup, setOpenPopup] = useState(false)
+
+  const handlePopupClose = () => {
+    setOpenPopup(false);
+  };
+
+   return (
     <div className="product-card">
       <div className="product-card__img">
         <picture>
@@ -32,8 +40,10 @@ export default function ProductCard({camera}: ProductCardProps) {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={()=> setOpenPopup(true)}>
+          Купить
         </button>
+        {openPopup ? <PopupAddToBasket camera={camera} isOpened={openPopup} onModalClose={handlePopupClose}/> : null}
         <Link className="btn btn--transparent" to={`${AppRoute.Product}/${id}`}>
           Подробнее
         </Link>
