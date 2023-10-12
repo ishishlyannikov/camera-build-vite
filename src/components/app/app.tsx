@@ -3,14 +3,16 @@ import Product from "../../pages/product-page/product.tsx";
 import Basket from "../../pages/basket-page/basket.tsx";
 import NotFoundPage from "../../pages/not-found-page/not-found-page.tsx";
 import { AppRoute } from '../../const.ts';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import HistoryRouter from "../history-route/history-route.tsx";
+import browserHistory from "../browser-history/browser-history.ts";
 
 export default function App(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Main}
                  element={<Catalog/>}
@@ -25,7 +27,7 @@ export default function App(): JSX.Element {
                  element={<NotFoundPage/>}
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }

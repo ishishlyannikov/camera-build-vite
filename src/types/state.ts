@@ -17,6 +17,8 @@ export type CamerasData = {
   catalog: Product[];
   status: Status;
   isCamerasDataLoading: boolean;
+  product: Product | null;
+  isProductDataLoading: boolean;
 };
 
 export type PromoData = {

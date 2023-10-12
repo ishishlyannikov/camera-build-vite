@@ -3,7 +3,6 @@ export enum AppRoute {
   Product = '/product',
   Basket = '/basket',
 }
-
 export enum NameSpace {
   Camera = 'CAMERA',
   Order = 'ORDERS',
@@ -14,14 +13,14 @@ export enum NameSpace {
 
 export enum APIRoute {
   Cameras = '/cameras',
-  CameraItem = '/cameras/:cameraId',
-  Similar = '/cameras/:cameraId/similar',
+  Product = '/cameras/{cameraId}',
+  Similar = '/cameras/{cameraId}/similar',
   Promo = '/promo',
-  Reviews = '/cameras/:cameraId/reviews',
-  ReviewPost = '/reviews',
-  Coupon = '/coupon',
-  Order = '/orders',
+  Reviews = '/cameras/{cameraId}/reviews',
+  Coupon = '/coupons',
+  Order = '/orders'
 }
+
 
 export enum Status {
   Idle = 'idle',

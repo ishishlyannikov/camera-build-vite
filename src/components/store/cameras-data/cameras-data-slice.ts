@@ -1,12 +1,14 @@
 import {NameSpace, Status} from "../../../const.ts";
 import {createSlice} from '@reduxjs/toolkit';
-import { fetchCamerasAction } from './cameras-data-thunk';
+import {fetchCamerasAction, fetchProductAction} from './cameras-data-thunk';
 import {CamerasData} from "../../../types/state.ts";
 
 const initialState: CamerasData = {
   catalog: [],
   status: Status.Idle,
   isCamerasDataLoading: false,
+  product: null,
+  isProductDataLoading: false,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
@@ -25,6 +27,19 @@ export const camerasData = createSlice({
       })
       .addCase(fetchCamerasAction.rejected, (state) => {
         state.isCamerasDataLoading = false;
+        state.status = Status.Error;
+      })
+      .addCase(fetchProductAction.pending, (state) => {
+        state.isProductDataLoading = true;
+        state.status = Status.Loading;
+      })
+      .addCase(fetchProductAction.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.isProductDataLoading = false;
+        state.status = Status.Success;
+      })
+      .addCase(fetchProductAction.rejected, (state) => {
+        state.isProductDataLoading = false;
         state.status = Status.Error;
       })
   }

@@ -10,3 +10,11 @@ export const fetchCamerasAction = createAsyncThunk<Product[], undefined, ThunkAP
     return data;
   },
 );
+
+export const fetchProductAction = createAsyncThunk<Product, string, ThunkAPI>(
+    `${NameSpace.Camera}/fetchProduct`,
+    async (cameraId, { extra: api }) => {
+        const {data} = await api.get<Product>(`${APIRoute.Cameras}/${cameraId}`);
+        return data;
+    }
+);

@@ -5,11 +5,12 @@ import CatalogContent from "../../components/catalog-content/catalog-content.tsx
 import {useAppDispatch, useAppSelector} from "../../components/hooks/hooks.ts";
 import {fetchCamerasAction} from "../../components/store/cameras-data/cameras-data-thunk.ts";
 import {useEffect} from "react";
-import {isCamerasDataStatusLoading} from "../../components/store/cameras-data/cameras-data-selectors.ts";
+import {getIsCamerasDataStatusLoading} from "../../components/store/cameras-data/cameras-data-selectors.ts";
 import Spinner from "../../components/spinner/spinner.tsx";
 import SwiperForBanner from "../../components/swiper/swiper.tsx";
 import {isPromoLoading} from "../../components/store/promo-data/promo-data-selectors.ts";
 import {fetchPromoAction} from "../../components/store/promo-data/promo-data-thunk.ts";
+import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.tsx";
 
 export default function Catalog () {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export default function Catalog () {
     dispatch(fetchPromoAction());
   }, [dispatch]);
 
-  const isLoading = useAppSelector(isCamerasDataStatusLoading);
+  const isLoading = useAppSelector(getIsCamerasDataStatusLoading);
   const isPromoDataLoading = useAppSelector(isPromoLoading)
 
   if (isLoading || isPromoDataLoading) {
@@ -32,25 +33,7 @@ export default function Catalog () {
       <main>
      <SwiperForBanner/>
         <div className="page-content">
-          <div className="breadcrumbs">
-            <div className="container">
-              <ul className="breadcrumbs__list">
-                <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="../../../index.html">
-                    Главная
-                    <svg width={5} height={8} aria-hidden="true">
-                      <use xlinkHref="#icon-arrow-mini" />
-                    </svg>
-                  </a>
-                </li>
-                <li className="breadcrumbs__item">
-              <span className="breadcrumbs__link breadcrumbs__link--active">
-                Каталог
-              </span>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <Breadcrumbs/>
           <section className="catalog">
             <div className="container">
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
