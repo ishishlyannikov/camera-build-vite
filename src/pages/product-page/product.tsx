@@ -1,6 +1,8 @@
 import Header from "../../components/header/header.tsx";
 import Footer from "../../components/footer/footer.tsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.tsx";
+
+import {RATINGS} from "../../const.ts";
 import {useAppDispatch, useAppSelector} from "../../components/hooks/hooks.ts";
 import {useParams} from "react-router-dom";
 import {getIsProductDataLoading, getProduct} from "../../components/store/cameras-data/cameras-data-selectors.ts";
@@ -10,7 +12,8 @@ import Spinner from "../../components/spinner/spinner.tsx";
 import NotFoundPage from "../not-found-page/not-found-page.tsx";
 import Reviews from "../../components/reviews/reviews.tsx";
 import SimilarProducts from "../../components/product-similar/product-similar.tsx";
-
+import RatingItem from "../../components/rating-item/rating-item.tsx";
+import ProductTabs from "../../components/product-tabs/product-tabs.tsx";
 
 export default function Product() {
   const {cameraId} = useParams();
@@ -33,7 +36,7 @@ export default function Product() {
     return <NotFoundPage />;
   }
 
-  const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, reviewCount, vendorCode, type, level, category, description} = currentProduct;
+  const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, reviewCount} = currentProduct;
   const sourceSrcSet = `../../${previewImgWebp}, ../../${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
@@ -63,22 +66,8 @@ export default function Product() {
                 </div>
                 <div className="product__content">
                   <h1 className="title title--h3">{name}</h1>
-                  <div className="rate product__rate">
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-full-star" />
-                    </svg>
-                    <svg width={17} height={16} aria-hidden="true">
-                      <use xlinkHref="#icon-star" />
-                    </svg>
+                  <div className="rate product-card__rate">
+                    {RATINGS.map((item) => <RatingItem key={item} item={item} rating={rating}/>)}
                     <p className="visually-hidden">Рейтинг: {rating}</p>
                     <p className="rate__count">
                       <span className="visually-hidden">Всего оценок:</span>{reviewCount}
@@ -93,51 +82,13 @@ export default function Product() {
                     </svg>
                     Добавить в корзину
                   </button>
-                  <div className="tabs product__tabs">
-                    <div className="tabs__controls product__tabs-controls">
-                      <button className="tabs__control" type="button">
-                        Характеристики
-                      </button>
-                      <button className="tabs__control is-active" type="button">
-                        Описание
-                      </button>
-                    </div>
-                    <div className="tabs__content">
-                      <div className="tabs__element">
-                        <ul className="product__tabs-list">
-                          <li className="item-list">
-                            <span className="item-list__title">Артикул:</span>{" "}
-                            <p className="item-list__text"> {vendorCode}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Категория:</span>
-                            <p className="item-list__text">{category}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Тип камеры:</span>
-                            <p className="item-list__text">{type}</p>
-                          </li>
-                          <li className="item-list">
-                            <span className="item-list__title">Уровень:</span>
-                            <p className="item-list__text">{level}</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="tabs__element is-active">
-                        <div className="product__tabs-text">
-                          <p>
-                            {description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <ProductTabs camera={currentProduct}/>
                 </div>
               </div>
             </section>
           </div>
           <div className="page-content__section">
-           <SimilarProducts/>
+           <SimilarProducts camera={currentProduct}/>
           </div>
           <div className="page-content__section">
              <Reviews/>
@@ -151,6 +102,5 @@ export default function Product() {
       </a>
 <Footer/>
     </div>
-
   )
 }

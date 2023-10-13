@@ -8,7 +8,7 @@ type PopupAddToBasketProps = {
 }
 export default function PopupAddToBasket({camera, isOpened, onModalClose}: PopupAddToBasketProps) {
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price, level, vendorCode, type, category } = camera;
-  const sourceSrcSet = `${previewImgWebp}, ${previewImgWebp2x} 2x`;
+  const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
   return (
