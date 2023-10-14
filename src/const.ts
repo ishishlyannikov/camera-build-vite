@@ -5,6 +5,7 @@ export enum AppRoute {
 }
 export enum NameSpace {
   Camera = 'CAMERA',
+  Product = 'PRODUCT',
   Order = 'ORDERS',
   Reviews = 'REVIEWS',
   Promo = 'PROMO',
@@ -13,22 +14,21 @@ export enum NameSpace {
 
 export enum APIRoute {
   Cameras = '/cameras',
-  Product = '/cameras/{cameraId}',
-  Similar = '/cameras/{cameraId}/similar',
+  Product = '/cameras/:cameraId',
+  Similar = '/cameras/:cameraId/similar',
   Promo = '/promo',
-  Reviews = '/cameras/{cameraId}/reviews',
+  Reviews = '/cameras/:cameraId/reviews',
   Coupon = '/coupons',
-  Order = '/orders'
+  Order = '/orders',
 }
-
 
 export enum Status {
   Idle = 'idle',
   Loading = 'loading',
   Success = 'success',
-  Error = 'error'
+  Error = 'error',
 }
 
-export const CARDS_PER_PAGE = 9
+export const CARDS_PER_PAGE = 9;
 
 export const RATINGS = [1, 2, 3, 4, 5] as const;

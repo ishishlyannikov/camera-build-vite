@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
-import {store} from "../components/store";
-import {Product, PromoProduct} from "./types.ts";
-import {Status} from "../const.ts";
+import { store } from '../components/store';
+import { Product, PromoProduct } from './types.ts';
+import { Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -11,7 +11,7 @@ export type ThunkAPI = {
   dispatch: AppDispatch;
   extra: AxiosInstance;
   state: State;
-}
+};
 
 export type CamerasData = {
   catalog: Product[];
@@ -24,5 +24,11 @@ export type CamerasData = {
 export type PromoData = {
   promo: PromoProduct[];
   status: Status;
-  isPromoLoading: boolean
+  isPromoLoading: boolean;
+};
+
+export type ProductData = {
+  similarProducts: Product[];
+  status: Status;
+  isSimilarDataLoading: boolean;
 };
