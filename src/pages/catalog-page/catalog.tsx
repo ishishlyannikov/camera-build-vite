@@ -33,7 +33,7 @@ export default function Catalog() {
       <main>
         <SwiperForBanner />
         <div className='page-content'>
-          <Breadcrumbs />
+          <Breadcrumbs isCatalog />
           <section className='catalog'>
             <div className='container'>
               <h1 className='title title--h2'>Каталог фото- и видеотехники</h1>

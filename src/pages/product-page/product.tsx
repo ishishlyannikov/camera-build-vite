@@ -54,7 +54,7 @@ export default function Product() {
       <Header />
       <main>
         <div className='page-content'>
-          <Breadcrumbs />
+          <Breadcrumbs isCatalog={false} />
           <div className='page-content__section'>
             <section className='product'>
               <div className='container'>
