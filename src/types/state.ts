@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { store } from '../components/store';
-import { Product, PromoProduct } from './types.ts';
+import { Product, PromoProduct, Review } from './types.ts';
 import { Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
@@ -31,4 +31,5 @@ export type ProductData = {
   similarProducts: Product[];
   status: Status;
   isSimilarDataLoading: boolean;
+  reviews: Review[];
 };

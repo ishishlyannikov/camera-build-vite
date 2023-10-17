@@ -3,7 +3,7 @@ import Footer from '../../components/footer/footer.tsx';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs.tsx';
 import { RATINGS } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getIsProductDataLoading, getProduct } from '../../components/store/cameras-data/cameras-data-selectors.ts';
 import { useEffect } from 'react';
 import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
@@ -17,7 +17,10 @@ import {
   getIsSimilarDataLoading,
   getSimilarProducts,
 } from '../../components/store/product-data/product-data-selectors.ts';
-import { fetchSimilarProductsAction } from '../../components/store/product-data/product-data-thunk.ts';
+import {
+  fetchReviewsAction,
+  fetchSimilarProductsAction,
+} from '../../components/store/product-data/product-data-thunk.ts';
 
 export default function Product() {
   const { cameraId } = useParams();
@@ -33,6 +36,7 @@ export default function Product() {
     if (cameraId) {
       dispatch(fetchProductAction(cameraId));
       dispatch(fetchSimilarProductsAction(cameraId));
+      dispatch(fetchReviewsAction(cameraId));
     }
   }, [cameraId, dispatch]);
 
@@ -99,11 +103,11 @@ export default function Product() {
           </div>
         </div>
       </main>
-      <a className='up-btn' href='#header'>
+      <Link className='up-btn' to='#header' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <svg width={12} height={18} aria-hidden='true'>
           <use xlinkHref='#icon-arrow2' />
         </svg>
-      </a>
+      </Link>
       <Footer />
     </div>
   );
