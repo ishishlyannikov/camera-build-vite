@@ -1,6 +1,6 @@
-import {NameSpace} from "../../../const.ts";
-import {State} from "../../../types/state.ts";
-import {Product} from "../../../types/types.ts";
+import { NameSpace } from '../../../const.ts';
+import { State } from '../../../types/state.ts';
+import { Product } from '../../../types/types.ts';
 
 export const getCamerasList = (state: State): Product[] => state[NameSpace.Camera].catalog;
 
@@ -9,3 +9,7 @@ export const getIsCamerasDataStatusLoading = (state: State): boolean => state[Na
 export const getProduct = (state: State): Product | null => state[NameSpace.Camera].product;
 
 export const getIsProductDataLoading = (state: State): boolean => state[NameSpace.Camera].isProductDataLoading;
+
+export const getIsModalOpened = (state: State): boolean => state[NameSpace.Camera].isModalOpened;
+
+export const getSelectedProduct = (state: State) => state[NameSpace.Camera].selectedProduct;

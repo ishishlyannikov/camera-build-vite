@@ -4,7 +4,12 @@ import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs.tsx';
 import { RATINGS } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts';
 import { Link, useParams } from 'react-router-dom';
-import { getIsProductDataLoading, getProduct } from '../../components/store/cameras-data/cameras-data-selectors.ts';
+import {
+  getIsModalOpened,
+  getIsProductDataLoading,
+  getProduct,
+  getSelectedProduct,
+} from '../../components/store/cameras-data/cameras-data-selectors.ts';
 import { useEffect } from 'react';
 import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
@@ -21,6 +26,8 @@ import {
   fetchReviewsAction,
   fetchSimilarProductsAction,
 } from '../../components/store/product-data/product-data-thunk.ts';
+import PopupAddToBasket from '../../components/popups/popup-add-to-basket/popup-add-to-basket.tsx';
+import { setModalAddStatus, setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
 
 export default function Product() {
   const { cameraId } = useParams();
@@ -31,6 +38,9 @@ export default function Product() {
 
   const similarProducts = useAppSelector(getSimilarProducts);
   const isSimilarProductsLoading = useAppSelector(getIsSimilarDataLoading);
+
+  const openPopup = useAppSelector(getIsModalOpened);
+  const selectedCamera = useAppSelector(getSelectedProduct);
 
   useEffect(() => {
     if (cameraId) {
@@ -52,6 +62,11 @@ export default function Product() {
     currentProduct;
   const sourceSrcSet = `../../${previewImgWebp}, ../../${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
+
+  const handleButtonClick = () => {
+    dispatch(setSelectedProduct(currentProduct));
+    dispatch(setModalAddStatus(true));
+  };
 
   return (
     <div className='wrapper'>
@@ -82,9 +97,9 @@ export default function Product() {
                   </div>
                   <p className='product__price'>
                     <span className='visually-hidden'>Цена:</span>
-                    {price} ₽
+                    {price.toLocaleString()} ₽
                   </p>
-                  <button className='btn btn--purple' type='button'>
+                  <button className='btn btn--purple' type='button' onClick={handleButtonClick}>
                     <svg width={24} height={16} aria-hidden='true'>
                       <use xlinkHref='#icon-add-basket' />
                     </svg>
@@ -98,6 +113,7 @@ export default function Product() {
           <div className='page-content__section'>
             {similarProducts.length > 0 && <SimilarCards cameras={similarProducts} />}
           </div>
+          {selectedCamera && <PopupAddToBasket camera={selectedCamera} isOpened={openPopup} />}
           <div className='page-content__section'>
             <Reviews />
           </div>

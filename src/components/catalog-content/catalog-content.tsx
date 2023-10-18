@@ -1,14 +1,18 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/hooks.ts';
-import { getCamerasList } from '../store/cameras-data/cameras-data-selectors.ts';
+import { getCamerasList, getIsModalOpened, getSelectedProduct } from '../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
 import { CARDS_PER_PAGE } from '../../const.ts';
+import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
 
 export default function CatalogContent() {
   const cameras = useAppSelector(getCamerasList);
+  const openPopup = useAppSelector(getIsModalOpened);
+  const selectedCamera = useAppSelector(getSelectedProduct);
+
   const pageCount = Math.ceil(cameras.length / CARDS_PER_PAGE);
 
   const [searchParams] = useSearchParams();
@@ -53,6 +57,7 @@ export default function CatalogContent() {
           />
         )}
       </div>
+      {selectedCamera && <PopupAddToBasket camera={selectedCamera} isOpened={openPopup} />}
     </div>
   );
 }

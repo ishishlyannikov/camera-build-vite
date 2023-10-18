@@ -15,7 +15,7 @@ export default function Breadcrumbs({ isCatalog }: BreadcrumbsProps) {
       <div className='container'>
         <ul className='breadcrumbs__list'>
           <li className='breadcrumbs__item'>
-            <a className='breadcrumbs__link' href='../../../index.html'>
+            <a className='breadcrumbs__link' href='/'>
               Главная
               <svg width={5} height={8} aria-hidden='true'>
                 <use xlinkHref='#icon-arrow-mini' />

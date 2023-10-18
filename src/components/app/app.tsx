@@ -14,7 +14,7 @@ export default function App(): JSX.Element {
       <HistoryRouter history={browserHistory}>
         <Routes>
           <Route path={AppRoute.Main} element={<Catalog />} />
-          <Route path={`${AppRoute.Product}/:cameraId`} element={<Product />} />
+          <Route path={`${AppRoute.Product}/:cameraId/:tab`} element={<Product />} />
           <Route path={AppRoute.Basket} element={<Basket />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>

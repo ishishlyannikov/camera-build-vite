@@ -1,7 +1,8 @@
-import {NameSpace, Status} from "../../../const.ts";
-import {createSlice} from '@reduxjs/toolkit';
-import {fetchCamerasAction, fetchProductAction} from './cameras-data-thunk';
-import {CamerasData} from "../../../types/state.ts";
+import { NameSpace, Status } from '../../../const.ts';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk';
+import { CamerasData } from '../../../types/state.ts';
+import { Product } from '../../../types/types.ts';
 
 const initialState: CamerasData = {
   catalog: [],
@@ -9,11 +10,20 @@ const initialState: CamerasData = {
   isCamerasDataLoading: false,
   product: null,
   isProductDataLoading: false,
+  isModalOpened: false,
+  selectedProduct: null,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
   initialState,
-  reducers: {},
+  reducers: {
+    setModalAddStatus: (state, action: PayloadAction<boolean>) => {
+      state.isModalOpened = action.payload;
+    },
+    setSelectedProduct: (state, action: PayloadAction<Product>) => {
+      state.selectedProduct = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchCamerasAction.pending, (state) => {
@@ -41,6 +51,8 @@ export const camerasData = createSlice({
       .addCase(fetchProductAction.rejected, (state) => {
         state.isProductDataLoading = false;
         state.status = Status.Error;
-      })
-  }
+      });
+  },
 });
+
+export const { setModalAddStatus, setSelectedProduct } = camerasData.actions;

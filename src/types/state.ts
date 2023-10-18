@@ -19,6 +19,8 @@ export type CamerasData = {
   isCamerasDataLoading: boolean;
   product: Product | null;
   isProductDataLoading: boolean;
+  isModalOpened: boolean;
+  selectedProduct: Product | null;
 };
 
 export type PromoData = {
