@@ -21,7 +21,6 @@ export default function ProductTabs({ camera }: ProductTabsProps) {
 
   const handleDescriptionButton = useCallback(() => {
     navigate(`/product/${camera.id}/description`);
-    console.log('111');
   }, [camera]);
 
   const separatedDescription = description.split('.');

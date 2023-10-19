@@ -1,32 +1,32 @@
 import Header from '../../components/header/header.tsx';
 import Footer from '../../components/footer/footer.tsx';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs.tsx';
+import Spinner from '../../components/spinner/spinner.tsx';
+import Reviews from '../../components/reviews/reviews.tsx';
+import NotFoundPage from '../not-found-page/not-found-page.tsx';
+import PopupAddToBasket from '../../components/popups/popup-add-to-basket/popup-add-to-basket.tsx';
+import PopupAddReview from '../../components/popups/popup-add-review/popup-add-review.tsx';
+import RatingItem from '../../components/rating-item/rating-item.tsx';
+import ProductTabs from '../../components/product-tabs/product-tabs.tsx';
+import SimilarCards from '../../components/similar-cards/similar-cards.tsx';
 import { RATINGS } from '../../const.ts';
-import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts';
-import { Link, useParams } from 'react-router-dom';
 import {
   getIsModalOpened,
   getIsProductDataLoading,
   getProduct,
   getSelectedProduct,
 } from '../../components/store/cameras-data/cameras-data-selectors.ts';
-import { useEffect } from 'react';
-import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
-import Spinner from '../../components/spinner/spinner.tsx';
-import NotFoundPage from '../not-found-page/not-found-page.tsx';
-import Reviews from '../../components/reviews/reviews.tsx';
-import RatingItem from '../../components/rating-item/rating-item.tsx';
-import ProductTabs from '../../components/product-tabs/product-tabs.tsx';
-import SimilarCards from '../../components/similar-cards/similar-cards.tsx';
 import {
   getIsSimilarDataLoading,
   getSimilarProducts,
-} from '../../components/store/product-data/product-data-selectors.ts';
-import {
-  fetchReviewsAction,
-  fetchSimilarProductsAction,
-} from '../../components/store/product-data/product-data-thunk.ts';
-import PopupAddToBasket from '../../components/popups/popup-add-to-basket/popup-add-to-basket.tsx';
+} from '../../components/store/similar-product-data/similar-product-data-selectors.ts';
+import { getAddReviewPopupStatus } from '../../components/store/reviews-data/reviews-data-selectors.ts';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts';
+import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
+import { fetchReviewsAction } from '../../components/store/reviews-data/reviews-data-thunk.ts';
+import { fetchSimilarProductsAction } from '../../components/store/similar-product-data/similar-product-data-thunk.ts';
 import { setModalAddStatus, setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
 
 export default function Product() {
@@ -41,6 +41,8 @@ export default function Product() {
 
   const openPopup = useAppSelector(getIsModalOpened);
   const selectedCamera = useAppSelector(getSelectedProduct);
+
+  const addReview = useAppSelector(getAddReviewPopupStatus);
 
   useEffect(() => {
     if (cameraId) {
@@ -117,6 +119,7 @@ export default function Product() {
           <div className='page-content__section'>
             <Reviews />
           </div>
+          <PopupAddReview isOpened={addReview} />
         </div>
       </main>
       <Link className='up-btn' to='#header' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>

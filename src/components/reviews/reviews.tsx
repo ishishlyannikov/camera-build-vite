@@ -1,11 +1,14 @@
-import { useAppSelector } from '../hooks/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { Review } from '../../types/types.ts';
 import ReviewItem from '../review-item/review-item.tsx';
-import { getReviews } from '../store/product-data/product-data-selectors.ts';
+import { getReviews } from '../store/reviews-data/reviews-data-selectors.ts';
 import { useState } from 'react';
 import { compare } from '../../utils.ts';
+import { setAddReviewPopupStatus } from '../store/reviews-data/reviews-data-slice.ts';
 
 export default function Reviews() {
+  const dispatch = useAppDispatch();
+
   const reviews = useAppSelector(getReviews);
 
   const [newestReview, setNewestReview] = useState(3);
@@ -18,21 +21,25 @@ export default function Reviews() {
     setNewestReview((prev) => prev + 3);
   };
 
+  const handleAddReviewButtonClick = () => {
+    dispatch(setAddReviewPopupStatus(true));
+  };
+
   return (
     <section className='review-block'>
       <div className='container'>
         <div className='page-content__headed'>
           <h2 className='title title--h3'>Отзывы</h2>
-          <button className='btn' type='button'>
+          <button className='btn' type='button' onClick={handleAddReviewButtonClick}>
             Оставить свой отзыв
           </button>
         </div>
         <ul className='review-block__list'>
-          {sortReviewByDate(reviews).map((item) => (
-            <li className='reviews__item' key={item.id}>
-              <ReviewItem userReview={item} />
-            </li>
-          ))}
+          {reviews.length > 0 ? (
+            sortReviewByDate(reviews).map((item) => <ReviewItem key={item.id} userReview={item} />)
+          ) : (
+            <li className='review-card'>Ваш отзыв будет первым</li>
+          )}
         </ul>
         <div className='review-block__buttons'>
           {newestReview < reviews.length && (

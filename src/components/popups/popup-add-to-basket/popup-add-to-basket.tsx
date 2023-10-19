@@ -2,6 +2,7 @@ import { Product } from '../../../types/types.ts';
 import classNames from 'classnames';
 import { useAppDispatch } from '../../hooks/hooks.ts';
 import { setModalAddStatus } from '../../store/cameras-data/cameras-data-slice.ts';
+import { useEffect } from 'react';
 
 type PopupAddToBasketProps = {
   camera: Product;
@@ -15,13 +16,19 @@ export default function PopupAddToBasket({ camera, isOpened }: PopupAddToBasketP
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
-  // const handleOpenButton = () => {
-  //   dispatch(setModalAddStatus(true));
-  // };
-
   const handleCloseButton = () => {
     dispatch(setModalAddStatus(false));
   };
+
+  useEffect(() => {
+    if (isOpened) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpened]);
 
   return (
     <div className={classNames({ 'is-active': isOpened }, 'modal')}>
@@ -50,7 +57,7 @@ export default function PopupAddToBasket({ camera, isOpened }: PopupAddToBasketP
               </ul>
               <p className='basket-item__price'>
                 <span className='visually-hidden'>Цена:</span>
-                {price} ₽
+                {price.toLocaleString()} ₽
               </p>
             </div>
           </div>

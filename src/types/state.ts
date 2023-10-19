@@ -33,5 +33,10 @@ export type ProductData = {
   similarProducts: Product[];
   status: Status;
   isSimilarDataLoading: boolean;
+};
+
+export type ReviewsData = {
   reviews: Review[];
+  status: Status;
+  isAddReviewPopupOpened: boolean;
 };
