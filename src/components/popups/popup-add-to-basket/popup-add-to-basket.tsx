@@ -1,40 +1,39 @@
+import { useEffect, useRef } from 'react';
 import { Product } from '../../../types/types.ts';
 import classNames from 'classnames';
-import { useAppDispatch } from '../../hooks/hooks.ts';
-import { setModalAddStatus } from '../../store/cameras-data/cameras-data-slice.ts';
-import { useEffect } from 'react';
 
 type PopupAddToBasketProps = {
   camera: Product;
   isOpened: boolean;
+  closeModal: VoidFunction;
 };
-export default function PopupAddToBasket({ camera, isOpened }: PopupAddToBasketProps) {
-  const dispatch = useAppDispatch();
+export default function PopupAddToBasket({ camera, isOpened, closeModal }: PopupAddToBasketProps) {
+  const ref = useRef<HTMLDivElement>(null);
 
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price, level, vendorCode, type, category } =
     camera;
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
-  const handleCloseButton = () => {
-    dispatch(setModalAddStatus(false));
-  };
-
   useEffect(() => {
-    if (isOpened) {
-      document.body.style.overflow = 'hidden';
-    }
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isOpened && ref.current && !ref.current.contains(e.target as HTMLElement)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.body.style.overflow = '';
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpened]);
 
   return (
-    <div className={classNames({ 'is-active': isOpened }, 'modal')}>
+    <div className={classNames('modal', { 'is-active': isOpened })}>
       <div className='modal__wrapper'>
         <div className='modal__overlay' />
-        <div className='modal__content'>
+        <div className='modal__content' ref={ref}>
           <p className='title title--h4'>Добавить товар в корзину</p>
           <div className='basket-item basket-item--short'>
             <div className='basket-item__img'>
@@ -69,7 +68,7 @@ export default function PopupAddToBasket({ camera, isOpened }: PopupAddToBasketP
               Добавить в корзину
             </button>
           </div>
-          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={handleCloseButton}>
+          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={closeModal}>
             <svg width={10} height={10} aria-hidden='true'>
               <use xlinkHref='#icon-close' />
             </svg>

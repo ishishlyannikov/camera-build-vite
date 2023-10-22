@@ -3,27 +3,28 @@ import { Product } from '../../types/types.ts';
 import { AppRoute } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
 import { RATINGS } from '../../const.ts';
-import { setModalAddStatus, setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
+import { setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
 
 type ProductCardProps = {
   camera: Product;
+  openModal: VoidFunction;
 };
 
-export default function ProductCard({ camera }: ProductCardProps) {
+export default function ProductCard({ camera, openModal }: ProductCardProps) {
   const dispatch = useAppDispatch();
 
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id, reviewCount } = camera;
-  const sourceSrcSet = `${previewImgWebp}, ${previewImgWebp2x} 2x`;
+  const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
   const handleButtonClick = () => {
     dispatch(setSelectedProduct(camera));
-    dispatch(setModalAddStatus(true));
+    openModal();
   };
 
   return (
-    <div className='product-card'>
+    <div className='product-card is-active' style={{ width: '100%' }}>
       <div className='product-card__img'>
         <picture>
           <source type='image/webp' srcSet={sourceSrcSet} />

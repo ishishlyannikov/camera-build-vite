@@ -1,24 +1,25 @@
-import { useAppDispatch } from '../../hooks/hooks.ts';
-import { setAddReviewPopupStatus } from '../../store/reviews-data/reviews-data-slice.ts';
 import classNames from 'classnames';
-import { useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 type PopupAddReviewProps = {
   isOpened: boolean;
+  closeModal: VoidFunction;
 };
-export default function PopupAddReview({ isOpened }: PopupAddReviewProps) {
-  const dispatch = useAppDispatch();
-  const handleCloseButton = () => {
-    dispatch(setAddReviewPopupStatus(false));
-  };
+
+export default function PopupAddReview({ isOpened, closeModal }: PopupAddReviewProps) {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpened) {
-      document.body.style.overflow = 'hidden';
-    }
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isOpened && ref.current && !ref.current.contains(e.target as Node)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.body.style.overflow = '';
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpened]);
 
@@ -26,7 +27,7 @@ export default function PopupAddReview({ isOpened }: PopupAddReviewProps) {
     <div className={classNames('modal', { 'is-active': isOpened })}>
       <div className='modal__wrapper'>
         <div className='modal__overlay' />
-        <div className='modal__content'>
+        <div className='modal__content' ref={ref}>
           <p className='title title--h4'>Оставить отзыв</p>
           <div className='form-review'>
             <form method='post'>
@@ -116,7 +117,7 @@ export default function PopupAddReview({ isOpened }: PopupAddReviewProps) {
               </button>
             </form>
           </div>
-          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={handleCloseButton}>
+          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={closeModal}>
             <svg width={10} height={10} aria-hidden='true'>
               <use xlinkHref='#icon-close' />
             </svg>
