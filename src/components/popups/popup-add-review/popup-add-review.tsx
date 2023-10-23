@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import { useOutsideClick } from '../../hooks/useOutsideClick.ts';
 
 type PopupAddReviewProps = {
   isOpened: boolean;
@@ -7,21 +8,9 @@ type PopupAddReviewProps = {
 };
 
 export default function PopupAddReview({ isOpened, closeModal }: PopupAddReviewProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (isOpened && ref.current && !ref.current.contains(e.target as Node)) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpened]);
+  useOutsideClick(ref, closeModal);
 
   return (
     <div className={classNames('modal', { 'is-active': isOpened })}>

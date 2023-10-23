@@ -1,30 +1,16 @@
 import { RefObject, useEffect } from 'react';
 
-type outsideClickProps = {
-  elementRef: RefObject<HTMLElement | null>;
-  closePopup: VoidFunction;
-  isPopupOpened: boolean;
-};
-
-export default function useOutsideClick({ elementRef, closePopup, isPopupOpened }: outsideClickProps) {
+export const useOutsideClick = (ref: RefObject<HTMLElement>, handler: (event: MouseEvent) => void) => {
   useEffect(() => {
-    if (isPopupOpened) {
-      return;
-    }
-
-    const handleClick = (e: Event) => {
-      if (!elementRef.current) {
-        return;
-      }
-      if (!elementRef.current.contains(e.target as HTMLElement)) {
-        closePopup();
+    const handleOutsideClick = (evt: MouseEvent) => {
+      if (ref.current && !ref.current.contains(evt.target as Node)) {
+        handler(evt);
       }
     };
-
-    document.addEventListener('mouseup', handleClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
-      document.removeEventListener('mouseup', handleClick);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [elementRef, isPopupOpened, closePopup]);
-}
+  }, [handler, ref]);
+};

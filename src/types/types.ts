@@ -13,7 +13,7 @@ export type Product = {
   previewImg2x: string;
   previewImgWebp: string;
   previewImgWebp2x: string;
-}
+};
 
 export type PromoProduct = {
   id: number;
@@ -22,7 +22,7 @@ export type PromoProduct = {
   previewImg2x: string;
   previewImgWebp: string;
   previewImgWebp2x: string;
-}
+};
 
 export type Review = {
   id: string;
@@ -33,13 +33,22 @@ export type Review = {
   disadvantage: string;
   review: string;
   rating: number;
-}
+};
 
 export type Coupon = {
   coupon: string;
-}
+};
 
 export type Order = {
   camerasIds: [number];
   coupon: string;
-}
+};
+
+export type PostReview = {
+  cameraId: number;
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+};

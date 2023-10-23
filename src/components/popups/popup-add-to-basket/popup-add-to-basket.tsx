@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Product } from '../../../types/types.ts';
 import classNames from 'classnames';
+import { useOutsideClick } from '../../hooks/useOutsideClick.ts';
 
 type PopupAddToBasketProps = {
   camera: Product;
@@ -8,26 +9,14 @@ type PopupAddToBasketProps = {
   closeModal: VoidFunction;
 };
 export default function PopupAddToBasket({ camera, isOpened, closeModal }: PopupAddToBasketProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
 
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, price, level, vendorCode, type, category } =
     camera;
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (isOpened && ref.current && !ref.current.contains(e.target as HTMLElement)) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpened]);
+  useOutsideClick(ref, closeModal);
 
   return (
     <div className={classNames('modal', { 'is-active': isOpened })}>

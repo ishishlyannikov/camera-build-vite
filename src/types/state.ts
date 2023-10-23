@@ -39,4 +39,5 @@ export type ReviewsData = {
   reviews: Review[];
   status: Status;
   isAddReviewPopupOpened: boolean;
+  currentRating: number;
 };
