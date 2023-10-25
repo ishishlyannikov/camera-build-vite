@@ -10,7 +10,7 @@ import PopupAddToBasket from '../../components/popups/popup-add-to-basket/popup-
 import RatingItem from '../../components/rating-item/rating-item.tsx';
 import ProductTabs from '../../components/product-tabs/product-tabs.tsx';
 import SimilarCards from '../../components/similar-cards/similar-cards.tsx';
-import { RATINGS } from '../../const.ts';
+import { ModalName, RATINGS } from '../../const.ts';
 import {
   getIsProductDataLoading,
   getProduct,
@@ -24,8 +24,7 @@ import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts'
 import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
 import { fetchReviewsAction } from '../../components/store/reviews-data/reviews-data-thunk.ts';
 import { fetchSimilarProductsAction } from '../../components/store/similar-product-data/similar-product-data-thunk.ts';
-import { setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
-import { useModal } from '../../components/hooks/useModal.ts';
+import { setModal, setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
 
 export default function Product() {
   const { cameraId } = useParams();
@@ -36,8 +35,6 @@ export default function Product() {
   const similarProducts = useAppSelector(getSimilarProducts);
   const isSimilarProductsLoading = useAppSelector(getIsSimilarDataLoading);
   const selectedCamera = useAppSelector(getSelectedProduct);
-
-  const { isOpenedModal, openModal, closeModal } = useModal();
 
   useEffect(() => {
     if (cameraId) {
@@ -62,7 +59,7 @@ export default function Product() {
 
   const handleButtonClick = () => {
     dispatch(setSelectedProduct(currentProduct));
-    openModal();
+    dispatch(setModal(ModalName.AddToBasket));
   };
 
   return (
@@ -107,12 +104,8 @@ export default function Product() {
               </div>
             </section>
           </div>
-          <SimilarCards cameras={similarProducts} openModal={openModal} />
-
-          {selectedCamera && (
-            <PopupAddToBasket camera={selectedCamera} isOpened={isOpenedModal} closeModal={closeModal} />
-          )}
-
+          <SimilarCards cameras={similarProducts} />
+          {selectedCamera && <PopupAddToBasket camera={selectedCamera} />}
           <Reviews />
         </div>
       </main>

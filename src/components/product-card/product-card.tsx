@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../../types/types.ts';
-import { AppRoute } from '../../const.ts';
+import { AppRoute, ModalName, RATINGS } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
-import { RATINGS } from '../../const.ts';
-import { setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
+import { setModal, setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
 
 type ProductCardProps = {
   camera: Product;
-  openModal: VoidFunction;
 };
 
-export default function ProductCard({ camera, openModal }: ProductCardProps) {
+export default function ProductCard({ camera }: ProductCardProps) {
   const dispatch = useAppDispatch();
 
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id, reviewCount } = camera;
@@ -20,7 +18,7 @@ export default function ProductCard({ camera, openModal }: ProductCardProps) {
 
   const handleButtonClick = () => {
     dispatch(setSelectedProduct(camera));
-    openModal();
+    dispatch(setModal(ModalName.AddToBasket));
   };
 
   return (

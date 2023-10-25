@@ -1,14 +1,16 @@
-import { useAppSelector } from '../hooks/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { Review } from '../../types/types.ts';
 import ReviewItem from '../review-item/review-item.tsx';
 import { getReviews } from '../store/reviews-data/reviews-data-selectors.ts';
 import { useState } from 'react';
 import { compare } from '../../utils.ts';
 import PopupAddReview from '../popups/popup-add-review/popup-add-review.tsx';
-import { useModal } from '../hooks/useModal.ts';
+import PopupReviewSuccess from '../popups/popup-review-success/popup-review-success.tsx';
+import { setModal } from '../store/cameras-data/cameras-data-slice.ts';
+import { ModalName } from '../../const.ts';
 
 export default function Reviews() {
-  const { isOpenedModal, openModal, closeModal } = useModal();
+  const dispatch = useAppDispatch();
 
   const reviews = useAppSelector(getReviews);
 
@@ -22,16 +24,21 @@ export default function Reviews() {
     setNewestReview((prev) => prev + 3);
   };
 
+  const handleOpenReviewModal = () => {
+    dispatch(setModal(ModalName.Reviews));
+  };
+
   return (
     <div className='page-content__section'>
       <section className='review-block'>
         <div className='container'>
           <div className='page-content__headed'>
             <h2 className='title title--h3'>Отзывы</h2>
-            <button className='btn' type='button' onClick={openModal}>
+            <button className='btn' type='button' onClick={handleOpenReviewModal}>
               Оставить свой отзыв
             </button>
-            <PopupAddReview isOpened={isOpenedModal} closeModal={closeModal} />
+            <PopupAddReview />
+            <PopupReviewSuccess />
           </div>
           <ul className='review-block__list'>
             {!!reviews.length ? (

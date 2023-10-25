@@ -1,4 +1,4 @@
-import { NameSpace, Status } from '../../../const.ts';
+import { ModalName, NameSpace, Status } from '../../../const.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk';
 import { CamerasData } from '../../../types/state.ts';
@@ -10,15 +10,18 @@ const initialState: CamerasData = {
   isCamerasDataLoading: false,
   product: null,
   isProductDataLoading: false,
-  isModalOpened: false,
+  modalName: ModalName.Empty,
   selectedProduct: null,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
   initialState,
   reducers: {
-    setModalAddStatus: (state, action: PayloadAction<boolean>) => {
-      state.isModalOpened = action.payload;
+    setModal: (state, action: PayloadAction<ModalName>) => {
+      state.modalName = action.payload;
+    },
+    setCloseModal: (state) => {
+      state.modalName = ModalName.Empty;
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload;
@@ -55,4 +58,4 @@ export const camerasData = createSlice({
   },
 });
 
-export const { setModalAddStatus, setSelectedProduct } = camerasData.actions;
+export const { setModal, setCloseModal, setSelectedProduct } = camerasData.actions;

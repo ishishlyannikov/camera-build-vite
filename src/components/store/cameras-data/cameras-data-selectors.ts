@@ -1,4 +1,4 @@
-import { NameSpace } from '../../../const.ts';
+import { ModalName, NameSpace } from '../../../const.ts';
 import { State } from '../../../types/state.ts';
 import { Product } from '../../../types/types.ts';
 
@@ -10,6 +10,6 @@ export const getProduct = (state: State): Product | null => state[NameSpace.Came
 
 export const getIsProductDataLoading = (state: State): boolean => state[NameSpace.Camera].isProductDataLoading;
 
-export const getIsModalOpened = (state: State): boolean => state[NameSpace.Camera].isModalOpened;
+export const getModalName = (state: State): ModalName => state[NameSpace.Camera].modalName;
 
 export const getSelectedProduct = (state: State) => state[NameSpace.Camera].selectedProduct;

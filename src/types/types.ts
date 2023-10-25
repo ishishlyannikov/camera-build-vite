@@ -35,6 +35,8 @@ export type Review = {
   rating: number;
 };
 
+export type PostReview = Omit<Review, 'id' | 'createAt'>;
+
 export type Coupon = {
   coupon: string;
 };
@@ -42,13 +44,4 @@ export type Coupon = {
 export type Order = {
   camerasIds: [number];
   coupon: string;
-};
-
-export type PostReview = {
-  cameraId: number;
-  userName: string;
-  advantage: string;
-  disadvantage: string;
-  review: string;
-  rating: number;
 };

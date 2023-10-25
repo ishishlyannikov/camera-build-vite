@@ -6,10 +6,9 @@ import ProductCard from '../product-card/product-card.tsx';
 
 type SimilarCardsProps = {
   cameras: Product[];
-  openModal: VoidFunction;
 };
 
-export default function SimilarCards({ cameras, openModal }: SimilarCardsProps) {
+export default function SimilarCards({ cameras }: SimilarCardsProps) {
   if (!cameras.length) return null;
 
   return (
@@ -31,7 +30,7 @@ export default function SimilarCards({ cameras, openModal }: SimilarCardsProps) 
             >
               {cameras.map((item) => (
                 <SwiperSlide key={item.id}>
-                  <ProductCard camera={item} openModal={openModal} />
+                  <ProductCard camera={item} />
                 </SwiperSlide>
               ))}
             </Swiper>

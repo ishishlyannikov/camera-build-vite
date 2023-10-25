@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { store } from '../components/store';
 import { Product, PromoProduct, Review } from './types.ts';
-import { Status } from '../const.ts';
+import { ModalName, Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -19,7 +19,7 @@ export type CamerasData = {
   isCamerasDataLoading: boolean;
   product: Product | null;
   isProductDataLoading: boolean;
-  isModalOpened: boolean;
+  modalName: ModalName;
   selectedProduct: Product | null;
 };
 
@@ -38,6 +38,4 @@ export type ProductData = {
 export type ReviewsData = {
   reviews: Review[];
   status: Status;
-  isAddReviewPopupOpened: boolean;
-  currentRating: number;
 };

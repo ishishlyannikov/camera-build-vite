@@ -7,14 +7,11 @@ import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
 import { CARDS_PER_PAGE } from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
-import { useModal } from '../hooks/useModal.ts';
 
 export default function CatalogContent() {
   const cameras = useAppSelector(getCamerasList);
 
   const selectedCamera = useAppSelector(getSelectedProduct);
-
-  const { isOpenedModal, openModal, closeModal } = useModal();
 
   const pageCount = Math.ceil(cameras.length / CARDS_PER_PAGE);
 
@@ -47,7 +44,7 @@ export default function CatalogContent() {
       <CatalogSort />
       <div className='cards catalog__cards'>
         {renderedCards.map((camera) => (
-          <ProductCard key={camera.id} camera={camera} openModal={openModal} />
+          <ProductCard key={camera.id} camera={camera} />
         ))}
       </div>
       <div className='pagination'>
@@ -61,7 +58,7 @@ export default function CatalogContent() {
           />
         )}
       </div>
-      {selectedCamera && <PopupAddToBasket isOpened={isOpenedModal} camera={selectedCamera} closeModal={closeModal} />}
+      {selectedCamera && <PopupAddToBasket camera={selectedCamera} />}
     </div>
   );
 }
