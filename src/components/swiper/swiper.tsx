@@ -25,7 +25,7 @@ export default function SwiperForBanner() {
       className='mySwiper'
     >
       {promoList.map((item) => (
-        <SwiperSlide key={item.id}>
+        <SwiperSlide key={item.id} data-testid='swiper'>
           <Banner promoProduct={item} />
         </SwiperSlide>
       ))}

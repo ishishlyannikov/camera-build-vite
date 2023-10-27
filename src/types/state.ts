@@ -29,7 +29,7 @@ export type PromoData = {
   isPromoLoading: boolean;
 };
 
-export type ProductData = {
+export type SimilarData = {
   similarProducts: Product[];
   status: Status;
   isSimilarDataLoading: boolean;
@@ -38,4 +38,5 @@ export type ProductData = {
 export type ReviewsData = {
   reviews: Review[];
   status: Status;
+  isReviewsDataLoading: boolean;
 };

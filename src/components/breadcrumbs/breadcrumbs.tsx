@@ -24,7 +24,9 @@ export default function Breadcrumbs({ isCatalog }: BreadcrumbsProps) {
           </li>
           <li className='breadcrumbs__item'>
             {isCatalog ? (
-              <span className='breadcrumbs__link breadcrumbs__link--active'>Каталог</span>
+              <span className='breadcrumbs__link breadcrumbs__link--active' data-testid='main-page'>
+                Каталог
+              </span>
             ) : (
               <Link className='breadcrumbs__link' to={AppRoute.Main}>
                 Каталог

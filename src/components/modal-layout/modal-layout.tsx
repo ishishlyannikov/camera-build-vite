@@ -43,7 +43,7 @@ export default function ModalLayout({ children, isOpened, closeModal }: PopupRev
   }, [ref, isOpened]);
 
   return (
-    <div className={classNames('modal', { 'is-active': isOpened })}>
+    <div className={classNames('modal', { 'is-active': isOpened })} data-testid='modal-container'>
       <div className='modal__wrapper'>
         <div className='modal__overlay' />
         <div className='modal__content' ref={ref}>

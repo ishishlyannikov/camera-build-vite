@@ -1,14 +1,14 @@
 import { NameSpace, Status } from '../../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchSimilarProductsAction } from './similar-product-data-thunk.ts';
-import { ProductData } from '../../../types/state.ts';
+import { SimilarData } from '../../../types/state.ts';
 
-const initialState: ProductData = {
+const initialState: SimilarData = {
   similarProducts: [],
   status: Status.Idle,
   isSimilarDataLoading: false,
 };
-export const productData = createSlice({
+export const similarData = createSlice({
   name: NameSpace.Camera,
   initialState,
   reducers: {},

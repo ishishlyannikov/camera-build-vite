@@ -40,7 +40,7 @@ export default function CatalogContent() {
   }, [currentPage]);
 
   return (
-    <div className='catalog__content'>
+    <div className='catalog__content' data-testid='catalog-content'>
       <CatalogSort />
       <div className='cards catalog__cards'>
         {renderedCards.map((camera) => (

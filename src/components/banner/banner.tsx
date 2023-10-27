@@ -12,7 +12,7 @@ export default function Banner({ promoProduct }: BannerProps) {
   const imgSrcSet = `${previewImg2x} 2x`;
 
   return (
-    <div className='banner'>
+    <div className='banner' data-testid='banner-test'>
       <picture>
         <source type='image/webp' srcSet={sourceSrcSet} />
         <img src={previewImg} srcSet={imgSrcSet} width={1280} height={280} alt='баннер' />

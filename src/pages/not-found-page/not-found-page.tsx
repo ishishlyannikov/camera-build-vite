@@ -1,15 +1,13 @@
-import {Link} from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 export default function NotFoundPage() {
   return (
-    <>
-      <Helmet>
-        <title>{'Camera Shop - Not found'}</title>
-      </Helmet>
-      <h1>404 Not Found</h1>
-      <Link to={AppRoute.Main}>Вернуться на главную</Link>
-    </>
+    <div className='wrapper'>
+      <h1>404 Page Not Found</h1>
+      <Link to={AppRoute.Main} data-testid='back-home'>
+        Вернуться на главную
+      </Link>
+    </div>
   );
 }

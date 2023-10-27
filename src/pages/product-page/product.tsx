@@ -25,6 +25,7 @@ import { fetchProductAction } from '../../components/store/cameras-data/cameras-
 import { fetchReviewsAction } from '../../components/store/reviews-data/reviews-data-thunk.ts';
 import { fetchSimilarProductsAction } from '../../components/store/similar-product-data/similar-product-data-thunk.ts';
 import { setModal, setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
+import { getIsReviewsDataLoading } from '../../components/store/reviews-data/reviews-data-selectors.ts';
 
 export default function Product() {
   const { cameraId } = useParams();
@@ -35,6 +36,7 @@ export default function Product() {
   const similarProducts = useAppSelector(getSimilarProducts);
   const isSimilarProductsLoading = useAppSelector(getIsSimilarDataLoading);
   const selectedCamera = useAppSelector(getSelectedProduct);
+  const isReviewsLoading = useAppSelector(getIsReviewsDataLoading);
 
   useEffect(() => {
     if (cameraId) {
@@ -44,7 +46,7 @@ export default function Product() {
     }
   }, [cameraId, dispatch]);
 
-  if (isProductLoading || isSimilarProductsLoading) {
+  if (isProductLoading || isSimilarProductsLoading || isReviewsLoading) {
     return <Spinner />;
   }
 
@@ -65,10 +67,10 @@ export default function Product() {
   return (
     <div className='wrapper'>
       <Header />
-      <main>
+      <main data-testid='product-page'>
         <div className='page-content'>
           <Breadcrumbs isCatalog={false} />
-          <div className='page-content__section'>
+          <div className='page-content__section' data-testid='camera-item'>
             <section className='product'>
               <div className='container'>
                 <div className='product__img'>
@@ -109,9 +111,14 @@ export default function Product() {
           <Reviews />
         </div>
       </main>
-      <Link className='up-btn' to='#header' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+      <Link
+        className='up-btn'
+        to='#header'
+        data-testid='scroll'
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
         <svg width={12} height={18} aria-hidden='true'>
-          <use xlinkHref='#icon-arrow2' />
+          <use xlinkHref='#icon-arrow2'></use>
         </svg>
       </Link>
       <Footer />

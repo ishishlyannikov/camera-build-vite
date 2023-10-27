@@ -10,7 +10,7 @@
     "test": "vitest --passWithNoTests"
   },
   "dependencies": {
-    "-": "^0.0.1",
+    "@faker-js/faker": "8.2.0",
     "@reduxjs/toolkit": "1.9.5",
     "axios": "0.27.2",
     "classnames": "2.3.2",
@@ -45,7 +45,6 @@
     "eslint-config-htmlacademy": "9.1.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.1",
-    "faker": "5.5.3",
     "jsdom": "22.1.0",
     "prettier": "3.0.3",
     "typescript": "5.0.4",

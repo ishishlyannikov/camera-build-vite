@@ -3,6 +3,7 @@ export enum AppRoute {
   Product = '/product',
   Basket = '/basket',
 }
+
 export enum NameSpace {
   Camera = 'CAMERA',
   Product = 'PRODUCT',
@@ -35,6 +36,24 @@ export enum ModalName {
   SuccessForm = 'SuccessForm',
   AddToBasket = 'AddToBasket',
   Empty = '',
+}
+
+export enum CameraCategory {
+  Photocamera = 'Видеокамера',
+  Videocamera = 'Фотоаппарат',
+}
+
+export enum CameraLevel {
+  Zero = 'Нулевой',
+  'Non-professional' = 'Любительский',
+  Professional = 'Профессиональный',
+}
+
+export enum CameraTypes {
+  Digital = 'Цифровая',
+  Film = 'Плёночная',
+  Snapshot = 'Моментальная',
+  Collection = 'Коллекционная',
 }
 
 export const CARDS_PER_PAGE = 9;
