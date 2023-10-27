@@ -194,7 +194,6 @@ export default function Basket() {
           </section>
         </div>
       </main>
-
       <Footer />
     </div>
   );
