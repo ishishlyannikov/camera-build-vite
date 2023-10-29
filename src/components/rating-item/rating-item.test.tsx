@@ -4,7 +4,7 @@ import RatingItem from './rating-item.tsx';
 
 describe('Component: Rating Item', () => {
   it('should render correctly', () => {
-    const { withStoreComponent } = withStore(<RatingItem rating={3} item={5} />, {});
+    const { withStoreComponent } = withStore(<RatingItem rating={2} />, {});
 
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);

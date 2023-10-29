@@ -28,15 +28,15 @@ describe('Redirect middleware', () => {
     browserHistory.push('');
   });
 
-  it('should redirect to "/basket" with redirectToRoute action', () => {
-    const redirectAction = redirectToRoute(AppRoute.Basket);
-    store.dispatch(redirectAction);
-    expect(browserHistory.location.pathname).toBe(AppRoute.Basket);
-  });
-
   it('should redirect to "/" with empty action', () => {
     const emptyAction = { type: '', payload: AppRoute.Main };
     store.dispatch(emptyAction);
     expect(browserHistory.location.pathname).toBe(AppRoute.Main);
+  });
+
+  it('should redirect to "/basket" with redirectToRoute action', () => {
+    const redirectAction = redirectToRoute(AppRoute.Basket);
+    store.dispatch(redirectAction);
+    expect(browserHistory.location.pathname).toBe(AppRoute.Basket);
   });
 });

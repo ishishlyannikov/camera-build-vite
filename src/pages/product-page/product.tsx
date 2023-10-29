@@ -10,7 +10,7 @@ import PopupAddToBasket from '../../components/popups/popup-add-to-basket/popup-
 import RatingItem from '../../components/rating-item/rating-item.tsx';
 import ProductTabs from '../../components/product-tabs/product-tabs.tsx';
 import SimilarCards from '../../components/similar-cards/similar-cards.tsx';
-import { ModalName, RATINGS } from '../../const.ts';
+import { ModalName } from '../../const.ts';
 import {
   getIsProductDataLoading,
   getProduct,
@@ -82,9 +82,7 @@ export default function Product() {
                 <div className='product__content'>
                   <h1 className='title title--h3'>{name}</h1>
                   <div className='rate product-card__rate'>
-                    {RATINGS.map((item) => (
-                      <RatingItem key={item} item={item} rating={rating} />
-                    ))}
+                    <RatingItem rating={rating} />
                     <p className='visually-hidden'>Рейтинг: {rating}</p>
                     <p className='rate__count'>
                       <span className='visually-hidden'>Всего оценок:</span>

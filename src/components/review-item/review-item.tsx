@@ -1,6 +1,5 @@
 import { Review } from '../../types/types.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
-import { RATINGS } from '../../const.ts';
 
 type ReviewProps = {
   userReview: Review;
@@ -23,9 +22,7 @@ export default function ReviewItem({ userReview }: ReviewProps) {
         </time>
       </div>
       <div className='rate review-card__rate'>
-        {RATINGS.map((item) => (
-          <RatingItem key={item} item={item} rating={rating} />
-        ))}
+        <RatingItem rating={rating} />
         <p className='visually-hidden'>Оценка: {rating}</p>
       </div>
       <ul className='review-card__list'>

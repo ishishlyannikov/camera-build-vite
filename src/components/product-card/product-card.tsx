@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Product } from '../../types/types.ts';
-import { AppRoute, ModalName, RATINGS } from '../../const.ts';
+import { AppRoute, ModalName } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
 import { setModal, setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
@@ -31,9 +31,7 @@ export default function ProductCard({ camera }: ProductCardProps) {
       </div>
       <div className='product-card__info'>
         <div className='rate product-card__rate'>
-          {RATINGS.map((item) => (
-            <RatingItem key={item} item={item} rating={rating} />
-          ))}
+          <RatingItem rating={rating} />
           <p className='visually-hidden'>{`Рейтинг: ${rating}`}</p>
           <p className='rate__count'>
             <span className='visually-hidden'>Всего оценок:</span>
