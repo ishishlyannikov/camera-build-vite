@@ -11,7 +11,7 @@ export default function PopupReviewSuccess() {
   const modalName = useAppSelector(getModalName);
 
   return (
-    <ModalLayout isOpened={modalName === ModalName.SuccessForm} closeModal={handleCloseModal}>
+    <ModalLayout isOpened={modalName === ModalName.SuccessForm} onCloseModal={handleCloseModal}>
       <p className='title title--h4'>Спасибо за отзыв</p>
       <svg className='modal__icon' width={80} height={78} aria-hidden='true'>
         <use xlinkHref='#icon-review-success' />

@@ -6,7 +6,13 @@ import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx
 describe('Component: Pagination', () => {
   it('should render correctly', () => {
     const { withStoreComponent } = withStore(
-      <Pagination totalPageCount={3} nextPage={vitest.fn()} prevPage={vitest.fn()} setPage={vitest.fn()} page={1} />,
+      <Pagination
+        totalPageCount={3}
+        onNextPageClick={vitest.fn()}
+        onPrevPageClick={vitest.fn()}
+        setPage={vitest.fn()}
+        page={1}
+      />,
       {},
     );
 

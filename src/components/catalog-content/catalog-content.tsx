@@ -53,8 +53,8 @@ export default function CatalogContent() {
             page={currentPage}
             totalPageCount={pageCount}
             setPage={setCurrentPage}
-            nextPage={handleNextPageClick}
-            prevPage={handlePrevPageClick}
+            onNextPageClick={handleNextPageClick}
+            onPrevPageClick={handlePrevPageClick}
           />
         )}
       </div>

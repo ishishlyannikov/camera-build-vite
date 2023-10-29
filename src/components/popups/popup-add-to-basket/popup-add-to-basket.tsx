@@ -19,7 +19,7 @@ export default function PopupAddToBasket({ camera }: PopupAddToBasketProps) {
   const modalName = useAppSelector(getModalName);
 
   return (
-    <ModalLayout isOpened={modalName === ModalName.AddToBasket} closeModal={handleCloseModal}>
+    <ModalLayout isOpened={modalName === ModalName.AddToBasket} onCloseModal={handleCloseModal}>
       <p className='title title--h4'>Добавить товар в корзину</p>
       <div className='basket-item basket-item--short'>
         <div className='basket-item__img'>

@@ -1,18 +1,18 @@
 import { ReactNode, RefObject, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-type PopupReviewSuccessProps = {
+type ModalLayoutProps = {
   children: ReactNode;
   isOpened: boolean;
-  closeModal: VoidFunction;
+  onCloseModal: VoidFunction;
 };
 
-export default function ModalLayout({ children, isOpened, closeModal }: PopupReviewSuccessProps) {
+export default function ModalLayout({ children, isOpened, onCloseModal }: ModalLayoutProps) {
   const ref: RefObject<HTMLDivElement> = useRef(null);
 
   useEffect(() => {
     const handleEscClick = (evt: KeyboardEvent) => {
-      if (evt.key === 'Escape') closeModal();
+      if (evt.key === 'Escape') onCloseModal();
     };
 
     if (isOpened) {
@@ -29,7 +29,7 @@ export default function ModalLayout({ children, isOpened, closeModal }: PopupRev
   useEffect(() => {
     const handleOutsideClick = (evt: MouseEvent) => {
       if (!ref?.current?.contains(evt.target as Node)) {
-        closeModal();
+        onCloseModal();
       }
     };
 
@@ -48,7 +48,7 @@ export default function ModalLayout({ children, isOpened, closeModal }: PopupRev
         <div className='modal__overlay' />
         <div className='modal__content' ref={ref}>
           {children}
-          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={closeModal}>
+          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={onCloseModal}>
             <svg width={10} height={10} aria-hidden='true'>
               <use xlinkHref='#icon-close' />
             </svg>

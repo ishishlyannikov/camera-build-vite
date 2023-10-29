@@ -3,12 +3,18 @@ import { useMemo } from 'react';
 
 type PaginationProps = {
   totalPageCount: number;
-  nextPage?: () => void;
-  prevPage?: () => void;
+  onNextPageClick?: VoidFunction;
+  onPrevPageClick?: VoidFunction;
   setPage: (page: number) => void;
   page: number;
 };
-export default function Pagination({ totalPageCount, nextPage, prevPage, setPage, page }: PaginationProps) {
+export default function Pagination({
+  totalPageCount,
+  onNextPageClick,
+  onPrevPageClick,
+  setPage,
+  page,
+}: PaginationProps) {
   const currentPageNumbers = useMemo(() => {
     const pagination = [...Array(totalPageCount).keys()];
     const previous = page - 1;
@@ -20,7 +26,7 @@ export default function Pagination({ totalPageCount, nextPage, prevPage, setPage
   return (
     <ul className='pagination__list'>
       <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
-        <Link className='pagination__link pagination__link--text' to={`?page=${page - 1}`} onClick={prevPage}>
+        <Link className='pagination__link pagination__link--text' to={`?page=${page - 1}`} onClick={onPrevPageClick}>
           Назад
         </Link>
       </li>
@@ -41,7 +47,7 @@ export default function Pagination({ totalPageCount, nextPage, prevPage, setPage
           visibility: `${page === totalPageCount ? 'hidden' : 'visible'}`,
         }}
       >
-        <Link className='pagination__link pagination__link--text' to={`?page=${page + 1}`} onClick={nextPage}>
+        <Link className='pagination__link pagination__link--text' to={`?page=${page + 1}`} onClick={onNextPageClick}>
           Далее
         </Link>
       </li>

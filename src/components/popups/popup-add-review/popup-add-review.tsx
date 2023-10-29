@@ -12,7 +12,7 @@ export default function PopupAddReview() {
   const modalName = useAppSelector(getModalName);
 
   return (
-    <ModalLayout isOpened={modalName === ModalName.Reviews} closeModal={handleCloseModal}>
+    <ModalLayout isOpened={modalName === ModalName.Reviews} onCloseModal={handleCloseModal}>
       <p className='title title--h4'>Оставить отзыв</p>
       <ReviewForm />
     </ModalLayout>
