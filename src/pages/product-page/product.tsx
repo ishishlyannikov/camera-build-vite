@@ -15,17 +15,17 @@ import {
   getIsProductDataLoading,
   getProduct,
   getSelectedProduct,
-} from '../../components/store/cameras-data/cameras-data-selectors.ts';
+} from '../../store/cameras-data/cameras-data-selectors.ts';
 import {
   getIsSimilarDataLoading,
   getSimilarProducts,
-} from '../../components/store/similar-product-data/similar-product-data-selectors.ts';
+} from '../../store/similar-product-data/similar-product-data-selectors.ts';
 import { useAppDispatch, useAppSelector } from '../../components/hooks/hooks.ts';
-import { fetchProductAction } from '../../components/store/cameras-data/cameras-data-thunk.ts';
-import { fetchReviewsAction } from '../../components/store/reviews-data/reviews-data-thunk.ts';
-import { fetchSimilarProductsAction } from '../../components/store/similar-product-data/similar-product-data-thunk.ts';
-import { setModal, setSelectedProduct } from '../../components/store/cameras-data/cameras-data-slice.ts';
-import { getIsReviewsDataLoading } from '../../components/store/reviews-data/reviews-data-selectors.ts';
+import { fetchProductAction } from '../../store/cameras-data/cameras-data-thunk.ts';
+import { fetchReviewsAction } from '../../store/reviews-data/reviews-data-thunk.ts';
+import { fetchSimilarProductsAction } from '../../store/similar-product-data/similar-product-data-thunk.ts';
+import { setModal, setSelectedProduct } from '../../store/cameras-data/cameras-data-slice.ts';
+import { getIsReviewsDataLoading } from '../../store/reviews-data/reviews-data-selectors.ts';
 
 export default function Product() {
   const { cameraId } = useParams();

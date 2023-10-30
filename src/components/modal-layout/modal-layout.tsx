@@ -1,4 +1,5 @@
 import { ReactNode, RefObject, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 
 type ModalLayoutProps = {
@@ -12,7 +13,9 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
 
   useEffect(() => {
     const handleEscClick = (evt: KeyboardEvent) => {
-      if (evt.key === 'Escape') onCloseModal();
+      if (evt.key === 'Escape') {
+        onCloseModal();
+      }
     };
 
     if (isOpened) {
@@ -24,7 +27,7 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleEscClick);
     };
-  }, [isOpened]);
+  }, [isOpened, onCloseModal]);
 
   useEffect(() => {
     const handleOutsideClick = (evt: MouseEvent) => {
@@ -40,9 +43,9 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
-  }, [ref, isOpened]);
+  }, [ref, isOpened, onCloseModal]);
 
-  return (
+  return createPortal(
     <div className={classNames('modal', { 'is-active': isOpened })} data-testid='modal-container'>
       <div className='modal__wrapper'>
         <div className='modal__overlay' />
@@ -55,6 +58,7 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -9,7 +9,9 @@ type SimilarCardsProps = {
 };
 
 export default function SimilarCards({ cameras }: SimilarCardsProps) {
-  if (!cameras.length) return null;
+  if (!cameras.length) {
+    return null;
+  }
 
   return (
     <div className='page-content__section'>

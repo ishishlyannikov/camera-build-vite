@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { Review } from '../../types/types.ts';
 import ReviewItem from '../review-item/review-item.tsx';
-import { getReviews } from '../store/reviews-data/reviews-data-selectors.ts';
+import { getReviews } from '../../store/reviews-data/reviews-data-selectors.ts';
 import { useState } from 'react';
 import { compare } from '../../utils.ts';
 import PopupAddReview from '../popups/popup-add-review/popup-add-review.tsx';
 import PopupReviewSuccess from '../popups/popup-review-success/popup-review-success.tsx';
-import { setModal } from '../store/cameras-data/cameras-data-slice.ts';
+import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
 import { ModalName } from '../../const.ts';
 
 export default function Reviews() {
@@ -16,8 +16,8 @@ export default function Reviews() {
 
   const [newestReview, setNewestReview] = useState(3);
 
-  function sortReviewByDate(reviews: Review[]): Review[] {
-    return reviews.slice().sort(compare).slice(0, newestReview);
+  function sortReviewByDate(data: Review[]) {
+    return data.slice().sort(compare).slice(0, newestReview);
   }
 
   const handleReviewsCountButtonClick = () => {
@@ -41,7 +41,7 @@ export default function Reviews() {
             <PopupReviewSuccess />
           </div>
           <ul className='review-block__list'>
-            {!!reviews.length ? (
+            {reviews.length ? (
               sortReviewByDate(reviews).map((item) => <ReviewItem key={item.id} userReview={item} />)
             ) : (
               <li className='review-card'>Ваш отзыв будет первым</li>

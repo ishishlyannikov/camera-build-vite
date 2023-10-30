@@ -21,7 +21,7 @@ export default function Pagination({
     const next = page + 2;
 
     return pagination.slice(previous, next);
-  }, [page]);
+  }, [page, totalPageCount]);
 
   return (
     <ul className='pagination__list'>

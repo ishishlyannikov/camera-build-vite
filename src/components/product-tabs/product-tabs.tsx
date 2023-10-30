@@ -17,11 +17,11 @@ export default function ProductTabs({ camera }: ProductTabsProps) {
 
   const handleCharacteristicsButton = useCallback(() => {
     navigate(`/product/${camera.id}/characteristics`);
-  }, [camera]);
+  }, [camera, navigate]);
 
   const handleDescriptionButton = useCallback(() => {
     navigate(`/product/${camera.id}/description`);
-  }, [camera]);
+  }, [camera, navigate]);
 
   const separatedDescription = description.split('.');
 

@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
-import { postReviewAction } from '../store/reviews-data/reviews-data-thunk.ts';
-import { getPostReviewStatus } from '../store/reviews-data/reviews-data-selectors.ts';
+import { postReviewAction } from '../../store/reviews-data/reviews-data-thunk.ts';
+import { getPostReviewStatus } from '../../store/reviews-data/reviews-data-selectors.ts';
 import { MAX_COMMENTS_LENGTH, MIN_COMMENTS_LENGTH, ModalName, Status } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { PostReview } from '../../types/types.ts';
-import { setModal } from '../store/cameras-data/cameras-data-slice.ts';
-import { getModalName } from '../store/cameras-data/cameras-data-selectors.ts';
+import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
+import { getModalName } from '../../store/cameras-data/cameras-data-selectors.ts';
 
 type RateStar = {
   value: number;
@@ -27,11 +27,11 @@ export default function ReviewForm() {
   const { cameraId: id } = useParams();
   const dispatch = useAppDispatch();
 
-  const reviewStatus = useAppSelector(getPostReviewStatus) === Status.Loading;
+  const status = useAppSelector(getPostReviewStatus);
   const modalName = useAppSelector(getModalName);
 
   const {
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     register,
     handleSubmit,
     reset,
@@ -43,28 +43,30 @@ export default function ReviewForm() {
 
   const rating = watch('rating');
 
-  const handleFormSubmit = (data: PostReview) => {
-    (async () => {
-      const submitData = {
-        ...data,
-        cameraId: +id!!,
-        rating: +data.rating,
-      };
-      dispatch(postReviewAction(submitData));
-    })();
+  const onSubmit = (data: PostReview) => {
+    const submitData = {
+      ...data,
+      cameraId: Number(id),
+      rating: +data.rating,
+    };
+    dispatch(postReviewAction(submitData));
   };
 
   useEffect(() => {
     if (modalName !== ModalName.Reviews) {
       reset();
     }
-  }, [modalName]);
+  }, [modalName, reset]);
 
   useEffect(() => {
-    if (isSubmitSuccessful) {
+    if (status === Status.Success) {
       dispatch(setModal(ModalName.SuccessForm));
     }
-  }, [isSubmitSuccessful]);
+
+    if (status === Status.Error) {
+      dispatch(setModal(ModalName.Empty));
+    }
+  }, [dispatch, status]);
 
   const RateStar = ({ value, title }: RateStar) => (
     <>
@@ -129,7 +131,7 @@ export default function ReviewForm() {
 
   return (
     <div className='form-review'>
-      <form method='post' onSubmit={handleSubmit(handleFormSubmit)}>
+      <form method='post' onSubmit={(event) => void handleSubmit(onSubmit)(event)}>
         <div className='form-review__rate'>
           <fieldset className={classNames({ 'is-invalid': errors.rating }, 'rate form-review__item')}>
             <legend className='rate__caption'>
@@ -178,7 +180,7 @@ export default function ReviewForm() {
             isTextArea
           />
         </div>
-        <button className='btn btn--purple form-review__btn' type='submit' disabled={reviewStatus}>
+        <button className='btn btn--purple form-review__btn' type='submit' disabled={status === Status.Loading}>
           Отправить отзыв
         </button>
       </form>

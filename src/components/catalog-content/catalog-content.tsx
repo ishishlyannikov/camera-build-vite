@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/hooks.ts';
-import { getCamerasList, getSelectedProduct } from '../store/cameras-data/cameras-data-selectors.ts';
+import { getCamerasList, getSelectedProduct } from '../../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
@@ -26,13 +26,13 @@ export default function CatalogContent() {
     const lastPageIndex = firstPageIndex + CARDS_PER_PAGE;
 
     return cameras.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage]);
+  }, [currentPage, cameras]);
 
   const handleNextPageClick = useCallback(() => {
     const next = currentPage + 1;
     const total = cameras ? pageCount : currentPage;
     setCurrentPage(next <= total ? next : currentPage);
-  }, [currentPage, cameras]);
+  }, [currentPage, cameras, pageCount]);
 
   const handlePrevPageClick = useCallback(() => {
     const prev = currentPage - 1;

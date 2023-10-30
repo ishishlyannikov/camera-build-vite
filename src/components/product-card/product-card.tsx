@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Product } from '../../types/types.ts';
 import { AppRoute, ModalName } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
-import { setModal, setSelectedProduct } from '../store/cameras-data/cameras-data-slice.ts';
+import { setModal, setSelectedProduct } from '../../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
 
 type ProductCardProps = {

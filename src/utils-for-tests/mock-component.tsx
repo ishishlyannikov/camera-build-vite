@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Action } from 'redux';
 import { Provider } from 'react-redux';
-import { createAPI } from '../components/services/api.ts';
+import { createAPI } from '../services/api.ts';
 
 export function withHistory(component: JSX.Element, history?: MemoryHistory) {
   const memoryHistory = history ?? createMemoryHistory();

@@ -12,7 +12,7 @@ describe('Component: Modal Layout', () => {
 
   it('should render correctly with AppRoute.Main', () => {
     const { withStoreComponent } = withStore(
-      <ModalLayout isOpened={true} onCloseModal={() => false}>
+      <ModalLayout isOpened onCloseModal={() => false}>
         {children}
       </ModalLayout>,
       {},

@@ -1,5 +1,5 @@
 import { useAppSelector } from '../hooks/hooks.ts';
-import { getPromo } from '../store/promo-data/promo-data-selectors.ts';
+import { getPromo } from '../../store/promo-data/promo-data-selectors.ts';
 import Banner from '../banner/banner.tsx';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -13,7 +13,7 @@ export default function SwiperForBanner() {
   return (
     <Swiper
       spaceBetween={30}
-      centeredSlides={true}
+      centeredSlides
       autoplay={{
         delay: 3000,
         disableOnInteraction: false,

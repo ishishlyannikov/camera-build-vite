@@ -1,8 +1,8 @@
 import ReviewForm from '../../review-form/review-form.tsx';
 import ModalLayout from '../../modal-layout/modal-layout.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import { setCloseModal } from '../../store/cameras-data/cameras-data-slice.ts';
-import { getModalName } from '../../store/cameras-data/cameras-data-selectors.ts';
+import { setCloseModal } from '../../../store/cameras-data/cameras-data-slice.ts';
+import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { ModalName } from '../../../const.ts';
 
 export default function PopupAddReview() {

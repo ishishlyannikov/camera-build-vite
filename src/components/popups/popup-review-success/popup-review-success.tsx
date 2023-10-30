@@ -1,7 +1,7 @@
 import ModalLayout from '../../modal-layout/modal-layout.tsx';
-import { setCloseModal } from '../../store/cameras-data/cameras-data-slice.ts';
+import { setCloseModal } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import { getModalName } from '../../store/cameras-data/cameras-data-selectors.ts';
+import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { ModalName } from '../../../const.ts';
 
 export default function PopupReviewSuccess() {

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { store } from '../components/store';
+import { store } from '../store';
 import { Product, PromoProduct, Review } from './types.ts';
 import { ModalName, Status } from '../const.ts';
 

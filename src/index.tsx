@@ -4,7 +4,7 @@ import App from './components/app/app.tsx';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { store } from './components/store';
+import { store } from './store';
 import HistoryRouter from './components/history-route/history-route.tsx';
 import browserHistory from './components/browser-history/browser-history.ts';
 
