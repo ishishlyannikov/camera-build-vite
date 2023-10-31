@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 import { postReviewAction } from '../../store/reviews-data/reviews-data-thunk.ts';
 import { getPostReviewStatus } from '../../store/reviews-data/reviews-data-selectors.ts';
-import { MAX_COMMENTS_LENGTH, MIN_COMMENTS_LENGTH, ModalName, Status } from '../../const.ts';
+import { CommentsLength, ModalName, Status } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { PostReview } from '../../types/types.ts';
 import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
@@ -97,12 +97,7 @@ export default function ReviewForm() {
         </span>
         {!isTextArea ? (
           <>
-            <input
-              type='text'
-              placeholder={placeholder}
-              {...register(formName, { required: true })}
-              data-autofocus=''
-            />
+            <input type='text' placeholder={placeholder} {...register(formName, { required: true })} />
             {errors[formName] && <p className='custom-input__error'>{errorText}</p>}
           </>
         ) : (
@@ -113,12 +108,12 @@ export default function ReviewForm() {
                 required: true,
 
                 minLength: {
-                  value: MIN_COMMENTS_LENGTH,
-                  message: `Минимум ${MIN_COMMENTS_LENGTH} символа`,
+                  value: CommentsLength.Min,
+                  message: `Минимум ${CommentsLength.Min} символа`,
                 },
                 maxLength: {
-                  value: MAX_COMMENTS_LENGTH,
-                  message: `Максимум ${MAX_COMMENTS_LENGTH} символа`,
+                  value: CommentsLength.Max,
+                  message: `Максимум ${CommentsLength.Max} символов`,
                 },
               })}
             />

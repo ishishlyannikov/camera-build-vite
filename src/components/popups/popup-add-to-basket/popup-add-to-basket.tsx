@@ -46,6 +46,7 @@ export default function PopupAddToBasket({ camera }: PopupAddToBasketProps) {
           </p>
         </div>
       </div>
+
       <div className='modal__buttons'>
         <button className='btn btn--purple modal__btn modal__btn--fit-width' type='button'>
           <svg width={24} height={16} aria-hidden='true'>

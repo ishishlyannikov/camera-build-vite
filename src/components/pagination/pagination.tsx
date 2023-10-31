@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
 
 type PaginationProps = {
   totalPageCount: number;
@@ -15,17 +14,16 @@ export default function Pagination({
   setPage,
   page,
 }: PaginationProps) {
-  const currentPageNumbers = useMemo(() => {
-    const pagination = [...Array(totalPageCount).keys()];
-    const previous = page - 1;
-    const next = page + 2;
+  const pagination = [...Array(totalPageCount).keys()];
 
-    return pagination.slice(previous, next);
-  }, [page, totalPageCount]);
+  const currentPageNumbers = pagination.slice(page - 1, page + 2);
 
   return (
     <ul className='pagination__list'>
-      <li className='pagination__item' style={{ visibility: `${page === 1 ? 'hidden' : 'visible'}` }}>
+      <li
+        className='pagination__item'
+        style={{ visibility: `${page === 1 || totalPageCount <= 3 ? 'hidden' : 'visible'}` }}
+      >
         <Link className='pagination__link pagination__link--text' to={`?page=${page - 1}`} onClick={onPrevPageClick}>
           Назад
         </Link>
@@ -41,12 +39,7 @@ export default function Pagination({
           </Link>
         </li>
       ))}
-      <li
-        className='pagination__item'
-        style={{
-          visibility: `${page === totalPageCount ? 'hidden' : 'visible'}`,
-        }}
-      >
+      <li className='pagination__item' style={{ visibility: `${page === totalPageCount ? 'hidden' : 'visible'}` }}>
         <Link className='pagination__link pagination__link--text' to={`?page=${page + 1}`} onClick={onNextPageClick}>
           Далее
         </Link>

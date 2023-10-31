@@ -1,6 +1,7 @@
 import { ReactNode, RefObject, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
+import ReactFocusLock from 'react-focus-lock';
 
 type ModalLayoutProps = {
   children: ReactNode;
@@ -48,15 +49,17 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
   return createPortal(
     <div className={classNames('modal', { 'is-active': isOpened })} data-testid='modal-container'>
       <div className='modal__wrapper'>
-        <div className='modal__overlay' />
-        <div className='modal__content' ref={ref}>
-          {children}
-          <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={onCloseModal}>
-            <svg width={10} height={10} aria-hidden='true'>
-              <use xlinkHref='#icon-close' />
-            </svg>
-          </button>
-        </div>
+        <ReactFocusLock>
+          <div className='modal__overlay' />
+          <div className='modal__content' ref={ref}>
+            {children}
+            <button className='cross-btn' type='button' aria-label='Закрыть попап' onClick={onCloseModal}>
+              <svg width={10} height={10} aria-hidden='true'>
+                <use xlinkHref='#icon-close' />
+              </svg>
+            </button>
+          </div>
+        </ReactFocusLock>
       </div>
     </div>,
     document.body,

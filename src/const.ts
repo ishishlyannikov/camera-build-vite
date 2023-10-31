@@ -56,10 +56,11 @@ export enum CameraTypes {
   Collection = 'Коллекционная',
 }
 
+export enum CommentsLength {
+  Min = 2,
+  Max = 160,
+}
+
 export const CARDS_PER_PAGE = 9;
 
 export const RATINGS = [1, 2, 3, 4, 5] as const;
-
-export const MIN_COMMENTS_LENGTH = 2;
-
-export const MAX_COMMENTS_LENGTH = 160;
