@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MAX_PAGES_COUNT } from '../../const.ts';
 
 type PaginationProps = {
   totalPageCount: number;
@@ -16,7 +17,11 @@ export default function Pagination({
 }: PaginationProps) {
   const pagination = [...Array(totalPageCount).keys()];
 
-  const currentPageNumbers = pagination.slice(page - 1, page + 2);
+  const perPageNumber = Math.ceil(page / MAX_PAGES_COUNT);
+  const lastPageIndex = perPageNumber * MAX_PAGES_COUNT;
+  const firstPageIndex = lastPageIndex - MAX_PAGES_COUNT;
+
+  const currentPageNumbers = pagination.slice(firstPageIndex, lastPageIndex);
 
   return (
     <ul className='pagination__list'>
