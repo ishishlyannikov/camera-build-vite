@@ -7,7 +7,7 @@ import { getPostReviewStatus } from '../../store/reviews-data/reviews-data-selec
 import { CommentsLength, ModalName, Status } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { PostReview } from '../../types/types.ts';
-import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
+import { setCloseModal, setModal } from '../../store/cameras-data/cameras-data-slice.ts';
 import { getModalName } from '../../store/cameras-data/cameras-data-selectors.ts';
 
 type RateStar = {
@@ -50,6 +50,7 @@ export default function ReviewForm() {
       rating: +data.rating,
     };
     dispatch(postReviewAction(submitData));
+    dispatch(setCloseModal);
   };
 
   useEffect(() => {

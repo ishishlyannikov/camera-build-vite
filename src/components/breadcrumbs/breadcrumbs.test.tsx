@@ -5,7 +5,7 @@ import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx
 
 describe('Component: Breadcrumbs', () => {
   it('should render correctly if page is Catalog', () => {
-    const { withStoreComponent } = withStore(<Breadcrumbs isCatalog />, {
+    const { withStoreComponent } = withStore(<Breadcrumbs />, {
       CAMERA: {
         catalog: [],
         status: Status.Idle,

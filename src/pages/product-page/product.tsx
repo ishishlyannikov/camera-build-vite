@@ -69,7 +69,7 @@ export default function Product() {
       <Header />
       <main data-testid='product-page'>
         <div className='page-content'>
-          <Breadcrumbs isCatalog={false} />
+          <Breadcrumbs />
           <div className='page-content__section' data-testid='camera-item'>
             <section className='product'>
               <div className='container'>

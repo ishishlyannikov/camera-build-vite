@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { setCloseModal } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { ModalName } from '../../../const.ts';
-import ReactFocusLock from 'react-focus-lock';
-// import ReactFocusLock from 'react-focus-lock';
 
 export default function PopupAddReview() {
   const dispatch = useAppDispatch();
@@ -16,9 +14,7 @@ export default function PopupAddReview() {
   return (
     <ModalLayout isOpened={modalName === ModalName.Reviews} onCloseModal={handleCloseModal}>
       <p className='title title--h4'>Оставить отзыв</p>
-      <ReactFocusLock>
-        <ReviewForm />
-      </ReactFocusLock>
+      <ReviewForm />
     </ModalLayout>
   );
 }

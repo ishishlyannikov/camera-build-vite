@@ -7,8 +7,7 @@ import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx
 describe('Component: Review Item', () => {
   const mockReview = makeFakeReviewList()[0];
   const { userName, review, advantage, disadvantage, createAt } = mockReview;
-  const dateAttr = createAt.split('T')[0];
-  const dateReview = new Date(dateAttr).toLocaleString('ru', { day: '2-digit', month: 'long' });
+  const dateReview = new Date(createAt).toLocaleString('ru', { day: '2-digit', month: 'long' });
 
   it('should render correctly', () => {
     const { withStoreComponent } = withStore(<ReviewItem userReview={{ ...mockReview }} />, {});

@@ -46,6 +46,10 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
     };
   }, [ref, isOpened, onCloseModal]);
 
+  if (!isOpened) {
+    return null;
+  }
+
   return createPortal(
     <div className={classNames('modal', { 'is-active': isOpened })} data-testid='modal-container'>
       <div className='modal__wrapper'>
