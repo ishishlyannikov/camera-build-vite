@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import ProductCard from '../product-card/product-card.tsx';
+import './similar-cards.css';
 
 type SimilarCardsProps = {
   cameras: Product[];

@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAppSelector } from '../hooks/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { getCamerasList, getSelectedProduct } from '../../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
-import { CARDS_PER_PAGE } from '../../const.ts';
+import { AppRoute, CARDS_PER_PAGE } from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
+import { redirectToRoute } from '../../store/action.ts';
 
 export default function CatalogContent() {
+  const dispatch = useAppDispatch();
+
   const cameras = useAppSelector(getCamerasList);
 
   const selectedCamera = useAppSelector(getSelectedProduct);
@@ -17,9 +20,9 @@ export default function CatalogContent() {
 
   const [searchParams] = useSearchParams();
 
-  const pageNumber = searchParams.get('page');
+  const pageNumber = Number(searchParams.get('page'));
 
-  const [currentPage, setCurrentPage] = useState<number>(pageNumber ? +pageNumber : 1);
+  const [currentPage, setCurrentPage] = useState<number>(pageNumber || 1);
 
   const firstPageIndex = (currentPage - 1) * CARDS_PER_PAGE;
   const lastPageIndex = firstPageIndex + CARDS_PER_PAGE;
@@ -36,6 +39,12 @@ export default function CatalogContent() {
     const prev = currentPage - 1;
     setCurrentPage(prev > 0 ? prev : currentPage);
   };
+
+  useEffect(() => {
+    if (pageNumber > pageCount || isNaN(pageNumber)) {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  }, [dispatch, pageCount, pageNumber]);
 
   return (
     <div className='catalog__content' data-testid='catalog-content'>

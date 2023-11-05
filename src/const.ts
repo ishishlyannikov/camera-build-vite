@@ -2,6 +2,7 @@ export enum AppRoute {
   Main = '/',
   Product = '/product',
   Basket = '/basket',
+  NotFound = '/404',
 }
 
 export enum NameSpace {

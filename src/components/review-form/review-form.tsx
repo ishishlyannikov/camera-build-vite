@@ -98,8 +98,22 @@ export default function ReviewForm() {
         </span>
         {!isTextArea ? (
           <>
-            <input type='text' placeholder={placeholder} {...register(formName, { required: true })} />
-            {errors[formName] && <p className='custom-input__error'>{errorText}</p>}
+            <input
+              type='text'
+              placeholder={placeholder}
+              {...register(formName, {
+                required: true,
+                minLength: {
+                  value: CommentsLength.Min,
+                  message: `Минимум ${CommentsLength.Min} символа`,
+                },
+                maxLength: {
+                  value: CommentsLength.Max,
+                  message: `Максимум ${CommentsLength.Max} символов`,
+                },
+              })}
+            />
+            {errors[formName] && <p className='custom-input__error'>{errors[formName]?.message || errorText}</p>}
           </>
         ) : (
           <>
@@ -165,14 +179,14 @@ export default function ReviewForm() {
             formName='disadvantage'
             title='Недостатки'
             placeholder='Главные недостатки товара'
-            errorText='Нужно добавить комментарий'
+            errorText='Нужно указать недостатки'
           />
 
           <FormInput
             formName='review'
             title='Комментарий'
             placeholder='Поделитесь своим опытом покупки'
-            errorText='Нужно указать недостатки'
+            errorText='Нужно добавить комментарий'
             isTextArea
           />
         </div>
