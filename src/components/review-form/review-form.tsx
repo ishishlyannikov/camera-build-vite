@@ -20,8 +20,15 @@ type FormInput = {
   title: string;
   placeholder: string;
   errorText: string;
-  isTextArea?: boolean;
 };
+
+const rates = [
+  { title: 'Отлично', value: 5 },
+  { title: 'Хорошо', value: 4 },
+  { title: 'Нормально', value: 3 },
+  { title: 'Плохо', value: 2 },
+  { title: 'Ужасно', value: 1 },
+];
 
 export default function ReviewForm() {
   const { cameraId: id } = useParams();
@@ -47,10 +54,9 @@ export default function ReviewForm() {
     const submitData = {
       ...data,
       cameraId: Number(id),
-      rating: +data.rating,
+      rating: Number(data.rating),
     };
     dispatch(postReviewAction(submitData));
-    dispatch(setCloseModal);
   };
 
   useEffect(() => {
@@ -65,76 +71,79 @@ export default function ReviewForm() {
     }
 
     if (status === Status.Error) {
-      dispatch(setModal(ModalName.Empty));
+      dispatch(setCloseModal);
     }
   }, [dispatch, status]);
 
-  const RateStar = ({ value, title }: RateStar) => (
+  const RateStar = ({ title, value = rating }: RateStar) => (
     <>
       <input
         className='visually-hidden'
         id={`star-${value}`}
         type='radio'
         value={value}
-        {...register('rating', { required: true })}
+        {...register('rating', { required: 'Нужно оценить товар' })}
       />
-      <label className='rate__label' htmlFor={`star-${value}`} title={title} />
+      <label className='rate__label' title={title} htmlFor={`star-${value}`} />
     </>
   );
 
-  const FormInput = ({ formName, title, placeholder, errorText, isTextArea }: FormInput) => (
-    <div
-      className={classNames(
-        { 'is-invalid': errors[formName] },
-        `custom-${isTextArea ? 'textarea' : 'input'} form-review__item`,
-      )}
-    >
+  const FormInput = ({ formName, title, placeholder, errorText }: FormInput) => (
+    <div className={classNames({ 'is-invalid': errors[formName] }, 'custom-input form-review__item')}>
       <label>
-        <span className={classNames(`custom-${isTextArea ? 'textarea' : 'input'}__label`)}>
+        <span className={classNames('custom-input__label')}>
           {title}
           <svg width={9} height={9} aria-hidden='true'>
             <use xlinkHref='#icon-snowflake' />
           </svg>
         </span>
-        {!isTextArea ? (
-          <>
-            <input
-              type='text'
-              placeholder={placeholder}
-              {...register(formName, {
-                required: true,
-                minLength: {
-                  value: CommentsLength.Min,
-                  message: `Минимум ${CommentsLength.Min} символа`,
-                },
-                maxLength: {
-                  value: CommentsLength.Max,
-                  message: `Максимум ${CommentsLength.Max} символов`,
-                },
-              })}
-            />
-            {errors[formName] && <p className='custom-input__error'>{errors[formName]?.message || errorText}</p>}
-          </>
-        ) : (
-          <>
-            <textarea
-              placeholder={placeholder}
-              {...register(formName, {
-                required: true,
+        <input
+          type='text'
+          placeholder={placeholder}
+          {...register(formName, {
+            required: errorText,
 
-                minLength: {
-                  value: CommentsLength.Min,
-                  message: `Минимум ${CommentsLength.Min} символа`,
-                },
-                maxLength: {
-                  value: CommentsLength.Max,
-                  message: `Максимум ${CommentsLength.Max} символов`,
-                },
-              })}
-            />
-            {errors[formName] && <div className='custom-textarea__error'>{errors[formName]?.message || errorText}</div>}
-          </>
-        )}
+            minLength: {
+              value: CommentsLength.Min,
+              message: `Минимум ${CommentsLength.Min} символа`,
+            },
+            maxLength: {
+              value: CommentsLength.Max,
+              message: `Максимум ${CommentsLength.Max} символов`,
+            },
+          })}
+        />
+        {errors[formName] && <span className='custom-input__error'>{errors[formName]?.message}</span>}
+      </label>
+    </div>
+  );
+
+  const FormTextArea = ({ formName, title, placeholder, errorText }: FormInput) => (
+    <div className={classNames({ 'is-invalid': errors.review }, 'custom-textarea form-review__item')}>
+      <label>
+        <span className={classNames('custom-textarea__label')}>
+          {title}
+          <svg width={9} height={9} aria-hidden='true'>
+            <use xlinkHref='#icon-snowflake' />
+          </svg>
+        </span>
+
+        <textarea
+          placeholder={placeholder}
+          {...register(formName, {
+            required: errorText,
+
+            minLength: {
+              value: CommentsLength.Min,
+              message: `Минимум ${CommentsLength.Min} символа`,
+            },
+            maxLength: {
+              value: CommentsLength.Max,
+              message: `Максимум ${CommentsLength.Max} символов`,
+            },
+          })}
+        />
+        <span className='custom-input__error'>{errors[formName]?.message}</span>
       </label>
     </div>
   );
@@ -152,18 +161,16 @@ export default function ReviewForm() {
             </legend>
             <div className='rate__bar'>
               <div className='rate__group'>
-                <RateStar value={5} title='Отлично' />
-                <RateStar value={4} title='Хорошо' />
-                <RateStar value={3} title='Нормально' />
-                <RateStar value={2} title='Плохо' />
-                <RateStar value={1} title='Ужасно' />
+                {rates.map(({ title, value }) => (
+                  <RateStar key={title} title={title} value={value} />
+                ))}
               </div>
               <div className='rate__progress'>
                 <span className='rate__stars'>{rating || 0}</span> <span>/</span>{' '}
                 <span className='rate__all-stars'>5</span>
               </div>
             </div>
-            {errors.rating && <p className='rate__message'>Нужно оценить товар</p>}
+            {errors.rating && <p className='rate__message'>{errors.rating.message}</p>}
           </fieldset>
 
           <FormInput formName='userName' title='Ваше имя' placeholder='Введите ваше имя' errorText='Введите ваше имя' />
@@ -182,15 +189,14 @@ export default function ReviewForm() {
             errorText='Нужно указать недостатки'
           />
 
-          <FormInput
+          <FormTextArea
             formName='review'
             title='Комментарий'
             placeholder='Поделитесь своим опытом покупки'
             errorText='Нужно добавить комментарий'
-            isTextArea
           />
         </div>
-        <button className='btn btn--purple form-review__btn' type='submit' disabled={status === Status.Loading}>
+        <button className='btn btn--purple form-review__btn' type='submit'>
           Отправить отзыв
         </button>
       </form>

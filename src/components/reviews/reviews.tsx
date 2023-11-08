@@ -8,6 +8,7 @@ import PopupAddReview from '../popups/popup-add-review/popup-add-review.tsx';
 import PopupReviewSuccess from '../popups/popup-review-success/popup-review-success.tsx';
 import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
 import { ModalName } from '../../const.ts';
+import { resetFormStatus } from '../../store/reviews-data/reviews-data-slice.ts';
 
 export default function Reviews() {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ export default function Reviews() {
   };
 
   const handleOpenReviewModal = () => {
+    dispatch(resetFormStatus());
     dispatch(setModal(ModalName.Reviews));
   };
 

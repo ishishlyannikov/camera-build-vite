@@ -7,7 +7,9 @@ import { ModalName } from '../../../const.ts';
 export default function PopupReviewSuccess() {
   const dispatch = useAppDispatch();
 
-  const handleCloseModal = () => dispatch(setCloseModal());
+  const handleCloseModal = () => {
+    dispatch(setCloseModal());
+  };
   const modalName = useAppSelector(getModalName);
 
   return (
