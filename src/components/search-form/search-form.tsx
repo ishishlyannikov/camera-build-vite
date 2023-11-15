@@ -1,31 +1,37 @@
 import { useAppSelector } from '../hooks/hooks.ts';
 import { getCamerasList } from '../../store/cameras-data/cameras-data-selectors.ts';
 import SearchItem from '../search-item/search-item.tsx';
-import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { AppRoute, MIN_SEARCH_INPUT_LENGTH, SCROLLER_COUNT } from '../../const.ts';
+import { AppRoute, KeyboardKey, MIN_SEARCH_INPUT_LENGTH, SCROLLER_COUNT } from '../../const.ts';
 import classNames from 'classnames';
 import ReactFocusLock from 'react-focus-lock';
+import useKeyboard from '../hooks/useKeyboard.ts';
 
 export default function SearchForm() {
   const cameras = useAppSelector(getCamerasList);
-  const [value, setValue] = useState('');
-  const navigate = useNavigate();
-  const ref: RefObject<HTMLInputElement> = useRef(null);
 
-  const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(value.toLowerCase()));
+  const [inputValue, setInputValue] = useState('');
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+
+  const navigate = useNavigate();
+
+  const ref = useRef<HTMLInputElement>(null);
+  const formRef = useRef(null);
+
+  const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(inputValue.toLowerCase()));
 
   const onSearchItemClick = (id: number) => {
     navigate(generatePath(`${AppRoute.Product}/${id}/characteristics`));
-    setValue('');
+    setInputValue('');
   };
 
   const handleTextInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    setValue(evt.target.value);
+    setInputValue(evt.target.value);
   };
 
   const handleFormReset = () => {
-    setValue('');
+    setInputValue('');
   };
   const handleOutsideClick = (evt: MouseEvent) => {
     if (ref.current && !ref.current?.contains(evt.target as Node)) {
@@ -33,18 +39,47 @@ export default function SearchForm() {
     }
   };
 
+  const arrowUp = useKeyboard(KeyboardKey.ArrowUp);
+  const arrowDown = useKeyboard(KeyboardKey.ArrowDown);
+  const escKey = useKeyboard(KeyboardKey.Esc);
+
+  const isArrowUpPressed = inputValue && searchedCameras.length && arrowUp;
+  const isArrowDownPressed = inputValue && searchedCameras.length && arrowDown;
+  const isEscPressed = inputValue && searchedCameras.length && escKey;
+
+  useEffect(() => {
+    if (searchedCameras.length && isArrowUpPressed) {
+      setFocusedIndex((prev) => (prev ? prev - 1 : prev));
+
+      if (!focusedIndex) {
+        ref.current?.focus();
+        setFocusedIndex(-1);
+      }
+    } else if (searchedCameras.length && isArrowDownPressed) {
+      setFocusedIndex((prev) => (prev < searchedCameras.length - 1 ? prev + 1 : prev));
+    }
+  }, [isArrowUpPressed, isArrowDownPressed, searchedCameras.length]);
+
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
   }, []);
 
+  useEffect(() => {
+    if (searchedCameras.length && isEscPressed) {
+      handleFormReset();
+    }
+  }, [isEscPressed, searchedCameras]);
+
   return (
     <div
       className={classNames(
-        { 'list-opened': value.length >= MIN_SEARCH_INPUT_LENGTH && searchedCameras.length },
+        { 'list-opened': inputValue.length >= MIN_SEARCH_INPUT_LENGTH && searchedCameras.length },
         'form-search',
       )}
+      ref={formRef}
+      tabIndex={-1}
     >
-      <ReactFocusLock disabled={!value}>
+      <ReactFocusLock disabled={!inputValue}>
         <form>
           <label>
             <svg className='form-search__icon' width={16} height={16} aria-hidden='true'>
@@ -57,12 +92,12 @@ export default function SearchForm() {
               placeholder='Поиск по сайту'
               onChange={handleTextInput}
               ref={ref}
-              value={value}
+              value={inputValue}
             />
           </label>
           <ul className={classNames({ scroller: searchedCameras.length > SCROLLER_COUNT }, 'form-search__select-list')}>
-            {searchedCameras.map((camera) => (
-              <SearchItem key={camera.id} product={camera} onClick={onSearchItemClick} />
+            {searchedCameras.map((camera, i) => (
+              <SearchItem key={camera.id} product={camera} onClick={onSearchItemClick} isCurrent={i === focusedIndex} />
             ))}
           </ul>
         </form>

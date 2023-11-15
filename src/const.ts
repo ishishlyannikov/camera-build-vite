@@ -57,6 +57,12 @@ export enum CameraTypes {
   Collection = 'Коллекционная',
 }
 
+export enum KeyboardKey {
+  ArrowUp = 'ArrowUp',
+  ArrowDown = 'ArrowDown',
+  Esc = 'Escape',
+}
+
 export enum CommentsLength {
   Min = 2,
   Max = 160,
