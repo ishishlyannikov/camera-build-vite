@@ -1,4 +1,4 @@
-import { ModalName, NameSpace, Status } from '../../const.ts';
+import { ModalName, NameSpace, SortBy, SortOrder, Status } from '../../const.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk.ts';
 import { CamerasData } from '../../types/state.ts';
@@ -12,6 +12,8 @@ const initialState: CamerasData = {
   isProductDataLoading: false,
   modalName: ModalName.Empty,
   selectedProduct: null,
+  sortBy: null,
+  sortOrder: null,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
@@ -25,6 +27,18 @@ export const camerasData = createSlice({
     },
     setSelectedProduct: (state, action: PayloadAction<Product>) => {
       state.selectedProduct = action.payload;
+    },
+    setSortBy: (state, action: { payload: SortBy }) => {
+      state.sortBy = action.payload;
+      if (!state.sortOrder) {
+        state.sortOrder = SortOrder.Up;
+      }
+    },
+    setSortOrder: (state, action: { payload: SortOrder }) => {
+      state.sortOrder = action.payload;
+      if (!state.sortBy) {
+        state.sortBy = SortBy.Price;
+      }
     },
   },
   extraReducers(builder) {
@@ -58,4 +72,4 @@ export const camerasData = createSlice({
   },
 });
 
-export const { setModal, setCloseModal, setSelectedProduct } = camerasData.actions;
+export const { setModal, setCloseModal, setSelectedProduct, setSortOrder, setSortBy } = camerasData.actions;

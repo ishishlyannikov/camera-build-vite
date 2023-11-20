@@ -76,3 +76,18 @@ export const RATINGS = [1, 2, 3, 4, 5] as const;
 
 export const MIN_SEARCH_INPUT_LENGTH = 3;
 export const SCROLLER_COUNT = 4;
+
+export enum SortBy {
+  Price = 'по цене',
+  Popular = 'по популярности',
+}
+
+export enum SortOrder {
+  Up = 'по возрастанию',
+  Down = 'по убыванию',
+}
+
+export enum QueryString {
+  Sort = 'sort',
+  Order = 'order',
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
-import { getCamerasList, getSelectedProduct } from '../../store/cameras-data/cameras-data-selectors.ts';
+import { getSelectedProduct, getSortedCatalog } from '../../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
@@ -12,7 +12,7 @@ import { redirectToRoute } from '../../store/action.ts';
 export default function CatalogContent() {
   const dispatch = useAppDispatch();
 
-  const cameras = useAppSelector(getCamerasList);
+  const cameras = useAppSelector(getSortedCatalog);
 
   const selectedCamera = useAppSelector(getSelectedProduct);
 

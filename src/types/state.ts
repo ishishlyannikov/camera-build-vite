@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { store } from '../store';
 import { Product, PromoProduct, Review } from './types.ts';
-import { ModalName, Status } from '../const.ts';
+import { ModalName, SortBy, SortOrder, Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -21,6 +21,8 @@ export type CamerasData = {
   isProductDataLoading: boolean;
   modalName: ModalName;
   selectedProduct: Product | null;
+  sortBy: SortBy | null;
+  sortOrder: SortOrder | null;
 };
 
 export type PromoData = {
