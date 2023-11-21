@@ -1,37 +1,20 @@
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import { getSortBy, getSortOrder } from '../../store/cameras-data/cameras-data-selectors.ts';
-import { QueryString, SortBy, SortOrder } from '../../const.ts';
+import { SortBy, SortOrder } from '../../const.ts';
 import { setSortBy, setSortOrder } from '../../store/cameras-data/cameras-data-slice.ts';
-import { useLocation, useSearchParams } from 'react-router-dom';
 
 export default function CatalogSort() {
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
   const selectedSorting = useAppSelector(getSortBy);
   const selectedSortingOrder = useAppSelector(getSortOrder);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const currentSortType = searchParams.get(QueryString.Sort);
-  const currentSortOrder = searchParams.get(QueryString.Order);
-
-  const currentParams = new URLSearchParams(location.search);
-
   const handleSortingClick = (value: SortBy) => {
-    currentParams.set(QueryString.Sort, value);
-    currentParams.set(QueryString.Order, currentSortOrder === null ? SortOrder.Up : String(currentSortOrder));
-
     dispatch(setSortBy(value));
-    setSearchParams(currentParams);
   };
 
   const handleSortOrderClick = (value: SortOrder) => {
-    searchParams.set(QueryString.Order, value);
-    searchParams.set(QueryString.Sort, currentSortType === null ? SortBy.Price : String(currentSortType));
-
     dispatch(setSortOrder(value));
-    setSearchParams(searchParams);
   };
 
   return (

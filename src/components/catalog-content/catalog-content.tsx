@@ -1,24 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
-import { getSelectedProduct, getSortedCatalog } from '../../store/cameras-data/cameras-data-selectors.ts';
+import {
+  getSelectedProduct,
+  getSortBy,
+  getSortedCatalog,
+  getSortOrder,
+} from '../../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
-import { AppRoute, CARDS_PER_PAGE } from '../../const.ts';
+import { AppRoute, CARDS_PER_PAGE, QueryString } from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
 import { redirectToRoute } from '../../store/action.ts';
 
 export default function CatalogContent() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const cameras = useAppSelector(getSortedCatalog);
 
   const selectedCamera = useAppSelector(getSelectedProduct);
 
+  const currentSortType = useAppSelector(getSortBy);
+
+  const currentSortOrder = useAppSelector(getSortOrder);
+
   const pageCount = Math.ceil(cameras.length / CARDS_PER_PAGE);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const pageNumber = Number(searchParams.get('page'));
 
@@ -39,6 +49,24 @@ export default function CatalogContent() {
     const prev = currentPage - 1;
     setCurrentPage(prev > 0 ? prev : currentPage);
   };
+
+  const currentParams = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+
+    if (currentSortType && currentSortOrder) {
+      params.get(QueryString.Sort);
+      params.get(QueryString.Order);
+    }
+    return params;
+  }, [currentSortOrder, currentSortType, location.search]);
+
+  useEffect(() => {
+    if (currentSortType && currentSortOrder) {
+      currentParams.set(QueryString.Sort, currentSortType);
+      currentParams.set(QueryString.Order, currentSortOrder);
+    }
+    setSearchParams(currentParams);
+  }, [setSearchParams, currentParams, currentSortType, currentSortOrder]);
 
   useEffect(() => {
     if (pageNumber > pageCount || isNaN(pageNumber)) {

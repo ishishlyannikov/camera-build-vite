@@ -14,6 +14,7 @@ const initialState: CamerasData = {
   selectedProduct: null,
   sortBy: null,
   sortOrder: null,
+  currentPage: 1,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
@@ -39,6 +40,9 @@ export const camerasData = createSlice({
       if (!state.sortBy) {
         state.sortBy = SortBy.Price;
       }
+    },
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
     },
   },
   extraReducers(builder) {
@@ -72,4 +76,5 @@ export const camerasData = createSlice({
   },
 });
 
-export const { setModal, setCloseModal, setSelectedProduct, setSortOrder, setSortBy } = camerasData.actions;
+export const { setModal, setCloseModal, setSelectedProduct, setSortOrder, setSortBy, setCurrentPage } =
+  camerasData.actions;

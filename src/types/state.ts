@@ -23,6 +23,7 @@ export type CamerasData = {
   selectedProduct: Product | null;
   sortBy: SortBy | null;
   sortOrder: SortOrder | null;
+  currentPage: number;
 };
 
 export type PromoData = {

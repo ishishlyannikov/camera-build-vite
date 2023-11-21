@@ -20,6 +20,8 @@ export const getSortBy = (state: State): SortBy | null => state[NameSpace.Camera
 
 export const getSortOrder = (state: State): SortOrder | null => state[NameSpace.Camera].sortOrder;
 
+export const getCurrentPage = (state: State): number => state[NameSpace.Camera].currentPage;
+
 export const getSortedCatalog = createSelector(
   [getCamerasList, getSortBy, getSortOrder],
   (camerasList, sortType, sortOrder) => sortedProductList(camerasList, sortType, sortOrder),
