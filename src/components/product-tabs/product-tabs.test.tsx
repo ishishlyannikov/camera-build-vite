@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProductTabs from './product-tabs';
-import { CameraCategory, CameraLevel, CameraTypes, ModalName, Status } from '../../const';
+import { CameraCategory, CameraLevel, CameraType, ModalName, Status } from '../../const';
 import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx';
 
 describe('Component: Product Tabs', () => {
@@ -8,7 +8,7 @@ describe('Component: Product Tabs', () => {
     id: 11,
     name: 'fuck',
     vendorCode: 'BVG78VB',
-    type: CameraTypes.Collection,
+    type: CameraType.Collection,
     level: CameraLevel.Zero,
     category: CameraCategory.Videocamera,
     description: 'qwerty stream',

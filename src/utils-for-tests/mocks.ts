@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { CameraCategory, CameraLevel, CameraTypes, ModalName, Status } from '../const';
+import { CameraCategory, CameraLevel, CameraType, ModalName, Status } from '../const';
 import { faker } from '@faker-js/faker';
 import { PostReview, Product, PromoProduct, Review } from '../types/types.ts';
 import { State } from '../types/state.ts';
@@ -12,7 +12,7 @@ export const makeFakeCameraItem = (): Product => ({
   previewImgWebp: faker.system.filePath(),
   previewImgWebp2x: faker.system.filePath(),
   vendorCode: faker.vehicle.vrm(),
-  type: faker.helpers.enumValue(CameraTypes),
+  type: faker.helpers.enumValue(CameraType),
   category: faker.helpers.enumValue(CameraCategory),
   description: faker.lorem.words({ min: 5, max: 15 }),
   level: faker.helpers.enumValue(CameraLevel),

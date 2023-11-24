@@ -1,96 +1,122 @@
-export default function CatalogFilter() {
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
+import { getCategoryFilter, getLevelFilter, getTypeFilter } from '../../store/cameras-data/cameras-data-selectors.ts';
+import { useEffect, useState } from 'react';
+import {
+  setCategoryFilter,
+  setFiltersReset,
+  setlLevelFilter,
+  setTypeFilter,
+} from '../../store/cameras-data/cameras-data-slice.ts';
+import { CameraCategory, CameraLevel, CameraType, FILTER_PARAMS } from '../../const.ts';
+import FilterByPrice from '../filters/price-filter/price-filter.tsx';
+import { useSearchParams } from 'react-router-dom';
+
+export default function CatalogFilter(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentCategory = useAppSelector(getCategoryFilter);
+  const currentType = useAppSelector(getTypeFilter);
+  const currentLevel = useAppSelector(getLevelFilter);
+
+  const [isReset, setIsReset] = useState(false);
+
+  const isSnapshot = currentType.includes(CameraType.Snapshot);
+  const isFilm = currentType.includes(CameraType.Film);
+  const isVideoCamera = currentCategory === CameraCategory.Videocamera;
+
+  const handleCategoryChange = (category: CameraCategory) => {
+    if (currentCategory === category) {
+      dispatch(setCategoryFilter(null));
+    }
+    dispatch(setCategoryFilter(category));
+  };
+
+  const handleTypeChange = (type: CameraType) => {
+    dispatch(setTypeFilter(type));
+  };
+
+  const handleLevelChange = (level: CameraLevel) => {
+    dispatch(setlLevelFilter(level));
+  };
+
+  const handleFilterReset = () => {
+    const newParams = Array.from(searchParams.entries()).filter(([key]) => !FILTER_PARAMS.includes(key));
+    setSearchParams(newParams);
+    setIsReset(true);
+    dispatch(setFiltersReset());
+  };
+
+  useEffect(() => {
+    if (isReset) {
+      setIsReset(false);
+    }
+  }, [isReset]);
+
   return (
     <div className='catalog-filter' data-testid='catalog-filter'>
-      <form action='#'>
+      <form
+        action='#'
+        onSubmit={(evt) => {
+          evt.preventDefault();
+        }}
+      >
         <h2 className='visually-hidden'>Фильтр</h2>
-        <fieldset className='catalog-filter__block'>
-          <legend className='title title--h5'>Цена, ₽</legend>
-          <div className='catalog-filter__price-range'>
-            <div className='custom-input'>
-              <label>
-                <input type='number' name='price' placeholder='от' />
-              </label>
-            </div>
-            <div className='custom-input'>
-              <label>
-                <input type='number' name='priceUp' placeholder='до' />
-              </label>
-            </div>
-          </div>
-        </fieldset>
+        <FilterByPrice isReset={isReset} />
         <fieldset className='catalog-filter__block'>
           <legend className='title title--h5'>Категория</legend>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='photocamera' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Фотокамера</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='videocamera' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Видеокамера</span>
-            </label>
-          </div>
+          {Object.values(CameraCategory).map((category) => (
+            <div className='custom-checkbox catalog-filter__item' key={category}>
+              <label>
+                <input
+                  type='checkbox'
+                  name={category.toLowerCase()}
+                  checked={currentCategory === category}
+                  onChange={() => handleCategoryChange(category)}
+                  disabled={category === CameraCategory.Videocamera && (isFilm || isSnapshot)}
+                />
+                <span className='custom-checkbox__icon'></span>
+                <span className='custom-checkbox__label'>{category}</span>
+              </label>
+            </div>
+          ))}
         </fieldset>
         <fieldset className='catalog-filter__block'>
           <legend className='title title--h5'>Тип камеры</legend>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='digital' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Цифровая</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='film' disabled />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Плёночная</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='snapshot' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Моментальная</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='collection' disabled />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Коллекционная</span>
-            </label>
-          </div>
+          {Object.values(CameraType).map((type) => (
+            <div className='custom-checkbox catalog-filter__item' key={type}>
+              <label>
+                <input
+                  type='checkbox'
+                  name={type.toLowerCase()}
+                  checked={currentType.includes(type)}
+                  onChange={() => handleTypeChange(type)}
+                  disabled={isVideoCamera && (type === CameraType.Snapshot || type === CameraType.Film)}
+                />
+                <span className='custom-checkbox__icon'></span>
+                <span className='custom-checkbox__label'>{type}</span>
+              </label>
+            </div>
+          ))}
         </fieldset>
         <fieldset className='catalog-filter__block'>
           <legend className='title title--h5'>Уровень</legend>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='zero' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Нулевой</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='non-professional' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Любительский</span>
-            </label>
-          </div>
-          <div className='custom-checkbox catalog-filter__item'>
-            <label>
-              <input type='checkbox' name='professional' />
-              <span className='custom-checkbox__icon' />
-              <span className='custom-checkbox__label'>Профессиональный</span>
-            </label>
-          </div>
+          {Object.values(CameraLevel).map((level) => (
+            <div className='custom-checkbox catalog-filter__item' key={level}>
+              <label>
+                <input
+                  type='checkbox'
+                  name={level.toLowerCase()}
+                  checked={currentLevel.includes(level)}
+                  onChange={() => handleLevelChange(level)}
+                />
+                <span className='custom-checkbox__icon'></span>
+                <span className='custom-checkbox__label'>{level}</span>
+              </label>
+            </div>
+          ))}
         </fieldset>
-        <button className='btn catalog-filter__reset-btn' type='reset'>
+        <button onClick={handleFilterReset} className='btn catalog-filter__reset-btn' type='reset'>
           Сбросить фильтры
         </button>
       </form>

@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { store } from '../store';
 import { Product, PromoProduct, Review } from './types.ts';
-import { ModalName, SortBy, SortOrder, Status } from '../const.ts';
+import { CameraCategory, CameraLevel, CameraType, ModalName, SortBy, SortOrder, Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
 
@@ -23,7 +23,11 @@ export type CamerasData = {
   selectedProduct: Product | null;
   sortBy: SortBy | null;
   sortOrder: SortOrder | null;
-  currentPage: number;
+  cameraCategory: CameraCategory | null;
+  cameraType: CameraType[];
+  cameraLevel: CameraLevel[];
+  minPrice: number;
+  maxPrice: number;
 };
 
 export type PromoData = {

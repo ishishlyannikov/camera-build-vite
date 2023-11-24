@@ -1,4 +1,13 @@
-import { ModalName, NameSpace, SortBy, SortOrder, Status } from '../../const.ts';
+import {
+  CameraCategory,
+  CameraLevel,
+  CameraType,
+  ModalName,
+  NameSpace,
+  SortBy,
+  SortOrder,
+  Status,
+} from '../../const.ts';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk.ts';
 import { CamerasData } from '../../types/state.ts';
@@ -14,7 +23,11 @@ const initialState: CamerasData = {
   selectedProduct: null,
   sortBy: null,
   sortOrder: null,
-  currentPage: 1,
+  cameraCategory: null,
+  cameraType: [],
+  cameraLevel: [],
+  minPrice: 0,
+  maxPrice: 0,
 };
 export const camerasData = createSlice({
   name: NameSpace.Camera,
@@ -41,8 +54,38 @@ export const camerasData = createSlice({
         state.sortBy = SortBy.Price;
       }
     },
-    setCurrentPage: (state, action: PayloadAction<number>) => {
-      state.currentPage = action.payload;
+    setCategoryFilter: (state, action: { payload: CameraCategory | null }) => {
+      state.cameraCategory = action.payload;
+    },
+    setTypeFilter: (state, action: { payload: CameraType }) => {
+      if (state.cameraType.includes(action.payload)) {
+        state.cameraType = state.cameraType.filter((type) => type !== action.payload);
+
+        return;
+      }
+      state.cameraType.push(action.payload);
+    },
+    setlLevelFilter: (state, action: { payload: CameraLevel }) => {
+      if (state.cameraLevel.includes(action.payload)) {
+        state.cameraLevel = state.cameraLevel.filter((level) => level !== action.payload);
+        return;
+      }
+      state.cameraLevel.push(action.payload);
+    },
+    setMinPrice: (state, action: { payload: number }) => {
+      state.minPrice = action.payload;
+    },
+    setMaxPrice: (state, action: { payload: number }) => {
+      state.maxPrice = action.payload;
+    },
+    setFiltersReset: (state) => {
+      state.cameraCategory = null;
+      state.cameraType = [];
+      state.cameraLevel = [];
+      state.minPrice = 0;
+      state.maxPrice = 0;
+      state.sortBy = null;
+      state.sortOrder = null;
     },
   },
   extraReducers(builder) {
@@ -76,5 +119,16 @@ export const camerasData = createSlice({
   },
 });
 
-export const { setModal, setCloseModal, setSelectedProduct, setSortOrder, setSortBy, setCurrentPage } =
-  camerasData.actions;
+export const {
+  setModal,
+  setCloseModal,
+  setSelectedProduct,
+  setSortOrder,
+  setSortBy,
+  setCategoryFilter,
+  setTypeFilter,
+  setlLevelFilter,
+  setFiltersReset,
+  setMaxPrice,
+  setMinPrice,
+} = camerasData.actions;

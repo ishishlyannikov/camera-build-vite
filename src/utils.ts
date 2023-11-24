@@ -1,5 +1,5 @@
 import { Product, Review } from './types/types.ts';
-import { SortBy, SortOrder } from './const.ts';
+import { CameraCategory, CameraLevel, CameraType, SortBy, SortOrder } from './const.ts';
 
 export function compare(a: Review, b: Review) {
   const dateA = new Date(a.createAt);
@@ -20,4 +20,67 @@ export const sortOrderMap = {
 export const sortedProductList = (camerasList: Product[], sortType: SortBy | null, sortOrder: SortOrder | null) => {
   const sortedProductListByType = sortType ? sortTypeMap[sortType](camerasList) : [...camerasList];
   return sortOrder ? sortOrderMap[sortOrder](sortedProductListByType) : [...camerasList];
+};
+
+export const filterByCategory = (cameras: Product[], category: CameraCategory | null): Product[] => {
+  if (!category) {
+    return cameras;
+  }
+
+  return [...cameras].filter((camera) => camera.category === category);
+};
+
+export const filterByTypes = (cameras: Product[], types: CameraType[]): Product[] => {
+  if (!types.length) {
+    return cameras;
+  }
+
+  return [...cameras].filter((camera) => types.includes(<CameraType>camera.type));
+};
+
+export const filterByLevels = (cameras: Product[], levels: CameraLevel[]): Product[] => {
+  if (!levels.length) {
+    return cameras;
+  }
+
+  return [...cameras].filter((camera) => levels.includes(<CameraLevel>camera.level));
+};
+
+export const filterByPrice = (cameras: Product[], minPrice: number, maxPrice: number): Product[] => {
+  if (!minPrice && !maxPrice) {
+    return cameras;
+  }
+
+  if (!maxPrice) {
+    maxPrice = Infinity;
+  }
+
+  return cameras.filter((camera) => camera.price >= minPrice && camera.price <= maxPrice);
+};
+
+export const filterCameras = (
+  cameras: Product[],
+  category: CameraCategory | null,
+  types: CameraType[],
+  levels: CameraLevel[],
+  minPrice: number,
+  maxPrice: number,
+): Product[] => {
+  const filteredCamerasByCategory = filterByCategory(cameras, category);
+  const filteredCamerasByTypes = filterByTypes(filteredCamerasByCategory, types);
+  const filteredCamerasByLevels = filterByLevels(filteredCamerasByTypes, levels);
+  return filterByPrice(filteredCamerasByLevels, minPrice, maxPrice);
+};
+export const getPrice = (cameras: Product[], type: 'max' | 'min'): string => {
+  if (!cameras.length) {
+    return '';
+  }
+
+  const sortedCameras = [...cameras].sort((a, b) => a.price - b.price);
+
+  if (type === 'max' && sortedCameras.length) {
+    return sortedCameras[sortedCameras.length - 1].price.toString();
+  } else {
+    return sortedCameras[0].price.toString();
+  }
 };

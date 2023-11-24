@@ -39,18 +39,23 @@ export enum ModalName {
   Empty = '',
 }
 
+export enum CommentsLength {
+  Min = 2,
+  Max = 160,
+}
+
 export enum CameraCategory {
-  Photocamera = 'Видеокамера',
-  Videocamera = 'Фотоаппарат',
+  Photocamera = 'Фотоаппарат',
+  Videocamera = 'Видеокамера',
 }
 
 export enum CameraLevel {
   Zero = 'Нулевой',
-  'Non-professional' = 'Любительский',
+  Amateur = 'Любительский',
   Professional = 'Профессиональный',
 }
 
-export enum CameraTypes {
+export enum CameraType {
   Digital = 'Цифровая',
   Film = 'Плёночная',
   Snapshot = 'Моментальная',
@@ -61,21 +66,8 @@ export enum KeyboardKey {
   ArrowUp = 'ArrowUp',
   ArrowDown = 'ArrowDown',
   Esc = 'Escape',
+  Enter = 'Enter',
 }
-
-export enum CommentsLength {
-  Min = 2,
-  Max = 160,
-}
-
-export const CARDS_PER_PAGE = 9;
-
-export const MAX_PAGES_COUNT = 3;
-
-export const RATINGS = [1, 2, 3, 4, 5] as const;
-
-export const MIN_SEARCH_INPUT_LENGTH = 3;
-export const SCROLLER_COUNT = 4;
 
 export enum SortBy {
   Price = 'по цене',
@@ -90,4 +82,27 @@ export enum SortOrder {
 export enum QueryString {
   Sort = 'sort',
   Order = 'order',
+  Category = 'category',
+  Type = 'type',
+  Level = 'level',
+  MinPrice = 'price_gte',
+  MaxPrice = 'price_lte',
 }
+
+export const FILTER_PARAMS: string[] = [
+  QueryString.Level,
+  QueryString.Type,
+  QueryString.Category,
+  QueryString.MinPrice,
+  QueryString.MaxPrice,
+  QueryString.Order,
+  QueryString.Sort,
+];
+export const CARDS_PER_PAGE = 9;
+
+export const MAX_PAGES_COUNT = 3;
+
+export const RATINGS = [1, 2, 3, 4, 5] as const;
+
+export const MIN_SEARCH_INPUT_LENGTH = 3;
+export const SCROLLER_COUNT = 4;

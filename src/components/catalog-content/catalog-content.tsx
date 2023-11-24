@@ -2,15 +2,20 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
 import {
+  getCategoryFilter,
+  getLevelFilter,
+  getTypeFilter,
+  getMaxPrice,
+  getMinPrice,
+  getFilteredCatalog,
   getSelectedProduct,
   getSortBy,
-  getSortedCatalog,
   getSortOrder,
 } from '../../store/cameras-data/cameras-data-selectors.ts';
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
-import { AppRoute, CARDS_PER_PAGE, QueryString } from '../../const.ts';
+import { AppRoute, CARDS_PER_PAGE, FILTER_PARAMS, QueryString } from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
 import { redirectToRoute } from '../../store/action.ts';
 
@@ -18,13 +23,23 @@ export default function CatalogContent() {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const cameras = useAppSelector(getSortedCatalog);
+  const cameras = useAppSelector(getFilteredCatalog);
 
   const selectedCamera = useAppSelector(getSelectedProduct);
 
   const currentSortType = useAppSelector(getSortBy);
 
   const currentSortOrder = useAppSelector(getSortOrder);
+
+  const currentFilterCategory = useAppSelector(getCategoryFilter);
+
+  const currentFilterType = useAppSelector(getTypeFilter);
+
+  const currentFilterLevel = useAppSelector(getLevelFilter);
+
+  const currentFilterMinPrice = useAppSelector(getMinPrice);
+
+  const currentFilterMaxPrice = useAppSelector(getMaxPrice);
 
   const pageCount = Math.ceil(cameras.length / CARDS_PER_PAGE);
 
@@ -52,21 +67,49 @@ export default function CatalogContent() {
 
   const currentParams = useMemo(() => {
     const params = new URLSearchParams(location.search);
+    params.getAll(FILTER_PARAMS.toString());
 
-    if (currentSortType && currentSortOrder) {
-      params.get(QueryString.Sort);
-      params.get(QueryString.Order);
-    }
     return params;
-  }, [currentSortOrder, currentSortType, location.search]);
+  }, [location.search]);
 
   useEffect(() => {
     if (currentSortType && currentSortOrder) {
       currentParams.set(QueryString.Sort, currentSortType);
       currentParams.set(QueryString.Order, currentSortOrder);
     }
+    if (currentFilterCategory) {
+      currentParams.set(QueryString.Category, currentFilterCategory);
+    } else {
+      currentParams.delete(QueryString.Category);
+    }
+    if (currentFilterType && currentFilterType.length > 0) {
+      currentParams.set(QueryString.Type, currentFilterType.toString());
+    } else {
+      currentParams.delete(QueryString.Type);
+    }
+    if (currentFilterLevel && currentFilterLevel.length > 0) {
+      currentParams.set(QueryString.Level, currentFilterLevel.toString());
+    } else {
+      currentParams.delete(QueryString.Level);
+    }
+    if (currentFilterMinPrice) {
+      currentParams.set(QueryString.MinPrice, currentFilterMinPrice.toString());
+    }
+    if (currentFilterMaxPrice) {
+      currentParams.set(QueryString.MaxPrice, currentFilterMaxPrice.toString());
+    }
     setSearchParams(currentParams);
-  }, [setSearchParams, currentParams, currentSortType, currentSortOrder]);
+  }, [
+    setSearchParams,
+    currentParams,
+    currentSortType,
+    currentSortOrder,
+    currentFilterCategory,
+    currentFilterMinPrice,
+    currentFilterMaxPrice,
+    currentFilterType,
+    currentFilterLevel,
+  ]);
 
   useEffect(() => {
     if (pageNumber > pageCount || isNaN(pageNumber)) {
