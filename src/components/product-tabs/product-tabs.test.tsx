@@ -31,6 +31,13 @@ describe('Component: Product Tabs', () => {
         isProductDataLoading: false,
         modalName: ModalName.Empty,
         selectedProduct: null,
+        sortBy: null,
+        sortOrder: null,
+        cameraCategory: null,
+        cameraType: [],
+        cameraLevel: [],
+        minPrice: 0,
+        maxPrice: 0,
       },
     });
 

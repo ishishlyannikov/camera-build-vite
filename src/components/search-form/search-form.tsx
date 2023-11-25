@@ -17,7 +17,7 @@ export default function SearchForm() {
   const navigate = useNavigate();
 
   const ref = useRef<HTMLInputElement>(null);
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLUListElement>(null);
 
   const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(inputValue.toLowerCase()));
 
@@ -33,11 +33,6 @@ export default function SearchForm() {
   const handleFormReset = () => {
     setInputValue('');
   };
-  const handleOutsideClick = (evt: MouseEvent) => {
-    if (ref.current && !ref.current?.contains(evt.target as Node)) {
-      handleFormReset();
-    }
-  };
 
   const arrowUp = useKeyboard(KeyboardKey.ArrowUp);
   const arrowDown = useKeyboard(KeyboardKey.ArrowDown);
@@ -48,6 +43,10 @@ export default function SearchForm() {
   const isEscPressed = inputValue && searchedCameras.length && escKey;
 
   useEffect(() => {
+    if (searchedCameras.length && isEscPressed) {
+      handleFormReset();
+    }
+
     if (searchedCameras.length && isArrowUpPressed) {
       setFocusedIndex((prev) => (prev ? prev - 1 : prev));
 
@@ -55,20 +54,25 @@ export default function SearchForm() {
         ref.current?.focus();
         setFocusedIndex(-1);
       }
-    } else if (searchedCameras.length && isArrowDownPressed) {
+    }
+    if (searchedCameras.length && isArrowDownPressed) {
       setFocusedIndex((prev) => (prev < searchedCameras.length - 1 ? prev + 1 : prev));
     }
-  }, [isArrowUpPressed, isArrowDownPressed, searchedCameras.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isArrowDownPressed, isArrowUpPressed, isEscPressed, searchedCameras.length]);
 
   useEffect(() => {
+    const handleOutsideClick = (evt: MouseEvent) => {
+      if (formRef.current && !formRef.current?.contains(evt.target as Node)) {
+        handleFormReset();
+      }
+    };
     document.addEventListener('mousedown', handleOutsideClick);
-  }, []);
 
-  useEffect(() => {
-    if (searchedCameras.length && isEscPressed) {
-      handleFormReset();
-    }
-  }, [isEscPressed, searchedCameras]);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <div
@@ -76,7 +80,6 @@ export default function SearchForm() {
         { 'list-opened': inputValue.length >= MIN_SEARCH_INPUT_LENGTH && searchedCameras.length },
         'form-search',
       )}
-      ref={formRef}
       tabIndex={-1}
     >
       <ReactFocusLock disabled={!inputValue}>

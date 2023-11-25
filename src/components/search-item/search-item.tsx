@@ -1,5 +1,6 @@
 import { Product } from '../../types/types.ts';
 import React, { useEffect, useRef } from 'react';
+import { KeyboardKey } from '../../const.ts';
 
 type SearchItemProps = {
   product: Product;
@@ -16,7 +17,7 @@ export default function SearchItem({ product, onClick, isCurrent }: SearchItemPr
     }
   }, [isCurrent]);
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === KeyboardKey.Enter) {
       event.preventDefault();
       onClick(id);
     }

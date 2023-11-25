@@ -14,7 +14,7 @@ export type FilterProps = {
   isReset: boolean;
 };
 
-export default function FilterByPrice({ isReset }: FilterProps): JSX.Element {
+export default function FilterByPrice({ isReset }: FilterProps) {
   const dispatch = useAppDispatch();
   const sortedCatalog = useAppSelector(getSortedCatalog);
   const catalog = useAppSelector(getCamerasList);
