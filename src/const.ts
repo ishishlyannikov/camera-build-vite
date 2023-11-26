@@ -105,4 +105,5 @@ export const MAX_PAGES_COUNT = 3;
 export const RATINGS = [1, 2, 3, 4, 5] as const;
 
 export const MIN_SEARCH_INPUT_LENGTH = 3;
+
 export const SCROLLER_COUNT = 4;

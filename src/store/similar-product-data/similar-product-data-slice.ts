@@ -2,6 +2,7 @@ import { NameSpace, Status } from '../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchSimilarProductsAction } from './similar-product-data-thunk.ts';
 import { SimilarData } from '../../types/state.ts';
+import { toast } from 'react-toastify';
 
 const initialState: SimilarData = {
   similarProducts: [],
@@ -26,6 +27,7 @@ export const similarData = createSlice({
       .addCase(fetchSimilarProductsAction.rejected, (state) => {
         state.isSimilarDataLoading = false;
         state.status = Status.Error;
+        toast.warn('Ошибка загрузки списка похожих товаров');
       });
   },
 });

@@ -9,100 +9,84 @@ import {
 } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { setMaxPrice, setMinPrice } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getPrice } from '../../../utils.ts';
+import { toast } from 'react-toastify';
 
-export type FilterProps = {
+export type FilterByPriceProps = {
   isReset: boolean;
 };
 
-export default function FilterByPrice({ isReset }: FilterProps) {
+export default function FilterByPrice({ isReset }: FilterByPriceProps) {
   const dispatch = useAppDispatch();
   const sortedCatalog = useAppSelector(getSortedCatalog);
   const catalog = useAppSelector(getCamerasList);
   const currentMinPrice = useAppSelector(getMinPrice);
   const currentMaxPrice = useAppSelector(getMaxPrice);
 
-  const minSortedPrice = getPrice(sortedCatalog, 'min');
-  const maxSortedPrice = getPrice(sortedCatalog, 'max');
+  const minSortedPrice = Number(getPrice(sortedCatalog, 'min'));
+  const maxSortedPrice = Number(getPrice(sortedCatalog, 'max'));
 
-  const minCatalogPrice = getPrice(catalog, 'min');
-  const maxCatalogPrice = getPrice(catalog, 'max');
+  const minCatalogPrice = Number(getPrice(catalog, 'min'));
+  const maxCatalogPrice = Number(getPrice(catalog, 'max'));
 
   const [minPriceValue, setMinPriceValue] = useState(0 || currentMinPrice);
   const [maxPriceValue, setMaxPriceValue] = useState(0 || currentMaxPrice);
 
   const handleMinPriceInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const price = +evt.target.value < 0 || evt.target.value === '-0' ? '' : evt.target.value;
+    const price = +evt.target.value.replaceAll('-', '');
     if (evt.target.value === '') {
-      setMinPriceValue(+minCatalogPrice);
+      setMinPriceValue(minCatalogPrice);
       dispatch(setMinPrice(0));
     }
-    setMinPriceValue(+price);
+    setMinPriceValue(price);
   };
 
   const handleMaxPriceInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const price = +evt.target.value < 0 || evt.target.value === '-0' ? '' : evt.target.value;
+    const price = +evt.target.value.replaceAll('-', '');
     if (evt.target.value === '') {
-      setMaxPriceValue(+maxCatalogPrice);
+      setMaxPriceValue(maxCatalogPrice);
       dispatch(setMaxPrice(0));
     }
-    setMaxPriceValue(+price);
+    setMaxPriceValue(price);
   };
 
-  const checkMinPrice = () => {
-    if (!minPriceValue) {
-      setMinPriceValue(0);
-      dispatch(setMinPrice(0));
+  const validatePriceInput = () => {
+    if (minPriceValue && minPriceValue < minSortedPrice) {
+      setMinPriceValue(minSortedPrice);
+      dispatch(setMinPrice(minSortedPrice));
+      return;
     }
-
-    if (minPriceValue < +minSortedPrice) {
-      setMinPriceValue(+minSortedPrice);
-      dispatch(setMinPrice(+minSortedPrice));
+    if (maxPriceValue && maxPriceValue > maxSortedPrice) {
+      setMaxPriceValue(maxSortedPrice);
+      dispatch(setMaxPrice(maxSortedPrice));
+      return;
     }
-
-    if (minPriceValue > +maxSortedPrice) {
-      setMinPriceValue(+maxSortedPrice);
-      dispatch(setMinPrice(+maxSortedPrice));
+    if (maxPriceValue && maxPriceValue < minSortedPrice) {
+      setMaxPriceValue(minSortedPrice);
+      dispatch(setMaxPrice(minSortedPrice));
+      return;
     }
-
-    dispatch(setMinPrice(minPriceValue));
-  };
-
-  const checkMaxPrice = () => {
-    if (!maxPriceValue) {
+    if (minPriceValue && minPriceValue > maxSortedPrice) {
+      setMinPriceValue(maxSortedPrice);
+      dispatch(setMinPrice(maxSortedPrice));
+      return;
+    }
+    if (minPriceValue && maxPriceValue && maxPriceValue < minPriceValue) {
+      toast.warn('минимальная цена не может быть больше максимальной');
       setMaxPriceValue(0);
-      dispatch(setMaxPrice(0));
+      dispatch(setMaxPrice(maxSortedPrice));
+      return;
     }
-
-    if (maxPriceValue > +maxSortedPrice) {
-      setMaxPriceValue(+maxSortedPrice);
-      dispatch(setMaxPrice(+maxSortedPrice));
-    }
-
-    if (maxPriceValue < minPriceValue) {
-      setMaxPriceValue(minPriceValue);
-      dispatch(setMaxPrice(minPriceValue));
-    }
-
+    dispatch(setMinPrice(minPriceValue));
     dispatch(setMaxPrice(maxPriceValue));
   };
 
-  const handleMinPriceBlur = () => {
-    checkMinPrice();
+  const handlePriceBlur = () => {
+    validatePriceInput();
   };
 
-  const handleMaxPriceBlur = () => {
-    checkMaxPrice();
-  };
-
-  const handleMinPriceKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
+  const handlePriceKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
     if (evt.code === KeyboardKey.Enter) {
-      checkMinPrice();
-    }
-  };
-
-  const handleMaxPriceKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
-    if (evt.code === KeyboardKey.Enter) {
-      checkMaxPrice();
+      validatePriceInput();
     }
   };
 
@@ -121,11 +105,11 @@ export default function FilterByPrice({ isReset }: FilterProps) {
           <label>
             <input
               type='number'
-              name='price'
-              placeholder={minSortedPrice}
+              name='price_gte'
+              placeholder='от'
               onChange={handleMinPriceInputChange}
-              onKeyDown={handleMinPriceKeyDown}
-              onBlur={handleMinPriceBlur}
+              onKeyDown={handlePriceKeyDown}
+              onBlur={handlePriceBlur}
               value={minPriceValue || ''}
             />
           </label>
@@ -134,11 +118,11 @@ export default function FilterByPrice({ isReset }: FilterProps) {
           <label>
             <input
               type='number'
-              name='priceUp'
-              placeholder={maxSortedPrice}
+              name='price_lte'
+              placeholder='до'
               onChange={handleMaxPriceInputChange}
-              onKeyDown={handleMaxPriceKeyDown}
-              onBlur={handleMaxPriceBlur}
+              onKeyDown={handlePriceKeyDown}
+              onBlur={handlePriceBlur}
               value={maxPriceValue || ''}
             />
           </label>

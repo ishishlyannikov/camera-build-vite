@@ -2,6 +2,7 @@ import { PromoData } from '../../types/state.ts';
 import { NameSpace, Status } from '../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchPromoAction } from './promo-data-thunk.ts';
+import { toast } from 'react-toastify';
 
 const initialState: PromoData = {
   promo: [],
@@ -26,6 +27,7 @@ export const promoData = createSlice({
       .addCase(fetchPromoAction.rejected, (state) => {
         state.isPromoLoading = false;
         state.status = Status.Error;
+        toast.warn('Ошибка загрузки промо-товаров');
       });
   },
 });

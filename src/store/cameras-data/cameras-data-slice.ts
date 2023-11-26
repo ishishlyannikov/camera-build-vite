@@ -12,6 +12,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk.ts';
 import { CamerasData } from '../../types/state.ts';
 import { Product } from '../../types/types.ts';
+import { toast } from 'react-toastify';
 
 const initialState: CamerasData = {
   catalog: [],
@@ -102,6 +103,7 @@ export const camerasData = createSlice({
       .addCase(fetchCamerasAction.rejected, (state) => {
         state.isCamerasDataLoading = false;
         state.status = Status.Error;
+        toast.warn('Ошибка загрузки товаров');
       })
       .addCase(fetchProductAction.pending, (state) => {
         state.isProductDataLoading = true;
@@ -115,6 +117,7 @@ export const camerasData = createSlice({
       .addCase(fetchProductAction.rejected, (state) => {
         state.isProductDataLoading = false;
         state.status = Status.Error;
+        toast.warn('Ошибка загрузки выбранного товара');
       });
   },
 });
