@@ -30,6 +30,7 @@ export default function SearchItem({ product, onClick, isCurrent }: SearchItemPr
       ref={productRef}
       onClick={() => onClick(id)}
       onKeyDown={handleKeyDown}
+      data-testid='search-item'
     >
       {name}
     </li>

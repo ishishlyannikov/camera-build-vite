@@ -11,11 +11,11 @@ import { setMaxPrice, setMinPrice } from '../../../store/cameras-data/cameras-da
 import { getPrice } from '../../../utils.ts';
 import { toast } from 'react-toastify';
 
-export type FilterByPriceProps = {
+export type PriceFilterProps = {
   isReset: boolean;
 };
 
-export default function FilterByPrice({ isReset }: FilterByPriceProps) {
+export default function PriceFilter({ isReset }: PriceFilterProps) {
   const dispatch = useAppDispatch();
   const sortedCatalog = useAppSelector(getSortedCatalog);
   const catalog = useAppSelector(getCamerasList);

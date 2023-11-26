@@ -1,11 +1,31 @@
 import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx';
 import { render, screen } from '@testing-library/react';
 import Header from './header';
-import { AppRoute } from '../../const';
+import { AppRoute, ModalName, Status } from '../../const';
+import { makeFakeCameraList } from '../../utils-for-tests/mocks.ts';
 
 describe('Component: Header', () => {
+  const mockCameraList = makeFakeCameraList();
+
   it('should render correctly', () => {
-    const { withStoreComponent } = withStore(<Header />, {});
+    const { withStoreComponent } = withStore(<Header />, {
+      CAMERA: {
+        catalog: [...mockCameraList],
+        isCamerasDataLoading: false,
+        status: Status.Idle,
+        product: null,
+        isProductDataLoading: false,
+        modalName: ModalName.Empty,
+        selectedProduct: null,
+        sortBy: null,
+        sortOrder: null,
+        cameraCategory: null,
+        cameraType: [],
+        cameraLevel: [],
+        minPrice: 0,
+        maxPrice: 0,
+      },
+    });
 
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);

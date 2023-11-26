@@ -17,7 +17,7 @@ export default function SearchForm() {
   const navigate = useNavigate();
 
   const ref = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLUListElement>(null);
+  const formRef = useRef(null);
 
   const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(inputValue.toLowerCase()));
 
@@ -63,7 +63,7 @@ export default function SearchForm() {
 
   useEffect(() => {
     const handleOutsideClick = (evt: MouseEvent) => {
-      if (formRef.current && !formRef.current?.contains(evt.target as Node)) {
+      if (ref.current && !ref.current?.contains(evt.target as Node)) {
         handleFormReset();
       }
     };
@@ -80,7 +80,9 @@ export default function SearchForm() {
         { 'list-opened': inputValue.length >= MIN_SEARCH_INPUT_LENGTH && searchedCameras.length },
         'form-search',
       )}
+      ref={formRef}
       tabIndex={-1}
+      data-testid='search-form'
     >
       <ReactFocusLock disabled={!inputValue}>
         <form>

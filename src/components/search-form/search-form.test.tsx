@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { withHistory, withStore } from '../../utils-for-tests/mock-component.tsx';
-import Basket from './basket.tsx';
 import { makeFakeCameraList } from '../../utils-for-tests/mocks.ts';
 import { ModalName, Status } from '../../const.ts';
+import SearchForm from './search-form.tsx';
 
-describe('Page: Basket ', () => {
+describe('Component: Search Form', () => {
   const mockCameraList = makeFakeCameraList();
 
   it('should render correctly', () => {
-    const { withStoreComponent } = withStore(<Basket />, {
+    const { withStoreComponent } = withStore(<SearchForm />, {
       CAMERA: {
         catalog: [...mockCameraList],
         isCamerasDataLoading: false,
@@ -27,9 +27,9 @@ describe('Page: Basket ', () => {
       },
     });
 
-    const preparedComponent = withHistory(withStoreComponent);
-    render(preparedComponent);
+    const prepComponent = withHistory(withStoreComponent);
+    render(prepComponent);
 
-    expect(screen.getAllByText('Корзина').length).toBe(2);
+    expect(screen.getByTestId('search-form')).toBeInTheDocument();
   });
 });

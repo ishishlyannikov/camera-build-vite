@@ -8,7 +8,7 @@ import {
   setTypeFilter,
 } from '../../store/cameras-data/cameras-data-slice.ts';
 import { CameraCategory, CameraLevel, CameraType, FILTER_PARAMS } from '../../const.ts';
-import FilterByPrice from '../filters/price-filter/price-filter.tsx';
+import PriceFilter from '../filters/price-filter/price-filter.tsx';
 import { useSearchParams } from 'react-router-dom';
 
 export default function CatalogFilter(): JSX.Element {
@@ -62,7 +62,7 @@ export default function CatalogFilter(): JSX.Element {
         }}
       >
         <h2 className='visually-hidden'>Фильтр</h2>
-        <FilterByPrice isReset={isReset} />
+        <PriceFilter isReset={isReset} />
         <fieldset className='catalog-filter__block'>
           <legend className='title title--h5'>Категория</legend>
           {Object.values(CameraCategory).map((category) => (
