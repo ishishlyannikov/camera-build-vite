@@ -17,7 +17,7 @@ export default function SearchForm() {
   const navigate = useNavigate();
 
   const ref = useRef<HTMLInputElement>(null);
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(inputValue.toLowerCase()));
 
@@ -63,7 +63,7 @@ export default function SearchForm() {
 
   useEffect(() => {
     const handleOutsideClick = (evt: MouseEvent) => {
-      if (ref.current && !ref.current?.contains(evt.target as Node)) {
+      if (formRef.current && !formRef.current?.contains(evt.target as Node)) {
         handleFormReset();
       }
     };
