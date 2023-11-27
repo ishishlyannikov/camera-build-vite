@@ -1,7 +1,7 @@
 import { makeFakeCameraItem, makeFakeCameraList } from '../../utils-for-tests/mocks.ts';
 import { fetchCamerasAction, fetchProductAction } from './cameras-data-thunk.ts';
-import { ModalName, Status } from '../../const.ts';
-import { camerasData } from './cameras-data-slice.ts';
+import { CameraCategory, CameraLevel, CameraType, ModalName, SortBy, SortOrder, Status } from '../../const.ts';
+import { camerasData, setFiltersReset, setSortBy, setSortOrder } from './cameras-data-slice.ts';
 
 describe('Cameras Data Slice', () => {
   const initialState = {
@@ -117,6 +117,50 @@ describe('Cameras Data Slice', () => {
       };
 
       const result = camerasData.reducer(undefined, fetchProductAction.rejected);
+
+      expect(result).toEqual(expectedState);
+    });
+
+    it('should set sort order to "Up" when sortBy action is used, if there is no sort order', () => {
+      const expectedState = {
+        ...initialState,
+        sortBy: SortBy.Price,
+        sortOrder: SortOrder.Up,
+      };
+
+      const result = camerasData.reducer(undefined, setSortBy(SortBy.Price));
+
+      expect(result).toEqual(expectedState);
+    });
+
+    it('should set sort type to "Price" when sortOrder action is used, if there is no sort type', () => {
+      const expectedState = {
+        ...initialState,
+        sortBy: SortBy.Price,
+        sortOrder: SortOrder.Down,
+      };
+
+      const result = camerasData.reducer(undefined, setSortOrder(SortOrder.Down));
+
+      expect(result).toEqual(expectedState);
+    });
+
+    it('should reset filters with "setFiltersReset" action', () => {
+      const state = {
+        ...initialState,
+        sortBy: SortBy.Price,
+        sortOrder: SortOrder.Up,
+        cameraCategory: CameraCategory.Videocamera,
+        cameraType: [CameraType.Collection, CameraType.Digital],
+        cameraLevel: [CameraLevel.Professional, CameraLevel.Zero],
+        minPrice: 5000,
+        maxPrice: 150000,
+      };
+      const expectedState = {
+        ...initialState,
+      };
+
+      const result = camerasData.reducer(state, setFiltersReset);
 
       expect(result).toEqual(expectedState);
     });
