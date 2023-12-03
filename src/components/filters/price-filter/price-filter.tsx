@@ -3,9 +3,9 @@ import { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { KeyboardKey } from '../../../const.ts';
 import {
   getCamerasList,
+  getFilteredCatalog,
   getMaxPrice,
   getMinPrice,
-  getSortedCatalog,
 } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { setMaxPrice, setMinPrice } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getPrice } from '../../../utils.ts';
@@ -17,7 +17,7 @@ export type PriceFilterProps = {
 
 export default function PriceFilter({ isReset }: PriceFilterProps) {
   const dispatch = useAppDispatch();
-  const sortedCatalog = useAppSelector(getSortedCatalog);
+  const sortedCatalog = useAppSelector(getFilteredCatalog);
   const catalog = useAppSelector(getCamerasList);
   const currentMinPrice = useAppSelector(getMinPrice);
   const currentMaxPrice = useAppSelector(getMaxPrice);
@@ -106,7 +106,7 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
             <input
               type='number'
               name='price_gte'
-              placeholder='от'
+              placeholder={minSortedPrice.toString()}
               onChange={handleMinPriceInputChange}
               onKeyDown={handlePriceKeyDown}
               onBlur={handlePriceBlur}
@@ -119,7 +119,7 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
             <input
               type='number'
               name='price_lte'
-              placeholder='до'
+              placeholder={maxSortedPrice.toString()}
               onChange={handleMaxPriceInputChange}
               onKeyDown={handlePriceKeyDown}
               onBlur={handlePriceBlur}

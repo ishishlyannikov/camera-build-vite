@@ -17,9 +17,9 @@ export const sortOrderMap = {
   [SortOrder.Down]: (camerasList: Product[]) => camerasList,
 };
 
-export const sortedProductList = (camerasList: Product[], sortType: SortBy | null, sortOrder: SortOrder | null) => {
-  const sortedProductListByType = sortType ? sortTypeMap[sortType](camerasList) : [...camerasList];
-  return sortOrder ? sortOrderMap[sortOrder](sortedProductListByType) : [...camerasList];
+export const sortProductList = (camerasList: Product[], sortType: SortBy | null, sortOrder: SortOrder | null) => {
+  const sortProductListByType = sortType ? sortTypeMap[sortType](camerasList) : [...camerasList];
+  return sortOrder ? sortOrderMap[sortOrder](sortProductListByType) : [...camerasList];
 };
 
 export const filterByCategory = (cameras: Product[], category: CameraCategory | null): Product[] => {

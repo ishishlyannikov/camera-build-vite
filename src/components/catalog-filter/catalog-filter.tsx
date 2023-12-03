@@ -54,7 +54,7 @@ export default function CatalogFilter(): JSX.Element {
   }, [isReset]);
 
   return (
-    <div className='catalog-filter'>
+    <div className='catalog-filter' data-testid='catalog-filter'>
       <form action='#'>
         <h2 className='visually-hidden'>Фильтр</h2>
         <PriceFilter isReset={isReset} />

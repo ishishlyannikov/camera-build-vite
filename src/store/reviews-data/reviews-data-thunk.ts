@@ -12,21 +12,6 @@ export const fetchReviewsAction = createAsyncThunk<Review[], string, ThunkAPI>(
   },
 );
 
-// export const postReviewAction = createAsyncThunk<Review, PostReview, ThunkAPI>(
-//   `${NameSpace.Reviews}/postReview`,
-//   async ({ cameraId, userName, advantage, disadvantage, review, rating }, { extra: api }) => {
-//     const { data } = await api.post<Review>(APIRoute.PostReview, {
-//       cameraId,
-//       userName,
-//       advantage,
-//       disadvantage,
-//       review,
-//       rating,
-//     });
-//     return data;
-//   },
-// );
-
 export const postReviewAction = createAsyncThunk<Review, PostReview, ThunkAPI>(
   `${NameSpace.Reviews}/postReview`,
   async (review, { extra: api }) => {

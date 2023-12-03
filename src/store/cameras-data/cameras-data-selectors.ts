@@ -2,7 +2,7 @@ import { CameraCategory, CameraLevel, CameraType, ModalName, NameSpace, SortBy, 
 import { State } from '../../types/state.ts';
 import { Product } from '../../types/types.ts';
 import { createSelector } from '@reduxjs/toolkit';
-import { filterCameras, sortedProductList } from '../../utils.ts';
+import { filterCameras, sortProductList } from '../../utils.ts';
 
 export const getCamerasList = (state: State): Product[] => state[NameSpace.Camera].catalog;
 
@@ -32,7 +32,7 @@ export const getMaxPrice = (state: State): number => state[NameSpace.Camera].max
 
 export const getSortedCatalog = createSelector(
   [getCamerasList, getSortBy, getSortOrder],
-  (camerasList, sortType, sortOrder) => sortedProductList(camerasList, sortType, sortOrder),
+  (camerasList, sortType, sortOrder) => sortProductList(camerasList, sortType, sortOrder),
 );
 
 export const getFilteredCatalog = createSelector(
