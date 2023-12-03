@@ -58,20 +58,21 @@ export const camerasData = createSlice({
     setCategoryFilter: (state, action: { payload: CameraCategory | null }) => {
       state.cameraCategory = action.payload;
     },
-    setTypeFilter: (state, action: { payload: CameraType }) => {
-      if (state.cameraType.includes(action.payload)) {
+    setTypeFilter: (state, action: PayloadAction<CameraType>) => {
+      const data = action.payload.split(',');
+      if (state.cameraType.some((value) => data.includes(value))) {
         state.cameraType = state.cameraType.filter((type) => type !== action.payload);
-
         return;
       }
-      state.cameraType.push(action.payload);
+      state.cameraType.push(...(data as CameraType[]));
     },
-    setlLevelFilter: (state, action: { payload: CameraLevel }) => {
-      if (state.cameraLevel.includes(action.payload)) {
+    setLevelFilter: (state, action: PayloadAction<CameraLevel>) => {
+      const data = action.payload.split(',');
+      if (state.cameraLevel.some((value) => data.includes(value))) {
         state.cameraLevel = state.cameraLevel.filter((level) => level !== action.payload);
         return;
       }
-      state.cameraLevel.push(action.payload);
+      state.cameraLevel.push(...(data as CameraLevel[]));
     },
     setMinPrice: (state, action: { payload: number }) => {
       state.minPrice = action.payload;
@@ -130,7 +131,7 @@ export const {
   setSortBy,
   setCategoryFilter,
   setTypeFilter,
-  setlLevelFilter,
+  setLevelFilter,
   setFiltersReset,
   setMaxPrice,
   setMinPrice,

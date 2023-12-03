@@ -15,9 +15,27 @@ import {
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
-import { AppRoute, CARDS_PER_PAGE, FILTER_PARAMS, QueryString } from '../../const.ts';
+import {
+  AppRoute,
+  CameraCategory,
+  CameraLevel,
+  CameraType,
+  CARDS_PER_PAGE,
+  QueryString,
+  SortBy,
+  SortOrder,
+} from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
 import { redirectToRoute } from '../../store/action.ts';
+import {
+  setCategoryFilter,
+  setLevelFilter,
+  setMaxPrice,
+  setMinPrice,
+  setSortBy,
+  setSortOrder,
+  setTypeFilter,
+} from '../../store/cameras-data/cameras-data-slice.ts';
 
 export default function CatalogContent() {
   const dispatch = useAppDispatch();
@@ -65,12 +83,47 @@ export default function CatalogContent() {
     setCurrentPage(prev > 0 ? prev : currentPage);
   };
 
+  const selectedSortType = searchParams.get(QueryString.Sort);
+  const selectedSortOrder = searchParams.get(QueryString.Order);
+  const selectedCategory = searchParams.get(QueryString.Category);
+  const selectedFilterType = searchParams.get(QueryString.Type);
+  const selectedLevel = searchParams.get(QueryString.Level);
+  const selectedMinPrice = searchParams.get(QueryString.MinPrice);
+  const selectedMaxPrice = searchParams.get(QueryString.MaxPrice);
+
   const currentParams = useMemo(() => {
     const params = new URLSearchParams(location.search);
-    params.getAll(FILTER_PARAMS.toString());
-
+    if (selectedSortOrder && selectedSortType) {
+      dispatch(setSortBy(selectedSortType as SortBy));
+      dispatch(setSortOrder(selectedSortOrder as SortOrder));
+    }
+    if (selectedCategory) {
+      dispatch(setCategoryFilter(selectedCategory as CameraCategory));
+    }
+    if (selectedFilterType) {
+      dispatch(setTypeFilter(selectedFilterType as CameraType));
+    }
+    if (selectedLevel) {
+      dispatch(setLevelFilter(selectedLevel as CameraLevel));
+    }
+    if (selectedMinPrice) {
+      dispatch(setMinPrice(Number(selectedMinPrice)));
+    }
+    if (selectedMaxPrice) {
+      dispatch(setMaxPrice(Number(selectedMaxPrice)));
+    }
     return params;
-  }, [location.search]);
+  }, [
+    dispatch,
+    location.search,
+    selectedCategory,
+    selectedFilterType,
+    selectedLevel,
+    selectedMaxPrice,
+    selectedMinPrice,
+    selectedSortOrder,
+    selectedSortType,
+  ]);
 
   useEffect(() => {
     if (currentSortType && currentSortOrder) {
@@ -104,7 +157,6 @@ export default function CatalogContent() {
     }
     setSearchParams(currentParams);
   }, [
-    setSearchParams,
     currentParams,
     currentSortType,
     currentSortOrder,
@@ -113,6 +165,8 @@ export default function CatalogContent() {
     currentFilterMaxPrice,
     currentFilterType,
     currentFilterLevel,
+    dispatch,
+    setSearchParams,
   ]);
 
   useEffect(() => {

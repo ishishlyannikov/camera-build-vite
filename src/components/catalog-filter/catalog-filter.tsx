@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import {
   setCategoryFilter,
   setFiltersReset,
-  setlLevelFilter,
+  setLevelFilter,
   setTypeFilter,
 } from '../../store/cameras-data/cameras-data-slice.ts';
 import { CameraCategory, CameraLevel, CameraType, FILTER_PARAMS } from '../../const.ts';
@@ -37,7 +37,7 @@ export default function CatalogFilter(): JSX.Element {
   };
 
   const handleLevelChange = (level: CameraLevel) => {
-    dispatch(setlLevelFilter(level));
+    dispatch(setLevelFilter(level));
   };
 
   const handleFilterReset = () => {

@@ -50,32 +50,33 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
   };
 
   const validatePriceInput = () => {
-    if (minPriceValue && minPriceValue < minSortedPrice) {
-      setMinPriceValue(minSortedPrice);
+    if (minPriceValue && minPriceValue < minCatalogPrice) {
+      setMinPriceValue(minCatalogPrice);
       dispatch(setMinPrice(minSortedPrice));
       return;
     }
-    if (maxPriceValue && maxPriceValue > maxSortedPrice) {
-      setMaxPriceValue(maxSortedPrice);
+    if (maxPriceValue && maxPriceValue > maxCatalogPrice) {
+      setMaxPriceValue(maxCatalogPrice);
       dispatch(setMaxPrice(maxSortedPrice));
       return;
     }
-    if (maxPriceValue && maxPriceValue < minSortedPrice) {
-      setMaxPriceValue(minSortedPrice);
-      dispatch(setMaxPrice(minSortedPrice));
-      return;
-    }
-    if (minPriceValue && minPriceValue > maxSortedPrice) {
-      setMinPriceValue(maxSortedPrice);
-      dispatch(setMinPrice(maxSortedPrice));
-      return;
-    }
-    if (minPriceValue && maxPriceValue && maxPriceValue < minPriceValue) {
-      toast.warn('минимальная цена не может быть больше максимальной');
+    if (maxPriceValue && maxPriceValue < minPriceValue) {
+      toast.warn('Минимальная цена не может быть больше максимальной');
       setMaxPriceValue(0);
       dispatch(setMaxPrice(maxSortedPrice));
       return;
     }
+    if (minPriceValue && minPriceValue > maxCatalogPrice) {
+      setMinPriceValue(0);
+      dispatch(setMinPrice(minSortedPrice));
+      return;
+    }
+    if (maxPriceValue && maxPriceValue < minCatalogPrice) {
+      setMaxPriceValue(0);
+      dispatch(setMaxPrice(maxSortedPrice));
+      return;
+    }
+
     dispatch(setMinPrice(minPriceValue));
     dispatch(setMaxPrice(maxPriceValue));
   };
