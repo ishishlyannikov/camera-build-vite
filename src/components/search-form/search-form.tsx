@@ -19,7 +19,10 @@ export default function SearchForm() {
   const ref = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
-  const searchedCameras = cameras.filter((camera) => camera.name.toLowerCase().includes(inputValue.toLowerCase()));
+  const searchedCameras = cameras.filter(
+    (camera) =>
+      camera.name.toLowerCase().includes(inputValue.toLowerCase()) && inputValue.length >= MIN_SEARCH_INPUT_LENGTH,
+  );
 
   const onSearchItemClick = (id: number) => {
     navigate(generatePath(`${AppRoute.Product}/${id}/characteristics`));
@@ -32,6 +35,7 @@ export default function SearchForm() {
 
   const handleFormReset = () => {
     setInputValue('');
+    ref.current?.focus();
   };
 
   const arrowUp = useKeyboard(KeyboardKey.ArrowUp);
@@ -40,10 +44,10 @@ export default function SearchForm() {
 
   const isArrowUpPressed = inputValue && searchedCameras.length && arrowUp;
   const isArrowDownPressed = inputValue && searchedCameras.length && arrowDown;
-  const isEscPressed = inputValue && searchedCameras.length && escKey;
+  const isEscPressed = inputValue && escKey;
 
   useEffect(() => {
-    if (searchedCameras.length && isEscPressed) {
+    if (isEscPressed) {
       handleFormReset();
     }
 
@@ -76,10 +80,7 @@ export default function SearchForm() {
 
   return (
     <div
-      className={classNames(
-        { 'list-opened': inputValue.length >= MIN_SEARCH_INPUT_LENGTH && searchedCameras.length },
-        'form-search',
-      )}
+      className={classNames({ 'list-opened': inputValue.length }, 'form-search')}
       ref={formRef}
       tabIndex={-1}
       data-testid='search-form'
@@ -100,7 +101,13 @@ export default function SearchForm() {
               value={inputValue}
             />
           </label>
-          <ul className={classNames({ scroller: searchedCameras.length > SCROLLER_COUNT }, 'form-search__select-list')}>
+          <ul
+            className={classNames(
+              'form-search__select-list',
+              { hidden: !searchedCameras.length },
+              { scroller: searchedCameras.length > SCROLLER_COUNT },
+            )}
+          >
             {searchedCameras.map((camera, i) => (
               <SearchItem key={camera.id} product={camera} onClick={onSearchItemClick} isCurrent={i === focusedIndex} />
             ))}

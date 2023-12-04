@@ -9,7 +9,6 @@ import {
 } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { setMaxPrice, setMinPrice } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getPrice } from '../../../utils.ts';
-import { toast } from 'react-toastify';
 
 export type PriceFilterProps = {
   isReset: boolean;
@@ -61,7 +60,6 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
       return;
     }
     if (maxPriceValue && maxPriceValue < minPriceValue) {
-      toast.warn('Минимальная цена не может быть больше максимальной');
       setMaxPriceValue(0);
       dispatch(setMaxPrice(maxSortedPrice));
       return;
