@@ -15,26 +15,15 @@ import {
 import ProductCard from '../product-card/product-card.tsx';
 import Pagination from '../pagination/pagination.tsx';
 import CatalogSort from '../catalog-sort/catalog-sort.tsx';
-import {
-  AppRoute,
-  CameraCategory,
-  // CameraLevel,
-  // CameraType,
-  CARDS_PER_PAGE,
-  QueryString,
-  SortBy,
-  SortOrder,
-} from '../../const.ts';
+import { AppRoute, CameraCategory, CARDS_PER_PAGE, QueryString, SortBy, SortOrder } from '../../const.ts';
 import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.tsx';
 import { redirectToRoute } from '../../store/action.ts';
 import {
   setCategoryFilter,
-  // setLevelFilter,
   setMaxPrice,
   setMinPrice,
   setSortBy,
   setSortOrder,
-  // setTypeFilter,
 } from '../../store/cameras-data/cameras-data-slice.ts';
 
 export default function CatalogContent() {
@@ -86,8 +75,7 @@ export default function CatalogContent() {
   const selectedSortType = searchParams.get(QueryString.Sort);
   const selectedSortOrder = searchParams.get(QueryString.Order);
   const selectedCategory = searchParams.get(QueryString.Category);
-  const selectedFilterType = searchParams.get(QueryString.Type);
-  const selectedLevel = searchParams.get(QueryString.Level);
+
   const selectedMinPrice = searchParams.get(QueryString.MinPrice);
   const selectedMaxPrice = searchParams.get(QueryString.MaxPrice);
 
@@ -100,12 +88,6 @@ export default function CatalogContent() {
     if (selectedCategory) {
       dispatch(setCategoryFilter(selectedCategory as CameraCategory));
     }
-    // if (selectedFilterType) {
-    //   dispatch(setTypeFilter(selectedFilterType as CameraType));
-    // }
-    // if (selectedLevel) {
-    //   dispatch(setLevelFilter(selectedLevel as CameraLevel));
-    // }
     if (selectedMinPrice) {
       dispatch(setMinPrice(Number(selectedMinPrice)));
     }
@@ -113,13 +95,10 @@ export default function CatalogContent() {
       dispatch(setMaxPrice(Number(selectedMaxPrice)));
     }
     return params;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     location.search,
     selectedCategory,
-    selectedFilterType,
-    selectedLevel,
     selectedMaxPrice,
     selectedMinPrice,
     selectedSortOrder,
