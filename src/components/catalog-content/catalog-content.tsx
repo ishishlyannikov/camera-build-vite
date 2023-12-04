@@ -18,8 +18,8 @@ import CatalogSort from '../catalog-sort/catalog-sort.tsx';
 import {
   AppRoute,
   CameraCategory,
-  CameraLevel,
-  CameraType,
+  // CameraLevel,
+  // CameraType,
   CARDS_PER_PAGE,
   QueryString,
   SortBy,
@@ -29,12 +29,12 @@ import PopupAddToBasket from '../popups/popup-add-to-basket/popup-add-to-basket.
 import { redirectToRoute } from '../../store/action.ts';
 import {
   setCategoryFilter,
-  setLevelFilter,
+  // setLevelFilter,
   setMaxPrice,
   setMinPrice,
   setSortBy,
   setSortOrder,
-  setTypeFilter,
+  // setTypeFilter,
 } from '../../store/cameras-data/cameras-data-slice.ts';
 
 export default function CatalogContent() {
@@ -100,12 +100,12 @@ export default function CatalogContent() {
     if (selectedCategory) {
       dispatch(setCategoryFilter(selectedCategory as CameraCategory));
     }
-    if (selectedFilterType) {
-      dispatch(setTypeFilter(selectedFilterType as CameraType));
-    }
-    if (selectedLevel) {
-      dispatch(setLevelFilter(selectedLevel as CameraLevel));
-    }
+    // if (selectedFilterType) {
+    //   dispatch(setTypeFilter(selectedFilterType as CameraType));
+    // }
+    // if (selectedLevel) {
+    //   dispatch(setLevelFilter(selectedLevel as CameraLevel));
+    // }
     if (selectedMinPrice) {
       dispatch(setMinPrice(Number(selectedMinPrice)));
     }
@@ -113,6 +113,7 @@ export default function CatalogContent() {
       dispatch(setMaxPrice(Number(selectedMaxPrice)));
     }
     return params;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     dispatch,
     location.search,
