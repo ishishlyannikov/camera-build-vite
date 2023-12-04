@@ -50,12 +50,12 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
 
   const validatePriceInput = () => {
     if (minPriceValue && minPriceValue < minCatalogPrice) {
-      setMinPriceValue(minCatalogPrice);
+      setMinPriceValue(minSortedPrice);
       dispatch(setMinPrice(minSortedPrice));
       return;
     }
     if (maxPriceValue && maxPriceValue > maxCatalogPrice) {
-      setMaxPriceValue(maxCatalogPrice);
+      setMaxPriceValue(maxSortedPrice);
       dispatch(setMaxPrice(maxSortedPrice));
       return;
     }
@@ -65,7 +65,7 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
       return;
     }
     if (minPriceValue && minPriceValue > maxCatalogPrice) {
-      setMinPriceValue(0);
+      setMinPriceValue(minSortedPrice);
       dispatch(setMinPrice(minSortedPrice));
       return;
     }

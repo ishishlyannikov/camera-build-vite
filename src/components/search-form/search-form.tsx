@@ -7,6 +7,7 @@ import { AppRoute, KeyboardKey, MIN_SEARCH_INPUT_LENGTH, SCROLLER_COUNT } from '
 import classNames from 'classnames';
 import ReactFocusLock from 'react-focus-lock';
 import useKeyboard from '../hooks/useKeyboard.ts';
+import { useOutsideClick } from '../hooks/useOutsideClick.ts';
 
 export default function SearchForm() {
   const cameras = useAppSelector(getCamerasList);
@@ -17,7 +18,7 @@ export default function SearchForm() {
   const navigate = useNavigate();
 
   const ref = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef(null);
 
   const searchedCameras = cameras.filter(
     (camera) =>
@@ -34,8 +35,8 @@ export default function SearchForm() {
   };
 
   const handleFormReset = () => {
-    setInputValue('');
     ref.current?.focus();
+    setInputValue('');
   };
 
   const arrowUp = useKeyboard(KeyboardKey.ArrowUp);
@@ -46,11 +47,12 @@ export default function SearchForm() {
   const isArrowDownPressed = inputValue && searchedCameras.length && arrowDown;
   const isEscPressed = inputValue && escKey;
 
+  useOutsideClick(formRef, () => setInputValue(''));
+
   useEffect(() => {
     if (isEscPressed) {
       handleFormReset();
     }
-
     if (searchedCameras.length && isArrowUpPressed) {
       setFocusedIndex((prev) => (prev ? prev - 1 : prev));
 
@@ -64,19 +66,6 @@ export default function SearchForm() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isArrowDownPressed, isArrowUpPressed, isEscPressed, searchedCameras.length]);
-
-  useEffect(() => {
-    const handleOutsideClick = (evt: MouseEvent) => {
-      if (formRef.current && !formRef.current?.contains(evt.target as Node)) {
-        handleFormReset();
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
 
   return (
     <div
@@ -103,9 +92,9 @@ export default function SearchForm() {
           </label>
           <ul
             className={classNames(
-              'form-search__select-list',
               { hidden: !searchedCameras.length },
               { scroller: searchedCameras.length > SCROLLER_COUNT },
+              'form-search__select-list',
             )}
           >
             {searchedCameras.map((camera, i) => (
