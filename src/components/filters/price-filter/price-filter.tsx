@@ -54,24 +54,24 @@ export default function PriceFilter({ isReset }: PriceFilterProps) {
       dispatch(setMinPrice(minSortedPrice));
       return;
     }
+    if (minPriceValue && minPriceValue > maxCatalogPrice) {
+      setMinPriceValue(maxSortedPrice);
+      dispatch(setMinPrice(maxSortedPrice));
+      return;
+    }
     if (maxPriceValue && maxPriceValue > maxCatalogPrice) {
       setMaxPriceValue(maxSortedPrice);
       dispatch(setMaxPrice(maxSortedPrice));
       return;
     }
     if (maxPriceValue && maxPriceValue < minPriceValue) {
-      setMaxPriceValue(0);
-      dispatch(setMaxPrice(maxSortedPrice));
+      setMaxPriceValue(minPriceValue);
+      dispatch(setMaxPrice(minPriceValue));
       return;
     }
-    if (minPriceValue && minPriceValue > maxCatalogPrice) {
-      setMinPriceValue(minSortedPrice);
-      dispatch(setMinPrice(minSortedPrice));
-      return;
-    }
-    if (maxPriceValue && maxPriceValue < minCatalogPrice) {
-      setMaxPriceValue(0);
-      dispatch(setMaxPrice(maxSortedPrice));
+    if (maxPriceValue && maxPriceValue < minSortedPrice) {
+      setMaxPriceValue(minSortedPrice);
+      dispatch(setMaxPrice(minSortedPrice));
       return;
     }
 
