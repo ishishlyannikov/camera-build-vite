@@ -26,10 +26,11 @@ export default function CatalogFilter(): JSX.Element {
   const isVideoCamera = currentCategory === CameraCategory.Videocamera;
 
   const handleCategoryChange = (category: CameraCategory) => {
-    if (currentCategory === category) {
+    if (currentCategory !== category) {
+      dispatch(setCategoryFilter(category));
+    } else {
       dispatch(setCategoryFilter(null));
     }
-    dispatch(setCategoryFilter(category));
   };
 
   const handleTypeChange = (type: CameraType) => {
