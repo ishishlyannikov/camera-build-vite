@@ -3,7 +3,8 @@ import { Product } from '../../types/types.ts';
 import { AppRoute, ModalName } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
 import { setModal, setSelectedProduct } from '../../store/cameras-data/cameras-data-slice.ts';
-import { useAppDispatch } from '../hooks/hooks.ts';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
+import { getBasketProductList } from '../../store/basket-data/basket-data-selectors.ts';
 
 type ProductCardProps = {
   camera: Product;
@@ -12,11 +13,15 @@ type ProductCardProps = {
 export default function ProductCard({ camera }: ProductCardProps) {
   const dispatch = useAppDispatch();
 
+  const basketProductList = useAppSelector(getBasketProductList);
+
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id, reviewCount } = camera;
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
 
-  const handleButtonClick = () => {
+  const isInBasket = basketProductList.find((item) => item.id === id);
+
+  const handleAddToBasketClick = () => {
     dispatch(setSelectedProduct(camera));
     dispatch(setModal(ModalName.AddToBasket));
   };
@@ -45,9 +50,18 @@ export default function ProductCard({ camera }: ProductCardProps) {
         </p>
       </div>
       <div className='product-card__buttons'>
-        <button className='btn btn--purple product-card__btn' type='button' onClick={handleButtonClick}>
-          Купить
-        </button>
+        {isInBasket !== undefined ? (
+          <Link className='btn btn--purple-border product-card__btn product-card__btn--in-cart' to={AppRoute.Basket}>
+            <svg width='16' height='16' aria-hidden='true'>
+              <use xlinkHref='#icon-basket'></use>
+            </svg>
+            В корзине
+          </Link>
+        ) : (
+          <button className='btn btn--purple product-card__btn' type='button' onClick={handleAddToBasketClick}>
+            Купить
+          </button>
+        )}
         <Link className='btn btn--transparent' to={`${AppRoute.Product}/${id}/characteristics`}>
           Подробнее
         </Link>

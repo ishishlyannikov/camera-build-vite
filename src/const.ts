@@ -12,6 +12,7 @@ export enum NameSpace {
   Reviews = 'REVIEWS',
   Promo = 'PROMO',
   Coupon = 'COUPON',
+  Basket = 'BASKET',
 }
 
 export enum APIRoute {
@@ -37,6 +38,7 @@ export enum ModalName {
   SuccessForm = 'SuccessForm',
   AddToBasket = 'AddToBasket',
   Empty = '',
+  SuccessAdd = 'SuccessAdd',
 }
 
 export enum CommentsLength {

@@ -25,6 +25,7 @@ import {
   setSortBy,
   setSortOrder,
 } from '../../store/cameras-data/cameras-data-slice.ts';
+import PopupAddItemSuccess from '../popups/popup-add-item-success/popup-add-item-success.tsx';
 
 export default function CatalogContent() {
   const dispatch = useAppDispatch();
@@ -177,6 +178,7 @@ export default function CatalogContent() {
         )}
       </div>
       {selectedCamera && <PopupAddToBasket camera={selectedCamera} />}
+      <PopupAddItemSuccess />
     </div>
   );
 }

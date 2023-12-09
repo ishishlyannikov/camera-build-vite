@@ -1,9 +1,10 @@
 import { Product } from '../../../types/types.ts';
 import ModalLayout from '../../modal-layout/modal-layout.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import { setCloseModal } from '../../../store/cameras-data/cameras-data-slice.ts';
+import { setCloseModal, setModal } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { ModalName } from '../../../const.ts';
+import { addProductToBasket } from '../../../store/basket-data/basket-data-slice.ts';
 
 type PopupAddToBasketProps = {
   camera: Product;
@@ -14,6 +15,11 @@ export default function PopupAddToBasket({ camera }: PopupAddToBasketProps) {
     camera;
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
   const imgSrcSet = `${previewImg2x} 2x`;
+
+  const handleAddToBasket = () => {
+    dispatch(addProductToBasket(camera));
+    dispatch(setModal(ModalName.SuccessAdd));
+  };
 
   const handleCloseModal = () => dispatch(setCloseModal());
   const modalName = useAppSelector(getModalName);
@@ -46,9 +52,8 @@ export default function PopupAddToBasket({ camera }: PopupAddToBasketProps) {
           </p>
         </div>
       </div>
-
       <div className='modal__buttons'>
-        <button className='btn btn--purple modal__btn modal__btn--fit-width' type='button'>
+        <button className='btn btn--purple modal__btn modal__btn--fit-width' type='button' onClick={handleAddToBasket}>
           <svg width={24} height={16} aria-hidden='true'>
             <use xlinkHref='#icon-add-basket' />
           </svg>
