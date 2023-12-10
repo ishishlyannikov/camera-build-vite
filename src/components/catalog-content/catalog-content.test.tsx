@@ -25,6 +25,9 @@ describe('Component: Catalog Content', () => {
         minPrice: 0,
         maxPrice: 0,
       },
+      BASKET: {
+        basketProductsList: [...mockCameraList],
+      },
     });
 
     const prepComponent = withHistory(withStoreComponent);

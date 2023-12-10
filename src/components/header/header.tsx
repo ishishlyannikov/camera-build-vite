@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import SearchForm from '../search-form/search-form.tsx';
+import { useAppSelector } from '../hooks/hooks.ts';
+import { getBasketProductsList } from '../../store/basket-data/basket-data-selectors.ts';
 
 export default function Header() {
+  const basketProductsCount = useAppSelector(getBasketProductsList).length;
+
   return (
     <header className='header' id='header'>
       <div className='container'>
@@ -41,6 +45,7 @@ export default function Header() {
             <svg width={16} height={16} aria-hidden='true'>
               <use xlinkHref='#icon-basket' />
             </svg>
+            {!!basketProductsCount && <span className='header__basket-count'>{basketProductsCount}</span>}
           </Link>
         </div>
       </div>

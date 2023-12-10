@@ -37,6 +37,9 @@ describe('Page: Product', () => {
         status: Status.Idle,
         isReviewsDataLoading: false,
       },
+      BASKET: {
+        basketProductsList: [],
+      },
     });
 
     const preparedComponent = withHistory(withStoreComponent);

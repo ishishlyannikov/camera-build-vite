@@ -31,6 +31,9 @@ describe('Page: Catalog', () => {
         isPromoLoading: false,
         status: Status.Idle,
       },
+      BASKET: {
+        basketProductsList: [...mockCameraList],
+      },
     });
 
     const expectedText = 'Каталог фото- и видеотехники';

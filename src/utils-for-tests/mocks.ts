@@ -88,6 +88,9 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     status: Status.Idle,
     isReviewsDataLoading: false,
   },
+  BASKET: {
+    basketProductsList: [],
+  },
   ...(initialState ?? {}),
 });
 
