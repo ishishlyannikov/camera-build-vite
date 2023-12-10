@@ -26,6 +26,7 @@ import { fetchReviewsAction } from '../../store/reviews-data/reviews-data-thunk.
 import { fetchSimilarProductsAction } from '../../store/similar-product-data/similar-product-data-thunk.ts';
 import { setModal, setSelectedProduct } from '../../store/cameras-data/cameras-data-slice.ts';
 import { getIsReviewsDataLoading } from '../../store/reviews-data/reviews-data-selectors.ts';
+import PopupAddItemSuccess from '../../components/popups/popup-add-item-success/popup-add-item-success.tsx';
 
 export default function Product() {
   const { cameraId } = useParams();
@@ -101,6 +102,7 @@ export default function Product() {
                   </button>
                   <ProductTabs camera={currentProduct} />
                 </div>
+                <PopupAddItemSuccess />
               </div>
             </section>
           </div>

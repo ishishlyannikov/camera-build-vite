@@ -1,13 +1,10 @@
 import { NameSpace } from '../../const';
 import { Product } from '../../types/types.ts';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { BasketData } from '../../types/state.ts';
 
-type InitialState = {
-  basketProductList: Product[];
-};
-
-const initialState: InitialState = {
-  basketProductList: [],
+const initialState: BasketData = {
+  basketProductsList: [],
 };
 
 export const basketData = createSlice({
@@ -15,8 +12,8 @@ export const basketData = createSlice({
   initialState,
   reducers: {
     addProductToBasket: (state, action: PayloadAction<Product>) => {
-      if (!state.basketProductList.includes(action.payload)) {
-        state.basketProductList.push(action.payload);
+      if (!state.basketProductsList.includes(action.payload)) {
+        state.basketProductsList.push(action.payload);
       }
     },
   },

@@ -7,9 +7,10 @@ type ModalLayoutProps = {
   children: ReactNode;
   isOpened: boolean;
   onCloseModal: VoidFunction;
+  classname?: string;
 };
 
-export default function ModalLayout({ children, isOpened, onCloseModal }: ModalLayoutProps) {
+export default function ModalLayout({ children, isOpened, onCloseModal, classname }: ModalLayoutProps) {
   const ref: RefObject<HTMLDivElement> = useRef(null);
 
   useEffect(() => {
@@ -47,7 +48,10 @@ export default function ModalLayout({ children, isOpened, onCloseModal }: ModalL
   }, [ref, isOpened, onCloseModal]);
 
   return createPortal(
-    <div className={classNames('modal', { 'is-active': isOpened })} data-testid='modal-container'>
+    <div
+      className={classNames('modal', classname && 'modal--narrow', { 'is-active': isOpened })}
+      data-testid='modal-container'
+    >
       <div className='modal__wrapper'>
         <ReactFocusLock>
           <div className='modal__overlay' />

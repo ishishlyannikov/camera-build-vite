@@ -18,7 +18,11 @@ export default function PopupAddItemSuccess() {
   };
 
   return (
-    <ModalLayout isOpened={modalName === ModalName.SuccessAdd} onCloseModal={handleCloseModal}>
+    <ModalLayout
+      isOpened={modalName === ModalName.SuccessAdd}
+      onCloseModal={handleCloseModal}
+      classname='modal--narrow'
+    >
       <p className='title title--h4'>Товар успешно добавлен в корзину</p>
       <svg className='modal__icon' width={86} height={80} aria-hidden='true'>
         <use xlinkHref='#icon-success' />

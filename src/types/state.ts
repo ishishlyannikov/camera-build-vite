@@ -47,3 +47,7 @@ export type ReviewsData = {
   status: Status;
   isReviewsDataLoading: boolean;
 };
+
+export type BasketData = {
+  basketProductsList: Product[];
+};

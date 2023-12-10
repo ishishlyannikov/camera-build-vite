@@ -4,7 +4,7 @@ import { AppRoute, ModalName } from '../../const.ts';
 import RatingItem from '../rating-item/rating-item.tsx';
 import { setModal, setSelectedProduct } from '../../store/cameras-data/cameras-data-slice.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts';
-import { getBasketProductList } from '../../store/basket-data/basket-data-selectors.ts';
+import { getBasketProductsList } from '../../store/basket-data/basket-data-selectors.ts';
 
 type ProductCardProps = {
   camera: Product;
@@ -13,7 +13,7 @@ type ProductCardProps = {
 export default function ProductCard({ camera }: ProductCardProps) {
   const dispatch = useAppDispatch();
 
-  const basketProductList = useAppSelector(getBasketProductList);
+  const basketProductList = useAppSelector(getBasketProductsList);
 
   const { previewImgWebp, previewImgWebp2x, previewImg, previewImg2x, name, rating, price, id, reviewCount } = camera;
   const sourceSrcSet = `/${previewImgWebp}, /${previewImgWebp2x} 2x`;
