@@ -25,6 +25,9 @@ describe('Page: Basket ', () => {
         minPrice: 0,
         maxPrice: 0,
       },
+      BASKET: {
+        basketProductsList: [],
+      },
     });
 
     const preparedComponent = withHistory(withStoreComponent);

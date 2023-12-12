@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { store } from '../store';
-import { Product, PromoProduct, Review } from './types.ts';
+import { Product, PromoProduct, Review, BasketProduct } from './types.ts';
 import { CameraCategory, CameraLevel, CameraType, ModalName, SortBy, SortOrder, Status } from '../const.ts';
 
 export type State = ReturnType<typeof store.getState>;
@@ -49,5 +49,5 @@ export type ReviewsData = {
 };
 
 export type BasketData = {
-  basketProductsList: Product[];
+  basketProductsList: BasketProduct[];
 };

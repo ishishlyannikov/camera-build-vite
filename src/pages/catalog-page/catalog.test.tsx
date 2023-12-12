@@ -32,7 +32,7 @@ describe('Page: Catalog', () => {
         status: Status.Idle,
       },
       BASKET: {
-        basketProductsList: [...mockCameraList],
+        basketProductsList: [],
       },
     });
 

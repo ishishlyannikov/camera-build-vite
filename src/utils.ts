@@ -1,4 +1,4 @@
-import { Product, Review } from './types/types.ts';
+import { BasketProduct, Product, Review } from './types/types.ts';
 import { CameraCategory, CameraLevel, CameraType, SortBy, SortOrder } from './const.ts';
 
 export function compare(a: Review, b: Review) {
@@ -83,4 +83,13 @@ export const getPrice = (cameras: Product[], type: 'max' | 'min'): string => {
   } else {
     return sortedCameras[0].price.toString();
   }
+};
+
+export const getBasketListFromLS = () => {
+  const data = localStorage.getItem('basket');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const productsList = data ? JSON.parse(data) : [];
+  return {
+    productsList: productsList as BasketProduct[],
+  };
 };

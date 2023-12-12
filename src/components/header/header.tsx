@@ -5,7 +5,8 @@ import { useAppSelector } from '../hooks/hooks.ts';
 import { getBasketProductsList } from '../../store/basket-data/basket-data-selectors.ts';
 
 export default function Header() {
-  const basketProductsCount = useAppSelector(getBasketProductsList).length;
+  const basketList = useAppSelector(getBasketProductsList);
+  const basketProductsAmount = basketList.reduce((sum, item) => item.count + sum, 0);
 
   return (
     <header className='header' id='header'>
@@ -45,7 +46,7 @@ export default function Header() {
             <svg width={16} height={16} aria-hidden='true'>
               <use xlinkHref='#icon-basket' />
             </svg>
-            {!!basketProductsCount && <span className='header__basket-count'>{basketProductsCount}</span>}
+            {basketList.length > 0 && <span className='header__basket-count'>{basketProductsAmount}</span>}
           </Link>
         </div>
       </div>

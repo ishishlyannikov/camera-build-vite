@@ -39,6 +39,7 @@ export enum ModalName {
   AddToBasket = 'AddToBasket',
   Empty = '',
   SuccessAdd = 'SuccessAdd',
+  RemoveItem = 'RemoveItem',
 }
 
 export enum CommentsLength {

@@ -1,40 +1,65 @@
-import { Product } from '../../types/types.ts';
+import { BasketProduct } from '../../types/types.ts';
 import { ChangeEvent, useState } from 'react';
+import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
+import { ModalName } from '../../const.ts';
+import { useAppDispatch } from '../hooks/hooks.ts';
+import PopupRemoveItem from '../popups/popup-remove-item/popup-remove-item.tsx';
+import { setBasketItemCount } from '../../store/basket-data/basket-data-slice.ts';
 
 type BasketItemProps = {
-  camera: Product;
-  count: number;
+  camera: BasketProduct;
 };
 
-export default function BasketItem({ camera, count }: BasketItemProps) {
-  const [itemsCount, setItemsCount] = useState(count || '1');
+export default function BasketItem({ camera }: BasketItemProps) {
+  const dispatch = useAppDispatch();
 
-  const { name, vendorCode, type, category, level, price, previewImgWebp, previewImgWebp2x, previewImg, previewImg2x } =
-    camera;
+  const {
+    name,
+    vendorCode,
+    type,
+    category,
+    level,
+    price,
+    previewImgWebp,
+    previewImgWebp2x,
+    previewImg,
+    previewImg2x,
+    count,
+  } = camera;
+
   const sourceSrcSet = `../../${previewImgWebp}, ../../${previewImgWebp2x} 2x`;
   const imgSrcSet = `../../${previewImg2x} 2x`;
   const imgPreview = `../../${previewImg}`;
 
+  const [itemsCount, setItemsCount] = useState(count || '1');
+
   const productCost = price * Number(itemsCount);
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = +evt.target.value;
+    const value = Number(evt.target.value.replace(/[,.+-]/g, ''));
     if (value >= 1 && value <= 99) {
       setItemsCount(value);
     }
     if (evt.target.value === '') {
       setItemsCount('');
     }
+    dispatch(setBasketItemCount({ id: camera.id, count: Math.round(+value) }));
   };
 
   const handleDecreaseButton = () => {
     const prev = Number(itemsCount) - 1;
     setItemsCount(prev >= 1 ? prev : itemsCount);
+    dispatch(setBasketItemCount({ id: camera.id, count: +itemsCount - 1 }));
   };
 
   const handleIncreaseButton = () => {
     const next = Number(itemsCount) + 1;
     setItemsCount(next <= 99 ? next : itemsCount);
+    dispatch(setBasketItemCount({ id: camera.id, count: +itemsCount + 1 }));
+  };
+
+  const handleDeleteButtonClick = () => {
+    dispatch(setModal(ModalName.RemoveItem));
   };
 
   return (
@@ -93,11 +118,12 @@ export default function BasketItem({ camera, count }: BasketItemProps) {
         <span className='visually-hidden'>Общая цена:</span>
         {productCost.toLocaleString()} ₽
       </div>
-      <button className='cross-btn' type='button' aria-label='Удалить товар'>
+      <button className='cross-btn' type='button' aria-label='Удалить товар' onClick={handleDeleteButtonClick}>
         <svg width={10} height={10} aria-hidden='true'>
           <use xlinkHref='#icon-close' />
         </svg>
       </button>
+      <PopupRemoveItem camera={camera} />
     </li>
   );
 }

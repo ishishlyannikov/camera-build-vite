@@ -45,3 +45,7 @@ export type Order = {
   camerasIds: [number];
   coupon: string;
 };
+
+export type BasketProduct = {
+  count: number;
+} & Product;

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { setCloseModal, setModal } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { ModalName } from '../../../const.ts';
-import { addProductToBasket } from '../../../store/basket-data/basket-data-slice.ts';
+import { setBasketAdd } from '../../../store/basket-data/basket-data-slice.ts';
 
 type PopupAddToBasketProps = {
   camera: Product;
@@ -17,7 +17,7 @@ export default function PopupAddToBasket({ camera }: PopupAddToBasketProps) {
   const imgSrcSet = `${previewImg2x} 2x`;
 
   const handleAddToBasket = () => {
-    dispatch(addProductToBasket(camera));
+    dispatch(setBasketAdd(camera));
     dispatch(setModal(ModalName.SuccessAdd));
   };
 
