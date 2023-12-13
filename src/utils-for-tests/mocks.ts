@@ -90,6 +90,11 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   },
   BASKET: {
     basketProductsList: [],
+    isPromoCodeError: false,
+    isPromoCodeValid: false,
+    discount: 0,
+    status: Status.Idle,
+    promoCode: null,
   },
   ...(initialState ?? {}),
 });
