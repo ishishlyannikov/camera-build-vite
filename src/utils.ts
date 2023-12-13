@@ -1,5 +1,5 @@
 import { BasketProduct, Product, Review } from './types/types.ts';
-import { CameraCategory, CameraLevel, CameraType, SortBy, SortOrder } from './const.ts';
+import { CameraCategory, CameraLevel, CameraType, DiscountCoupon, SortBy, SortOrder } from './const.ts';
 
 export function compare(a: Review, b: Review) {
   const dateA = new Date(a.createAt);
@@ -85,11 +85,32 @@ export const getPrice = (cameras: Product[], type: 'max' | 'min'): string => {
   }
 };
 
+export const calculateBasketSummary = (productsList: BasketProduct[]) =>
+  productsList.reduce((sum, obj) => obj.price * obj.count + sum, 0);
+
 export const getBasketListFromLS = () => {
   const data = localStorage.getItem('basket');
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const productsList = data ? JSON.parse(data) : [];
   return {
     productsList: productsList as BasketProduct[],
+  };
+};
+
+export const getPromoCodeLS = () => {
+  const data = localStorage.getItem('promo');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const promo = data ? JSON.parse(data) : null;
+  return {
+    promo: promo as DiscountCoupon,
+  };
+};
+
+export const getDiscountLS = () => {
+  const data = localStorage.getItem('discount');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const promoDiscount = data ? JSON.parse(data) : 0;
+  return {
+    promoDiscount: promoDiscount as number,
   };
 };

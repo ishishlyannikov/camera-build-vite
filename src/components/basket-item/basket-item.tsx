@@ -3,14 +3,14 @@ import { ChangeEvent, useState } from 'react';
 import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
 import { ModalName } from '../../const.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
-import PopupRemoveItem from '../popups/popup-remove-item/popup-remove-item.tsx';
 import { setBasketItemCount } from '../../store/basket-data/basket-data-slice.ts';
 
 type BasketItemProps = {
   camera: BasketProduct;
+  setCurrentCamera?: (camera: BasketProduct) => void;
 };
 
-export default function BasketItem({ camera }: BasketItemProps) {
+export default function BasketItem({ camera, setCurrentCamera }: BasketItemProps) {
   const dispatch = useAppDispatch();
 
   const {
@@ -59,7 +59,10 @@ export default function BasketItem({ camera }: BasketItemProps) {
   };
 
   const handleDeleteButtonClick = () => {
-    dispatch(setModal(ModalName.RemoveItem));
+    if (setCurrentCamera) {
+      dispatch(setModal(ModalName.RemoveItem));
+      setCurrentCamera(camera);
+    }
   };
 
   return (
@@ -123,7 +126,6 @@ export default function BasketItem({ camera }: BasketItemProps) {
           <use xlinkHref='#icon-close' />
         </svg>
       </button>
-      <PopupRemoveItem camera={camera} />
     </li>
   );
 }

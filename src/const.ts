@@ -40,6 +40,7 @@ export enum ModalName {
   Empty = '',
   SuccessAdd = 'SuccessAdd',
   RemoveItem = 'RemoveItem',
+  SuccessOrder = 'SuccessOrder',
 }
 
 export enum CommentsLength {
@@ -90,6 +91,12 @@ export enum QueryString {
   Level = 'level',
   MinPrice = 'price_gte',
   MaxPrice = 'price_lte',
+}
+
+export enum DiscountCoupon {
+  'camera-333' = 'camera-333',
+  'camera-444' = 'camera-444',
+  'camera-555' = 'camera-555',
 }
 
 export const FILTER_PARAMS: string[] = [

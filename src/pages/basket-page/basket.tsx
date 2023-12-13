@@ -6,9 +6,14 @@ import BasketItem from '../../components/basket-item/basket-item.tsx';
 import BasketSummary from '../../components/basket-summary/basket-summary.tsx';
 import { useAppSelector } from '../../components/hooks/hooks.ts';
 import { getBasketProductsList } from '../../store/basket-data/basket-data-selectors.ts';
+import { useState } from 'react';
+import { BasketProduct } from '../../types/types.ts';
+import PopupRemoveItem from '../../components/popups/popup-remove-item/popup-remove-item.tsx';
 
 export default function Basket() {
   const basketProductsList = useAppSelector(getBasketProductsList);
+  const [currentProduct, setCurrentProduct] = useState<BasketProduct>({} as BasketProduct);
+
   return (
     <div className='wrapper'>
       <Header />
@@ -44,11 +49,12 @@ export default function Basket() {
               <h1 className='title title--h2'>Корзина</h1>
               <ul className='basket__list'>
                 {basketProductsList.map((item) => (
-                  <BasketItem key={item.id} camera={item} />
+                  <BasketItem key={item.id} camera={item} setCurrentCamera={setCurrentProduct} />
                 ))}
               </ul>
               <BasketSummary />
             </div>
+            <PopupRemoveItem camera={currentProduct} />
           </section>
         </div>
       </main>
