@@ -6,6 +6,7 @@ import { AppRoute, ModalName } from '../../../const.ts';
 import { setCloseModal } from '../../../store/cameras-data/cameras-data-slice.ts';
 import { getModalName } from '../../../store/cameras-data/cameras-data-selectors.ts';
 import { setBasketRemove } from '../../../store/basket-data/basket-data-slice.ts';
+import './popup-remove-item.css';
 
 type PopupRemoveItemProps = {
   camera: Product;
@@ -16,8 +17,7 @@ export default function PopupRemoveItem({ camera }: PopupRemoveItemProps): JSX.E
 
   const { id, previewImg, previewImg2x, previewImgWebp, previewImgWebp2x, name, vendorCode, type, level } = camera;
   const sourceSrcSet = `../../${previewImgWebp}, ../../${previewImgWebp2x} 2x`;
-  const imgSrcSet = `../../${previewImg2x} 2x`;
-  const imgPreview = `../../${previewImg}`;
+  const imgSrcSet = `${previewImg2x} 2x`;
 
   const handleCloseModal = () => dispatch(setCloseModal());
   const modalName = useAppSelector(getModalName);
@@ -34,7 +34,7 @@ export default function PopupRemoveItem({ camera }: PopupRemoveItemProps): JSX.E
         <div className='basket-item__img'>
           <picture>
             <source type='image/webp' srcSet={sourceSrcSet} />
-            <img src={imgPreview} srcSet={imgSrcSet} width={140} height={120} alt={name} />
+            <img src={previewImg} srcSet={imgSrcSet} width={140} height={120} alt={name} />
           </picture>
         </div>
         <div className='basket-item__description'>

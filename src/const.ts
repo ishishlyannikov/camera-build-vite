@@ -8,10 +8,8 @@ export enum AppRoute {
 export enum NameSpace {
   Camera = 'CAMERA',
   Product = 'PRODUCT',
-  Order = 'ORDERS',
   Reviews = 'REVIEWS',
   Promo = 'PROMO',
-  Coupon = 'COUPON',
   Basket = 'BASKET',
 }
 
@@ -93,12 +91,6 @@ export enum QueryString {
   MaxPrice = 'price_lte',
 }
 
-export enum DiscountCoupon {
-  'camera-333' = 'camera-333',
-  'camera-444' = 'camera-444',
-  'camera-555' = 'camera-555',
-}
-
 export const FILTER_PARAMS: string[] = [
   QueryString.Level,
   QueryString.Type,
@@ -111,6 +103,8 @@ export const FILTER_PARAMS: string[] = [
 export const CARDS_PER_PAGE = 9;
 
 export const MAX_PAGES_COUNT = 3;
+
+export const MAX_REVIEWS_COUNT = 3;
 
 export const RATINGS = [1, 2, 3, 4, 5] as const;
 

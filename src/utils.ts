@@ -1,5 +1,5 @@
 import { BasketProduct, Product, Review } from './types/types.ts';
-import { CameraCategory, CameraLevel, CameraType, DiscountCoupon, SortBy, SortOrder } from './const.ts';
+import { CameraCategory, CameraLevel, CameraType, SortBy, SortOrder } from './const.ts';
 
 export function compare(a: Review, b: Review) {
   const dateA = new Date(a.createAt);
@@ -102,7 +102,7 @@ export const getPromoCodeLS = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const promo = data ? JSON.parse(data) : null;
   return {
-    promo: promo as DiscountCoupon,
+    promo: promo as string,
   };
 };
 

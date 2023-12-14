@@ -171,7 +171,7 @@ export default function CatalogContent() {
           <Pagination
             page={currentPage}
             totalPageCount={pageCount}
-            setPage={setCurrentPage}
+            onPageClick={setCurrentPage}
             onNextPageClick={handleNextPageClick}
             onPrevPageClick={handlePrevPageClick}
           />

@@ -1,5 +1,5 @@
 import { describe } from 'vitest/dist/index.js';
-import { DiscountCoupon, Status } from '../../const';
+import { Status } from '../../const';
 import { postCouponAction, postOrderAction } from './basket-data-thunk.ts';
 import { basketData } from './basket-data-slice.ts';
 
@@ -56,7 +56,7 @@ describe('Basket Data Slice', () => {
         isPromoCodeValid: true,
       };
 
-      const result = basketData.reducer(undefined, postCouponAction.fulfilled(15, '', DiscountCoupon['camera-333']));
+      const result = basketData.reducer(undefined, postCouponAction.fulfilled(15, '', 'camera-333'));
 
       expect(result).toEqual(expectedState);
     });
@@ -94,7 +94,7 @@ describe('Basket Data Slice', () => {
 
       const result = basketData.reducer(
         undefined,
-        postOrderAction.fulfilled(12, '', { camerasIds: [1, 2], coupon: DiscountCoupon['camera-333'] }),
+        postOrderAction.fulfilled(12, '', { camerasIds: [1, 2], coupon: 'camera-333' }),
       );
 
       expect(result).toEqual(expectedState);

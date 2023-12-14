@@ -10,7 +10,7 @@ import {
 } from '../../store/basket-data/basket-data-selectors.ts';
 import { calculateBasketSummary } from '../../utils.ts';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { DiscountCoupon, ModalName, Status } from '../../const.ts';
+import { ModalName, Status } from '../../const.ts';
 import { setBasketReset, setPromoCode } from '../../store/basket-data/basket-data-slice.ts';
 import { postCouponAction, postOrderAction } from '../../store/basket-data/basket-data-thunk.ts';
 import classNames from 'classnames';
@@ -28,7 +28,7 @@ export default function BasketSummary() {
   const isValidPromoCode = useAppSelector(getIsValidPromoCode);
   const isPromoCodeError = useAppSelector(getIsPromoCodeError);
 
-  const [promoText, setPromoText] = useState<DiscountCoupon | null>(promoCode);
+  const [promoText, setPromoText] = useState<string | null>(promoCode);
 
   const totalPrice = calculateBasketSummary(basketProductsList);
   const discount = Math.round((totalPrice * discountPercent) / 100);
@@ -36,7 +36,7 @@ export default function BasketSummary() {
 
   const handleFormChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     const value = evt.target.value;
-    setPromoText(value as DiscountCoupon);
+    setPromoText(value);
   };
 
   const handlePromoCodeEnter = (evt: FormEvent<HTMLFormElement>) => {

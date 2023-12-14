@@ -1,5 +1,3 @@
-import { DiscountCoupon } from '../const.ts';
-
 export type Product = {
   id: number;
   name: string;
@@ -39,13 +37,9 @@ export type Review = {
 
 export type PostReview = Omit<Review, 'id' | 'createAt'>;
 
-export type Coupon = {
-  coupon: DiscountCoupon;
-};
-
 export type Order = {
   camerasIds: number[];
-  coupon: DiscountCoupon | null;
+  coupon: string | null;
 };
 
 export type BasketProduct = {

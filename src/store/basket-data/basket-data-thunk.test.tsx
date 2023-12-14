@@ -5,7 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../../types/state';
 import { createAPI } from '../../services/api.ts';
 import { AppThunkDispatch } from '../cameras-data/cameras-data-thunk.test.tsx';
-import { APIRoute, DiscountCoupon } from '../../const.ts';
+import { APIRoute } from '../../const.ts';
 import { postCouponAction } from './basket-data-thunk.ts';
 import { extractActionsTypes } from '../../utils-for-tests/mocks.ts';
 
@@ -22,8 +22,8 @@ describe('Async actions', () => {
 
   describe('postCouponAction', () => {
     it('should dispatch "postCouponAction.pending", "postCouponAction.fulfilled", when server response 200', async () => {
-      mockAxiosAdapter.onPost(APIRoute.Coupon, { coupon: DiscountCoupon['camera-333'] }).reply(200, 15);
-      await store.dispatch(postCouponAction(DiscountCoupon['camera-333']));
+      mockAxiosAdapter.onPost(APIRoute.Coupon, { coupon: 'camera-333' }).reply(200, 15);
+      await store.dispatch(postCouponAction('camera-333'));
 
       const emittedActions = store.getActions();
       const extractedActionsTypes = extractActionsTypes(emittedActions);
@@ -34,9 +34,9 @@ describe('Async actions', () => {
       expect(postCouponActionFulfilled.payload).toEqual(15);
     });
     it('should dispatch "postCouponAction.pending", "postCouponAction.rejected" when server response 400', async () => {
-      mockAxiosAdapter.onPost(APIRoute.Coupon, { coupon: DiscountCoupon['camera-333'] }).reply(400, []);
+      mockAxiosAdapter.onPost(APIRoute.Coupon, { coupon: 'camera-333' }).reply(400, []);
 
-      await store.dispatch(postCouponAction(DiscountCoupon['camera-333']));
+      await store.dispatch(postCouponAction('camera-333'));
       const actions = extractActionsTypes(store.getActions());
 
       expect(actions).toEqual([postCouponAction.pending.type, postCouponAction.rejected.type]);

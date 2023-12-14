@@ -49,7 +49,7 @@ export default function Basket() {
               <h1 className='title title--h2'>Корзина</h1>
               <ul className='basket__list'>
                 {basketProductsList.map((item) => (
-                  <BasketItem key={item.id} camera={item} setCurrentCamera={setCurrentProduct} />
+                  <BasketItem key={item.id} camera={item} onCameraClick={setCurrentProduct} />
                 ))}
               </ul>
               <BasketSummary />

@@ -10,7 +10,7 @@ describe('Component: Pagination', () => {
         totalPageCount={3}
         onNextPageClick={vitest.fn()}
         onPrevPageClick={vitest.fn()}
-        setPage={vitest.fn()}
+        onPageClick={vitest.fn()}
         page={1}
       />,
       {},

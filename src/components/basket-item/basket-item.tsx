@@ -7,10 +7,10 @@ import { setBasketItemCount } from '../../store/basket-data/basket-data-slice.ts
 
 type BasketItemProps = {
   camera: BasketProduct;
-  setCurrentCamera?: (camera: BasketProduct) => void;
+  onCameraClick?: (camera: BasketProduct) => void;
 };
 
-export default function BasketItem({ camera, setCurrentCamera }: BasketItemProps) {
+export default function BasketItem({ camera, onCameraClick }: BasketItemProps) {
   const dispatch = useAppDispatch();
 
   const {
@@ -59,9 +59,9 @@ export default function BasketItem({ camera, setCurrentCamera }: BasketItemProps
   };
 
   const handleDeleteButtonClick = () => {
-    if (setCurrentCamera) {
+    if (onCameraClick) {
       dispatch(setModal(ModalName.RemoveItem));
-      setCurrentCamera(camera);
+      onCameraClick(camera);
     }
   };
 

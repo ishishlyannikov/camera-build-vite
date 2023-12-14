@@ -10,7 +10,7 @@ describe('Component: Basket Item', () => {
 
   it('should render correctly', () => {
     const { withStoreComponent } = withStore(
-      <BasketItem camera={{ ...mockCameraItem, count: 1 }} setCurrentCamera={() => mockCameraItem} />,
+      <BasketItem camera={{ ...mockCameraItem, count: 1 }} onCameraClick={() => mockCameraItem} />,
       mockStore,
     );
 

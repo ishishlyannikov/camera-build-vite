@@ -5,14 +5,14 @@ type PaginationProps = {
   totalPageCount: number;
   onNextPageClick?: VoidFunction;
   onPrevPageClick?: VoidFunction;
-  setPage: (page: number) => void;
+  onPageClick: (page: number) => void;
   page: number;
 };
 export default function Pagination({
   totalPageCount,
   onNextPageClick,
   onPrevPageClick,
-  setPage,
+  onPageClick,
   page,
 }: PaginationProps) {
   const pagination = [...Array(totalPageCount).keys()];
@@ -35,7 +35,7 @@ export default function Pagination({
           <Link
             className={`pagination__link${page === pageNumber + 1 ? ' pagination__link--active' : ''}`}
             to={`?page=${pageNumber + 1}`}
-            onClick={() => setPage(pageNumber + 1)}
+            onClick={() => onPageClick(pageNumber + 1)}
           >
             {pageNumber + 1}
           </Link>

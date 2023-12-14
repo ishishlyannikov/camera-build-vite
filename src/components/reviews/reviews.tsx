@@ -7,7 +7,7 @@ import { compare } from '../../utils.ts';
 import PopupAddReview from '../popups/popup-add-review/popup-add-review.tsx';
 import PopupReviewSuccess from '../popups/popup-review-success/popup-review-success.tsx';
 import { setModal } from '../../store/cameras-data/cameras-data-slice.ts';
-import { ModalName } from '../../const.ts';
+import { MAX_REVIEWS_COUNT, ModalName } from '../../const.ts';
 import { resetFormStatus } from '../../store/reviews-data/reviews-data-slice.ts';
 
 export default function Reviews() {
@@ -22,7 +22,7 @@ export default function Reviews() {
   }
 
   const handleReviewsCountButtonClick = () => {
-    setNewestReview((prev) => prev + 3);
+    setNewestReview((prev) => prev + MAX_REVIEWS_COUNT);
   };
 
   const handleOpenReviewModal = () => {

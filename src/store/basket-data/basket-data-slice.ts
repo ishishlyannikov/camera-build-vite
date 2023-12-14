@@ -1,4 +1,4 @@
-import { DiscountCoupon, NameSpace, Status } from '../../const';
+import { NameSpace, Status } from '../../const';
 import { Product } from '../../types/types.ts';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { BasketData } from '../../types/state.ts';
@@ -43,7 +43,7 @@ export const basketData = createSlice({
       );
       localStorage.setItem('basket', JSON.stringify(state.basketProductsList));
     },
-    setPromoCode: (state, action: PayloadAction<DiscountCoupon>) => {
+    setPromoCode: (state, action: PayloadAction<string>) => {
       state.promoCode = action.payload;
     },
     setBasketReset: (state) => {
