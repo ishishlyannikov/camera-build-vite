@@ -31,7 +31,7 @@ export default function BasketItem({ camera, onCameraClick }: BasketItemProps) {
   const imgSrcSet = `../../${previewImg2x} 2x`;
   const imgPreview = `../../${previewImg}`;
 
-  const [itemsCount, setItemsCount] = useState(count || '1');
+  const [itemsCount, setItemsCount] = useState(count || 1);
 
   const productCost = price * Number(itemsCount);
 
@@ -39,11 +39,12 @@ export default function BasketItem({ camera, onCameraClick }: BasketItemProps) {
     const value = Number(evt.target.value.replace(/[,.+-]/g, ''));
     if (value >= 1 && value <= 99) {
       setItemsCount(value);
+      dispatch(setBasketItemCount({ id: camera.id, count: Math.round(+value) }));
     }
-    if (evt.target.value === '') {
-      setItemsCount('');
+    if (!value) {
+      setItemsCount(1);
+      dispatch(setBasketItemCount({ id: camera.id, count: 1 }));
     }
-    dispatch(setBasketItemCount({ id: camera.id, count: Math.round(+value) }));
   };
 
   const handleDecreaseButton = () => {

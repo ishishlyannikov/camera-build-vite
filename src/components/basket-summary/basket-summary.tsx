@@ -35,8 +35,8 @@ export default function BasketSummary() {
   const priceWithDiscount = Math.round(totalPrice - discount);
 
   const handleFormChange = (evt: ChangeEvent<HTMLInputElement>): void => {
-    const value = evt.target.value;
-    setPromoText(value);
+    const newValue = evt.target.value.replace(/\s/g, '');
+    setPromoText(newValue);
   };
 
   const handlePromoCodeEnter = (evt: FormEvent<HTMLFormElement>) => {
@@ -55,6 +55,7 @@ export default function BasketSummary() {
     if (postOrderStatus === Status.Success) {
       dispatch(setModal(ModalName.SuccessOrder));
       dispatch(setBasketReset());
+      setPromoText(null);
     }
   }, [dispatch, postOrderStatus]);
 
@@ -66,7 +67,10 @@ export default function BasketSummary() {
           <form action='#' onSubmit={handlePromoCodeEnter}>
             <div
               className={classNames(
-                { 'is-invalid': isPromoCodeError, 'is-valid': isValidPromoCode || discount > 0 },
+                {
+                  'is-invalid': promoText && isPromoCodeError,
+                  'is-valid': (promoText && isValidPromoCode) || discount > 0,
+                },
                 'custom-input',
               )}
             >
@@ -77,7 +81,7 @@ export default function BasketSummary() {
                   name='promo'
                   placeholder='Введите промокод'
                   onChange={handleFormChange}
-                  defaultValue={promoText || ''}
+                  value={promoText || ''}
                 />
               </label>
               <p className='custom-input__error'>Промокод неверный</p>

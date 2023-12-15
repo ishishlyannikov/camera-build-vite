@@ -51,6 +51,7 @@ export const basketData = createSlice({
       state.discount = 0;
       state.promoCode = null;
       state.isPromoCodeValid = false;
+      state.isPromoCodeError = false;
       state.status = Status.Idle;
       localStorage.removeItem('promo');
       localStorage.removeItem('discount');
@@ -82,7 +83,6 @@ export const basketData = createSlice({
       })
       .addCase(postOrderAction.fulfilled, (state) => {
         state.status = Status.Success;
-        toast.warn('Ваш заказ успешно отправлен!');
       })
       .addCase(postOrderAction.rejected, (state) => {
         state.status = Status.Error;
